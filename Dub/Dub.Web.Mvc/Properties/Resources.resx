@@ -255,4 +255,13 @@
   <data name="ValidationMessageSubmissionCommitteeRequired" xml:space="preserve">
     <value>Необходимо указать комитет, куда будет отправляться заявка на рассмотрение</value>
   </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Неудачная попытка входа.</value>
+  </data>
+  <data name="InvalidVerificationCode" xml:space="preserve">
+    <value>Неверный код.</value>
+  </data>
+  <data name="PasswordChangedConfirmation" xml:space="preserve">
+    <value>Ваш пароль был изменен.</value>
+  </data>
 </root>

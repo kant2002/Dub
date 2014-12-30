@@ -430,6 +430,33 @@ namespace Dub.Web.Mvc.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Неудачная попытка входа..
+        /// </summary>
+        public static string InvalidLoginAttempt {
+            get {
+                return ResourceManager.GetString("InvalidLoginAttempt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Неверный код..
+        /// </summary>
+        public static string InvalidVerificationCode {
+            get {
+                return ResourceManager.GetString("InvalidVerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ваш пароль был изменен..
+        /// </summary>
+        public static string PasswordChangedConfirmation {
+            get {
+                return ResourceManager.GetString("PasswordChangedConfirmation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Пароль и подтверждение пароля отличаются.
         /// </summary>
         public static string ValidationMessageCompare {

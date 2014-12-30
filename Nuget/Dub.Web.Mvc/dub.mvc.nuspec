@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Dub.Mvc</id>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
     <authors>Andrey Kurdyumov</authors>
     <owners>Andrey Kurdyumov</owners>
     <projectUrl>https://github.com/kant2002/Dub</projectUrl>
@@ -13,6 +13,7 @@
     <dependencies>
       <dependency id="Dub.Identity" version="0.2.1" />
       <dependency id="Microsoft.AspNet.Identity.EntityFramework" version="2.1.0" />
+      <dependency id="Microsoft.AspNet.Identity.Owin" version="2.1.0" />
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.2" />
       <dependency id="Owin" version="1.0" />
     </dependencies>
