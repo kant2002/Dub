@@ -57,6 +57,7 @@
     </Compile>
     <Compile Include="ActionDescription.cs" />
     <Compile Include="ActionsManager.cs" />
+    <Compile Include="SimpleAudit.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="ErrorsModel.cs" />
     <Compile Include="ExceptionHelper.cs" />
