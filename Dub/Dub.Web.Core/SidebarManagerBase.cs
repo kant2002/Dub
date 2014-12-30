@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="SidebarManager.cs" company="Andrey Kurdiumov">
+// <copyright file="SidebarManagerBase.cs" company="Andrey Kurdiumov">
 // Copyright (c) Andrey Kurdiumov. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
