@@ -22,7 +22,7 @@ namespace Dub.Web.Mvc.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Dub.Web.Mvc.Properties {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Dub.Web.Mvc.Properties.Resources", typeof(Resources).Assembly);
@@ -51,7 +51,7 @@ namespace Dub.Web.Mvc.Properties {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Рассмотрено.
         /// </summary>
-        internal static string FieldAcceptedBy {
+        public static string FieldAcceptedBy {
             get {
                 return ResourceManager.GetString("FieldAcceptedBy", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Дата рассмотрения.
         /// </summary>
-        internal static string FieldAcceptedDate {
+        public static string FieldAcceptedDate {
             get {
                 return ResourceManager.GetString("FieldAcceptedDate", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Адрес.
         /// </summary>
-        internal static string FieldAddress {
+        public static string FieldAddress {
             get {
                 return ResourceManager.GetString("FieldAddress", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Количество исследовательских центров.
         /// </summary>
-        internal static string FieldCentersQty {
+        public static string FieldCentersQty {
             get {
                 return ResourceManager.GetString("FieldCentersQty", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Изменивший пользователь.
         /// </summary>
-        internal static string FieldChangedBy {
+        public static string FieldChangedBy {
             get {
                 return ResourceManager.GetString("FieldChangedBy", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Дата изменения.
         /// </summary>
-        internal static string FieldChangedDate {
+        public static string FieldChangedDate {
             get {
                 return ResourceManager.GetString("FieldChangedDate", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Описание изменений.
         /// </summary>
-        internal static string FieldChangeDescription {
+        public static string FieldChangeDescription {
             get {
                 return ResourceManager.GetString("FieldChangeDescription", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Город.
         /// </summary>
-        internal static string FieldCity {
+        public static string FieldCity {
             get {
                 return ResourceManager.GetString("FieldCity", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Клиент.
         /// </summary>
-        internal static string FieldClient {
+        public static string FieldClient {
             get {
                 return ResourceManager.GetString("FieldClient", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Код.
         /// </summary>
-        internal static string FieldCode {
+        public static string FieldCode {
             get {
                 return ResourceManager.GetString("FieldCode", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Компания.
         /// </summary>
-        internal static string FieldCompany {
+        public static string FieldCompany {
             get {
                 return ResourceManager.GetString("FieldCompany", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Название компании.
         /// </summary>
-        internal static string FieldCompanyName {
+        public static string FieldCompanyName {
             get {
                 return ResourceManager.GetString("FieldCompanyName", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Подтвердите пароль.
         /// </summary>
-        internal static string FieldConfirmPassword {
+        public static string FieldConfirmPassword {
             get {
                 return ResourceManager.GetString("FieldConfirmPassword", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Контактное лицо.
         /// </summary>
-        internal static string FieldContactPerson {
+        public static string FieldContactPerson {
             get {
                 return ResourceManager.GetString("FieldContactPerson", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Продолжить редактирование заявки после ее создания?.
         /// </summary>
-        internal static string FieldContinuteToEditPage {
+        public static string FieldContinuteToEditPage {
             get {
                 return ResourceManager.GetString("FieldContinuteToEditPage", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Создано.
         /// </summary>
-        internal static string FieldCreatedBy {
+        public static string FieldCreatedBy {
             get {
                 return ResourceManager.GetString("FieldCreatedBy", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Дата создания.
         /// </summary>
-        internal static string FieldCreatedDate {
+        public static string FieldCreatedDate {
             get {
                 return ResourceManager.GetString("FieldCreatedDate", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
-        internal static string FieldEmail {
+        public static string FieldEmail {
             get {
                 return ResourceManager.GetString("FieldEmail", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Факс.
         /// </summary>
-        internal static string FieldFax {
+        public static string FieldFax {
             get {
                 return ResourceManager.GetString("FieldFax", resourceCulture);
             }
@@ -234,7 +234,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Имя файла.
         /// </summary>
-        internal static string FieldFileName {
+        public static string FieldFileName {
             get {
                 return ResourceManager.GetString("FieldFileName", resourceCulture);
             }
@@ -243,7 +243,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Имя.
         /// </summary>
-        internal static string FieldFirstName {
+        public static string FieldFirstName {
             get {
                 return ResourceManager.GetString("FieldFirstName", resourceCulture);
             }
@@ -252,7 +252,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Полное имя.
         /// </summary>
-        internal static string FieldFullName {
+        public static string FieldFullName {
             get {
                 return ResourceManager.GetString("FieldFullName", resourceCulture);
             }
@@ -261,7 +261,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Код.
         /// </summary>
-        internal static string FieldId {
+        public static string FieldId {
             get {
                 return ResourceManager.GetString("FieldId", resourceCulture);
             }
@@ -270,7 +270,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Фамилия.
         /// </summary>
-        internal static string FieldLastName {
+        public static string FieldLastName {
             get {
                 return ResourceManager.GetString("FieldLastName", resourceCulture);
             }
@@ -279,7 +279,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Участники.
         /// </summary>
-        internal static string FieldMembers {
+        public static string FieldMembers {
             get {
                 return ResourceManager.GetString("FieldMembers", resourceCulture);
             }
@@ -288,7 +288,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Сообщение.
         /// </summary>
-        internal static string FieldMessage {
+        public static string FieldMessage {
             get {
                 return ResourceManager.GetString("FieldMessage", resourceCulture);
             }
@@ -297,7 +297,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Дата изменения.
         /// </summary>
-        internal static string FieldModifiedDate {
+        public static string FieldModifiedDate {
             get {
                 return ResourceManager.GetString("FieldModifiedDate", resourceCulture);
             }
@@ -306,7 +306,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Название.
         /// </summary>
-        internal static string FieldName {
+        public static string FieldName {
             get {
                 return ResourceManager.GetString("FieldName", resourceCulture);
             }
@@ -315,7 +315,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Заметки.
         /// </summary>
-        internal static string FieldNotes {
+        public static string FieldNotes {
             get {
                 return ResourceManager.GetString("FieldNotes", resourceCulture);
             }
@@ -324,7 +324,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Код объекта.
         /// </summary>
-        internal static string FieldObjectId {
+        public static string FieldObjectId {
             get {
                 return ResourceManager.GetString("FieldObjectId", resourceCulture);
             }
@@ -333,7 +333,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Тип объекта.
         /// </summary>
-        internal static string FieldObjectType {
+        public static string FieldObjectType {
             get {
                 return ResourceManager.GetString("FieldObjectType", resourceCulture);
             }
@@ -342,7 +342,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Пароль.
         /// </summary>
-        internal static string FieldPassword {
+        public static string FieldPassword {
             get {
                 return ResourceManager.GetString("FieldPassword", resourceCulture);
             }
@@ -351,7 +351,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Отчество.
         /// </summary>
-        internal static string FieldPatronymicName {
+        public static string FieldPatronymicName {
             get {
                 return ResourceManager.GetString("FieldPatronymicName", resourceCulture);
             }
@@ -360,7 +360,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Телефон.
         /// </summary>
-        internal static string FieldPhone {
+        public static string FieldPhone {
             get {
                 return ResourceManager.GetString("FieldPhone", resourceCulture);
             }
@@ -369,7 +369,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Запомнить меня?.
         /// </summary>
-        internal static string FieldRememberMe {
+        public static string FieldRememberMe {
             get {
                 return ResourceManager.GetString("FieldRememberMe", resourceCulture);
             }
@@ -378,7 +378,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Запомнить данный браузер?.
         /// </summary>
-        internal static string FieldRememberThisBrowser {
+        public static string FieldRememberThisBrowser {
             get {
                 return ResourceManager.GetString("FieldRememberThisBrowser", resourceCulture);
             }
@@ -387,7 +387,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Роли.
         /// </summary>
-        internal static string FieldRoles {
+        public static string FieldRoles {
             get {
                 return ResourceManager.GetString("FieldRoles", resourceCulture);
             }
@@ -396,7 +396,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Статус.
         /// </summary>
-        internal static string FieldStatus {
+        public static string FieldStatus {
             get {
                 return ResourceManager.GetString("FieldStatus", resourceCulture);
             }
@@ -405,7 +405,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Название.
         /// </summary>
-        internal static string FieldTitle {
+        public static string FieldTitle {
             get {
                 return ResourceManager.GetString("FieldTitle", resourceCulture);
             }
@@ -414,7 +414,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Двух-факторная аутентификация.
         /// </summary>
-        internal static string FieldTwoFactorAuthentication {
+        public static string FieldTwoFactorAuthentication {
             get {
                 return ResourceManager.GetString("FieldTwoFactorAuthentication", resourceCulture);
             }
@@ -423,7 +423,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Пользователь.
         /// </summary>
-        internal static string FieldUserName {
+        public static string FieldUserName {
             get {
                 return ResourceManager.GetString("FieldUserName", resourceCulture);
             }
@@ -432,7 +432,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Пароль и подтверждение пароля отличаются.
         /// </summary>
-        internal static string ValidationMessageCompare {
+        public static string ValidationMessageCompare {
             get {
                 return ResourceManager.GetString("ValidationMessageCompare", resourceCulture);
             }
@@ -441,7 +441,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Поле {0} не является e-mail адресом.
         /// </summary>
-        internal static string ValidationMessageEmailAddress {
+        public static string ValidationMessageEmailAddress {
             get {
                 return ResourceManager.GetString("ValidationMessageEmailAddress", resourceCulture);
             }
@@ -450,7 +450,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Поле {0} обязательно к заполнению..
         /// </summary>
-        internal static string ValidationMessageRequired {
+        public static string ValidationMessageRequired {
             get {
                 return ResourceManager.GetString("ValidationMessageRequired", resourceCulture);
             }
@@ -459,7 +459,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to {0} должен быть {2} символов в длину..
         /// </summary>
-        internal static string ValidationMessageStringLength {
+        public static string ValidationMessageStringLength {
             get {
                 return ResourceManager.GetString("ValidationMessageStringLength", resourceCulture);
             }
@@ -468,7 +468,7 @@ namespace Dub.Web.Mvc.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Необходимо указать комитет, куда будет отправляться заявка на рассмотрение.
         /// </summary>
-        internal static string ValidationMessageSubmissionCommitteeRequired {
+        public static string ValidationMessageSubmissionCommitteeRequired {
             get {
                 return ResourceManager.GetString("ValidationMessageSubmissionCommitteeRequired", resourceCulture);
             }
