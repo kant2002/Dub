@@ -8,6 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EDF5A8FB-2EB4-4B8F-858F-C951D1489A1B}"
 	ProjectSection(SolutionItems) = preProject
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+		..\Nuget\Dub.Core\dub.core.nuspec = ..\Nuget\Dub.Core\dub.core.nuspec
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
