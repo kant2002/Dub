@@ -69,12 +69,5 @@ namespace Dub.Web.Mvc.Models.User
         [Display(Name = "FieldClient", ResourceType = typeof(Resources))]
         [UIHint("Client")]
         public int? ClientId { get; set; }
-
-        /// <summary>
-        /// Gets or sets id of the committee to which this user belongs.
-        /// </summary>
-        [Display(Name = "FieldCommittee", ResourceType = typeof(Resources))]
-        [UIHint("Committee")]
-        public int? CommitteeId { get; set; }
     }
 }
