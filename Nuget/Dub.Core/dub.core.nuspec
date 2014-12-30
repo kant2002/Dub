@@ -10,5 +10,8 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Core classes for the SaaS web application</description>
     <tags>Dub SaaS tools</tags>
+    <dependencies>
+      <dependency id="EntityFramework" version="6.1.0" />
+    </dependencies>
   </metadata>
 </package>

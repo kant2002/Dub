@@ -10,5 +10,9 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Identity classes for the SaaS web application</description>
     <tags>Dub SaaS tools</tags>
+    <dependencies>
+      <dependency id="Dub.Core" version="0.2.0" />
+      <dependency id="EntityFramework" version="6.1.0" />
+    </dependencies>
   </metadata>
 </package>
