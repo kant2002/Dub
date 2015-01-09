@@ -11,7 +11,7 @@
     <description>Identity classes for the SaaS web application</description>
     <tags>Dub SaaS tools</tags>
     <dependencies>
-      <dependency id="Dub.Core" version="0.2.0" />
+      <dependency id="Dub.Core" version="0.2.4" />
       <dependency id="Microsoft.AspNet.Identity.EntityFramework" version="2.1.0" />
     </dependencies>
   </metadata>

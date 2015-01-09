@@ -31,6 +31,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoMapper.Net4">
+      <HintPath>..\packages\AutoMapper.3.3.0\lib\net40\AutoMapper.Net4.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -112,6 +118,7 @@
     <Compile Include="ChallengeResult.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Models\Account\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Models\Account\ExternalLoginListViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
@@ -127,6 +134,7 @@
     <Compile Include="Models\Manage\ManageLoginsViewModel.cs" />
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
+    <Compile Include="Models\Security\ErrorLogViewModel.cs" />
     <Compile Include="Models\User\CreateUserViewModel.cs" />
     <Compile Include="Models\User\EditUserViewModel.cs" />
     <Compile Include="Models\User\UsersListViewModel.cs" />
@@ -149,6 +157,10 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dub.Web.Core\Dub.Web.Core.csproj">
+      <Project>{ddc6f88e-cf1d-4924-bbe6-fe3733943bf4}</Project>
+      <Name>Dub.Web.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Dub.Web.Identity\Dub.Web.Identity.csproj">
       <Project>{c28ab374-1c20-45d7-bf60-90f9c15bd298}</Project>
       <Name>Dub.Web.Identity</Name>
@@ -167,6 +179,7 @@
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)..\Nuget\Dub.Web.Mvc\lib\net45\$(TargetFileName)"</PostBuildEvent>
   </PropertyGroup>
+  <Import Project="..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets" Condition="Exists('..\packages\AutoMapper.3.3.0\tools\AutoMapper.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
