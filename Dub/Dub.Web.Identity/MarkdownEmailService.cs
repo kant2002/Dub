@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="EmailService.cs" company="Andrey Kurdiumov">
+// <copyright file="MarkdownEmailService.cs" company="Andrey Kurdiumov">
 // Copyright (c) Andrey Kurdiumov. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------

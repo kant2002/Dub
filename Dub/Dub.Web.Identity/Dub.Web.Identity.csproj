@@ -66,6 +66,8 @@
     <Compile Include="DubUserManager.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="DubUserWithClient.cs" />
+    <Compile Include="EmptySmsService.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="MarkdownEmailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoleNames.cs" />
