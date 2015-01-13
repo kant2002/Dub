@@ -312,12 +312,22 @@ namespace Dub.Web.Mvc.Controllers
         /// <summary>
         /// Show page for resetting password.
         /// </summary>
+        /// <param name="userId">Id of the user which request password reset.</param>
         /// <param name="code">Security code which allows reset password.</param>
         /// <returns>Result of the action.</returns>
         [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        public async Task<ActionResult> ResetPassword(string userId, string code)
         {
-            return code == null ? this.View("Error") : this.View();
+            if (code == null || userId == null)
+            {
+                return this.View("Error");
+            }
+
+            var user = await this.UserManager.FindByIdAsync(userId);
+            var model = new ResetPasswordViewModel();
+            model.Code = code;
+            model.Email = user.Email;
+            return this.View(model);
         }
 
         /// <summary>
