@@ -264,4 +264,10 @@
   <data name="PasswordChangedConfirmation" xml:space="preserve">
     <value>Ваш пароль был изменен.</value>
   </data>
+  <data name="HelpPopupHeader" xml:space="preserve">
+    <value>Справка</value>
+  </data>
+  <data name="LocalizationFailed" xml:space="preserve">
+    <value>Ошибка локализации {0}. Не удается найти свойство {2} у типа {1}</value>
+  </data>
 </root>

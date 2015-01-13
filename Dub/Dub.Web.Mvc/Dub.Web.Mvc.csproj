@@ -119,6 +119,10 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="DubModelMetadataProvider.cs" />
+    <Compile Include="HelpPopupAttribute.cs" />
+    <Compile Include="HtmlHelperExtensions.cs" />
+    <Compile Include="LocalizableString.cs" />
     <Compile Include="Models\Account\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Models\Account\ExternalLoginListViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />

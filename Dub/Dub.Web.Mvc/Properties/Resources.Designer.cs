@@ -430,6 +430,15 @@ namespace Dub.Web.Mvc.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Справка.
+        /// </summary>
+        public static string HelpPopupHeader {
+            get {
+                return ResourceManager.GetString("HelpPopupHeader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Неудачная попытка входа..
         /// </summary>
         public static string InvalidLoginAttempt {
@@ -444,6 +453,15 @@ namespace Dub.Web.Mvc.Properties {
         public static string InvalidVerificationCode {
             get {
                 return ResourceManager.GetString("InvalidVerificationCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ошибка локализации {0}. Не удается найти свойство {2} у типа {1}.
+        /// </summary>
+        public static string LocalizationFailed {
+            get {
+                return ResourceManager.GetString("LocalizationFailed", resourceCulture);
             }
         }
         
