@@ -218,26 +218,28 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
+            // var model = this.CreateModel();
+            // this.TryUpdateModel(model);
             if (this.ModelState.IsValid)
             {
-                var user = new TUser { UserName = model.Email, Email = model.Email };
-                var result = await this.UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // Send an email with confirmation link
-                    // string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = this.Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    return this.RedirectToAction("Index", "Home");
-                }
-
-                this.AddErrors(result);
+                return this.View(model);
             }
 
             // If we got this far, something failed, redisplay form
-            return this.View(model);
+            var user = new TUser { UserName = model.Email, Email = model.Email };
+            var result = await this.UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
+            {
+                this.AddErrors(result);
+                return this.View(model);
+            }
+
+            await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+
+            // Send an email with confirmation link
+            string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            await this.SendRegistrationEmail(user, code);
+            return this.RedirectToAction("Index", "Home");
         }
 
         /// <summary>
@@ -528,6 +530,27 @@ namespace Dub.Web.Mvc.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return this.View();
+        }
+
+        /// <summary>
+        /// Creates a model for registration information.
+        /// </summary>
+        /// <returns>A model with registration information.</returns>
+        protected RegisterViewModel CreateModel()
+        {
+            return new RegisterViewModel();
+        }
+
+        /// <summary>
+        /// Send registration email.
+        /// </summary>
+        /// <param name="user">Information about newly registered used.</param>
+        /// <param name="code">Token which could be used for the confirming email.</param>
+        /// <returns>Asynchronous task which sends registration email.</returns>
+        protected virtual async Task SendRegistrationEmail(TUser user, string code)
+        {
+            var callbackUrl = this.Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
         }
 
         /// <summary>
