@@ -1,11 +1,15 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
          ToolsVersion="4.0"
          DefaultTargets="PackageNuget">
+  <Import Project="nuget.proj.user" Condition="Exists('nuget.proj.user')" />
   <PropertyGroup>
     <AssemblyName>MSBuildSample</AssemblyName>
     <NugetPath>Nuget\</NugetPath>
     <OutputPath>bin\</OutputPath>
     <NugetOutputPath>Nuget\dist\</NugetOutputPath>
+    <NugetTempPath>Nuget\dist\latest</NugetTempPath>
+    <NugetSource>https://www.myget.org/F/dub-nightly/api/v2/package</NugetSource>
+    <SymbolSource>https://nuget.symbolsource.org/MyGet/dub-nightly</SymbolSource>
   </PropertyGroup>
   <ItemGroup>
     <!-- Solution files which has to be built. -->
@@ -38,7 +42,18 @@
   
   <!-- Package Nuget files -->
   <Target Name="PackageNuget" DependsOnTargets="BuildSolution">
-    <MakeDir Directories="$(NugetOutputPath)" Condition="!Exists('$(NugetOutputPath)')" />
-    <Exec Command="$(NugetPath)Nuget.exe pack $(NugetPath)%(NugetSpecFile.Identity) -OutputDirectory $(NugetOutputPath)" />
+    <RemoveDir Directories="$(NugetTempPath)" Condition="Exists('$(NugetTempPath)')" />
+    <MakeDir Directories="$(NugetTempPath)" Condition="!Exists('$(NugetTempPath)')" />
+    <Exec Command="$(NugetPath)Nuget.exe pack $(NugetPath)%(NugetSpecFile.Identity) -OutputDirectory $(NugetTempPath)" />
+  </Target>
+
+  <Target Name="PublishNightly" DependsOnTargets="PackageNuget">
+    <CreateItem Include="$(NugetTempPath)\**\*.*">
+      <Output TaskParameter="Include" ItemName="NugetPackage" />
+    </CreateItem>
+
+    <Error Text="Please create nuget.proj.user which specify the NugetApiKey variable" Condition="$(NugetApiKey) == ''" />
+    <Exec Command="$(NugetPath)Nuget.exe push %(NugetPackage.Identity) $(NugetApiKey) -Source $(NugetSource)" Condition="$(NugetApiKey) != ''" />
+    <!--<Message Text="$(NugetPath)Nuget.exe push $(NugetPath)%(NugetPackage.Identity) $(NugetApiKey) -Source $(NugetSource)" Condition="$(NugetApiKey) != ''" />-->
   </Target>
 </Project>
