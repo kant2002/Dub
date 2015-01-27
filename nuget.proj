@@ -1,0 +1,44 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"
+         ToolsVersion="4.0"
+         DefaultTargets="PackageNuget">
+  <PropertyGroup>
+    <AssemblyName>MSBuildSample</AssemblyName>
+    <NugetPath>Nuget\</NugetPath>
+    <OutputPath>bin\</OutputPath>
+    <NugetOutputPath>Nuget\dist\</NugetOutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Solution files which has to be built. -->
+    <SolutionsToBuild Include="Dub\Dub.sln"/>
+
+    <!-- Spec files which should be built -->
+    <NugetSpecFile Include="Dub.Core\dub.core.nuspec" />
+    <NugetSpecFile Include="Dub.Web.Identity\dub.identity.nuspec" />
+    <NugetSpecFile Include="Dub.Web.Mvc\dub.mvc.nuspec" />
+
+  </ItemGroup>
+
+  <!-- Build the solution and place files to the OutpuPath -->
+  <Target Name="BuildSolution">
+    <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')" />
+    <MSBuild Projects="@(SolutionsToBuild)"
+             Targets="Clean"
+             Properties="Configuration=Release;" />
+    <MSBuild Projects="@(SolutionsToBuild)"
+             Targets="Build"
+             Properties="Configuration=Release;">
+      <Output
+          TaskParameter="TargetOutputs"
+          ItemName="AssembliesBuiltByChildProjects" />
+    </MSBuild>
+
+    <Copy SourceFiles="@(AssembliesBuiltByChildProjects)" DestinationFolder="$(OutputPath)" />
+    <Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).xml')" DestinationFolder="$(OutputPath)" />
+  </Target>
+  
+  <!-- Package Nuget files -->
+  <Target Name="PackageNuget" DependsOnTargets="BuildSolution">
+    <MakeDir Directories="$(NugetOutputPath)" Condition="!Exists('$(NugetOutputPath)')" />
+    <Exec Command="$(NugetPath)Nuget.exe pack $(NugetPath)%(NugetSpecFile.Identity) -OutputDirectory $(NugetOutputPath)" />
+  </Target>
+</Project>

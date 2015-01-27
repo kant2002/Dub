@@ -14,4 +14,8 @@
       <dependency id="EntityFramework" version="6.1.0" />
     </dependencies>
   </metadata>
+  <files>
+    <file src="..\..\bin\Dub.Web.Core.dll" target="lib\net45" />
+    <file src="..\..\bin\Dub.Web.Core.xml" target="lib\net45" />
+  </files>
 </package>
