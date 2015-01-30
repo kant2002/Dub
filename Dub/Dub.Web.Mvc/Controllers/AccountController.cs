@@ -228,7 +228,7 @@ namespace Dub.Web.Mvc.Controllers
             // If we got this far, something failed, redisplay form
             var user = new TUser { UserName = model.Email, Email = model.Email };
             var result = await this.UserManager.CreateAsync(user, model.Password);
-            if (result.Succeeded)
+            if (!result.Succeeded)
             {
                 this.AddErrors(result);
                 return this.View(model);
@@ -291,10 +291,9 @@ namespace Dub.Web.Mvc.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await this.UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = this.Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                // await this.UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return this.RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await this.UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                await this.SendForgotPasswordEmail(user, code);
+                return this.RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form
@@ -539,6 +538,18 @@ namespace Dub.Web.Mvc.Controllers
         protected RegisterViewModel CreateModel()
         {
             return new RegisterViewModel();
+        }
+
+        /// <summary>
+        /// Sends forgot password registration email.
+        /// </summary>
+        /// <param name="user">User which request forgot password email.</param>
+        /// <param name="code">Code for forgot password registration.</param>
+        /// <returns>Asynchronously send forgot password email.</returns>
+        protected virtual async Task SendForgotPasswordEmail(TUser user, string code)
+        {
+            var callbackUrl = this.Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+            await this.UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
         }
 
         /// <summary>
