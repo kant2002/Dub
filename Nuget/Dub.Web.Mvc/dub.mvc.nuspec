@@ -16,6 +16,7 @@
       <dependency id="Microsoft.AspNet.Identity.EntityFramework" version="2.1.0" />
       <dependency id="Microsoft.AspNet.Identity.Owin" version="2.1.0" />
       <dependency id="Microsoft.AspNet.Mvc" version="5.2.2" />
+      <dependency id="Microsoft.AspNet.WebApi.Owin" version="5.2.2" />
       <dependency id="Owin" version="1.0" />
     </dependencies>
   </metadata>
