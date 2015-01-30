@@ -35,8 +35,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Return action result.</returns>
         public ActionResult Errors()
         {
-            var context = this.HttpContext.GetOwinContext();
-            var dbContext = context.Get<ErrorsModel>();
+            var dbContext = new ErrorsModel();
             return this.View(dbContext.ErrorLogs);
         }
 
@@ -47,8 +46,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which asynchronously return action result.</returns>
         public async Task<ActionResult> ErrorDetail(int id)
         {
-            var context = this.HttpContext.GetOwinContext();
-            var dbContext = context.Get<ErrorsModel>();
+            var dbContext = new ErrorsModel();
             var logEntry = await dbContext.ErrorLogs.FindAsync(id);
             var model = new ErrorLogViewModel();
             Mapper.Map(logEntry, model);
