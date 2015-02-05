@@ -63,47 +63,6 @@ namespace Dub.Web.Mvc.Controllers
         }
 
         /// <summary>
-        /// Enumeration for the available messages.
-        /// </summary>
-        public enum ManageMessageId
-        {
-            /// <summary>
-            /// Message represents that phone added successfully.
-            /// </summary>
-            AddPhoneSuccess,
-
-            /// <summary>
-            /// Message represents that password changed successfully.
-            /// </summary>
-            ChangePasswordSuccess,
-
-            /// <summary>
-            /// Message represents that two-factor authentication provider sets successfully.
-            /// </summary>
-            SetTwoFactorSuccess,
-
-            /// <summary>
-            /// Message represents that password set successfully.
-            /// </summary>
-            SetPasswordSuccess,
-
-            /// <summary>
-            /// Message represents that login removed successfully.
-            /// </summary>
-            RemoveLoginSuccess,
-
-            /// <summary>
-            /// Message represents that phone removed successfully.
-            /// </summary>
-            RemovePhoneSuccess,
-
-            /// <summary>
-            /// Message represents that error happens.
-            /// </summary>
-            Error
-        }
-
-        /// <summary>
         /// Gets sign-in manager.
         /// </summary>
         public TSignInManager SignInManager
@@ -151,15 +110,15 @@ namespace Dub.Web.Mvc.Controllers
         /// </summary>
         /// <param name="message">Id of the message to display.</param>
         /// <returns>Task which asynchronously display action result.</returns>
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index(ManageAccountMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? Resources.PasswordChangedConfirmation
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
+                message == ManageAccountMessageId.ChangePasswordSuccess ? Resources.PasswordChangedConfirmation
+                : message == ManageAccountMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageAccountMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
+                : message == ManageAccountMessageId.Error ? "An error has occurred."
+                : message == ManageAccountMessageId.AddPhoneSuccess ? "Your phone number was added."
+                : message == ManageAccountMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : string.Empty;
 
             var userId = User.Identity.GetUserId();
@@ -184,7 +143,7 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
-            ManageMessageId? message;
+            ManageAccountMessageId? message;
             var result = await this.UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -194,11 +153,11 @@ namespace Dub.Web.Mvc.Controllers
                     await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
 
-                message = ManageMessageId.RemoveLoginSuccess;
+                message = ManageAccountMessageId.RemoveLoginSuccess;
             }
             else
             {
-                message = ManageMessageId.Error;
+                message = ManageAccountMessageId.Error;
             }
 
             return this.RedirectToAction("ManageLogins", new { Message = message });
@@ -316,7 +275,7 @@ namespace Dub.Web.Mvc.Controllers
                     await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
 
-                return this.RedirectToAction("Index", new { Message = ManageMessageId.AddPhoneSuccess });
+                return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.AddPhoneSuccess });
             }
 
             // If we got this far, something failed, redisplay form
@@ -333,7 +292,7 @@ namespace Dub.Web.Mvc.Controllers
             var result = await this.UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
-                return this.RedirectToAction("Index", new { Message = ManageMessageId.Error });
+                return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.Error });
             }
 
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -342,7 +301,7 @@ namespace Dub.Web.Mvc.Controllers
                 await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
 
-            return this.RedirectToAction("Index", new { Message = ManageMessageId.RemovePhoneSuccess });
+            return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.RemovePhoneSuccess });
         }
 
         /// <summary>
@@ -377,7 +336,7 @@ namespace Dub.Web.Mvc.Controllers
                     await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
 
-                return this.RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.ChangePasswordSuccess });
             }
 
             this.AddErrors(result);
@@ -413,7 +372,7 @@ namespace Dub.Web.Mvc.Controllers
                         await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
 
-                    return this.RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.SetPasswordSuccess });
                 }
 
                 this.AddErrors(result);
@@ -428,11 +387,11 @@ namespace Dub.Web.Mvc.Controllers
         /// </summary>
         /// <param name="message">Id of the message to display.</param>
         /// <returns>Task which asynchronously display action result.</returns>
-        public async Task<ActionResult> ManageLogins(ManageMessageId? message)
+        public async Task<ActionResult> ManageLogins(ManageAccountMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.RemoveLoginSuccess ? "The external login was removed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageAccountMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageAccountMessageId.Error ? "An error has occurred."
                 : string.Empty;
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
@@ -472,13 +431,13 @@ namespace Dub.Web.Mvc.Controllers
             var loginInfo = await this.AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
             if (loginInfo == null)
             {
-                return this.RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                return this.RedirectToAction("ManageLogins", new { Message = ManageAccountMessageId.Error });
             }
 
             var result = await this.UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
             return result.Succeeded
                 ? this.RedirectToAction("ManageLogins")
-                : this.RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
+                : this.RedirectToAction("ManageLogins", new { Message = ManageAccountMessageId.Error });
         }
 
         /// <summary>

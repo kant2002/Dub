@@ -142,6 +142,7 @@
     <Compile Include="LocalizableString.cs" />
     <Compile Include="LogApiExceptionAttribute.cs" />
     <Compile Include="LogExceptionAttribute.cs" />
+    <Compile Include="ManageAccountMessageId.cs" />
     <Compile Include="Models\Account\ExternalLoginConfirmationViewModel.cs" />
     <Compile Include="Models\Account\ExternalLoginListViewModel.cs" />
     <Compile Include="Models\Account\ForgotPasswordViewModel.cs" />
