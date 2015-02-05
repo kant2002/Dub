@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AccountLockedOut" xml:space="preserve">
+    <value>Ваша учетная запись заблокирована, попробуйте повторить попытку</value>
+  </data>
+  <data name="Back" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="BackToEdit" xml:space="preserve">
+    <value>Назад к редактированию</value>
+  </data>
+  <data name="BackToList" xml:space="preserve">
+    <value>Назад к списку</value>
+  </data>
+  <data name="BackToLogin" xml:space="preserve">
+    <value>Назад к входу</value>
+  </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Изменить пароль</value>
+  </data>
+  <data name="ChangeYourPassword" xml:space="preserve">
+    <value>Измените ваш пароль</value>
+  </data>
+  <data name="ChooseUserRole" xml:space="preserve">
+    <value>Выберите роль ...</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Создать</value>
+  </data>
+  <data name="CreatePassword" xml:space="preserve">
+    <value>Установить пароль</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Создать пользователя</value>
+  </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="DeletePrompt" xml:space="preserve">
+    <value>Вы действительно хотите удалить эту запись?</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Редактирование пользователя</value>
+  </data>
+  <data name="EnterUsingLocalAccount" xml:space="preserve">
+    <value>Введите ваши данные</value>
+  </data>
+  <data name="FieldAddress" xml:space="preserve">
+    <value>Адрес</value>
+  </data>
+  <data name="FieldCity" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="FieldCode" xml:space="preserve">
+    <value>Код</value>
+  </data>
+  <data name="FieldCompany" xml:space="preserve">
+    <value>Компания</value>
+  </data>
+  <data name="FieldCompanyName" xml:space="preserve">
+    <value>Название компании</value>
+  </data>
+  <data name="FieldConfirmPassword" xml:space="preserve">
+    <value>Подтвердите пароль</value>
+  </data>
+  <data name="FieldCreatedBy" xml:space="preserve">
+    <value>Создано</value>
+  </data>
+  <data name="FieldCreatedDate" xml:space="preserve">
+    <value>Дата создания</value>
+  </data>
+  <data name="FieldEmail" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="FieldFax" xml:space="preserve">
+    <value>Факс</value>
+  </data>
+  <data name="FieldFirstName" xml:space="preserve">
+    <value>Имя</value>
+  </data>
+  <data name="FieldFullName" xml:space="preserve">
+    <value>Полное имя</value>
+  </data>
+  <data name="FieldId" xml:space="preserve">
+    <value>Код</value>
+  </data>
+  <data name="FieldLastName" xml:space="preserve">
+    <value>Фамилия</value>
+  </data>
+  <data name="FieldMarker" xml:space="preserve">
+    <value>Маркер</value>
+  </data>
+  <data name="FieldMessage" xml:space="preserve">
+    <value>Сообщение</value>
+  </data>
+  <data name="FieldModifiedDate" xml:space="preserve">
+    <value>Дата изменения</value>
+  </data>
+  <data name="FieldName" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="FieldNotes" xml:space="preserve">
+    <value>Примечание</value>
+  </data>
+  <data name="FieldPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="FieldPatronymicName" xml:space="preserve">
+    <value>Отчество</value>
+  </data>
+  <data name="FieldPhone" xml:space="preserve">
+    <value>Телефон</value>
+  </data>
+  <data name="FieldReceivedDate" xml:space="preserve">
+    <value>Дата получения</value>
+  </data>
+  <data name="FieldRememberMe" xml:space="preserve">
+    <value>Запомнить меня?</value>
+  </data>
+  <data name="FieldRememberThisBrowser" xml:space="preserve">
+    <value>Запомнить данный браузер?</value>
+  </data>
+  <data name="FieldRoles" xml:space="preserve">
+    <value>Роли</value>
+  </data>
+  <data name="FieldStatus" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="FieldTitle" xml:space="preserve">
+    <value>Название</value>
+  </data>
+  <data name="FieldTwoFactorAuthentication" xml:space="preserve">
+    <value>Двух-факторная аутентификация</value>
+  </data>
+  <data name="FieldUserName" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="IAccept" xml:space="preserve">
+    <value>Я согласен с</value>
+  </data>
+  <data name="InvalidLoginAttempt" xml:space="preserve">
+    <value>Неудачная попытка входа.</value>
+  </data>
+  <data name="InvalidVerificationCode" xml:space="preserve">
+    <value>Неверный код.</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Заблокировано.</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Вход</value>
+  </data>
+  <data name="Logoff" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="MailDisplayName" xml:space="preserve">
+    <value>&lt;Без ответа&gt;</value>
+  </data>
+  <data name="More" xml:space="preserve">
+    <value>Подробнее</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>След.</value>
+  </data>
+  <data name="PageAboutTitle" xml:space="preserve">
+    <value>О нас</value>
+  </data>
+  <data name="PageAllUsersTitle" xml:space="preserve">
+    <value>Все пользователи</value>
+  </data>
+  <data name="PageChangePasswordForm" xml:space="preserve">
+    <value>Форма изменения пароля</value>
+  </data>
+  <data name="PageChangePasswordTitle" xml:space="preserve">
+    <value>Изменение пароля</value>
+  </data>
+  <data name="PageConfirmEmailBody" xml:space="preserve">
+    <value>Вы успешно подтвердили ваш e-mail.</value>
+  </data>
+  <data name="PageConfirmEmailTitle" xml:space="preserve">
+    <value>Подтверждение e-mail</value>
+  </data>
+  <data name="PageError" xml:space="preserve">
+    <value>Ошибка</value>
+  </data>
+  <data name="PageErrorDescription" xml:space="preserve">
+    <value>Во время обработки вашего запроса произошла ошибка.</value>
+  </data>
+  <data name="PageErrorHeader" xml:space="preserve">
+    <value>Ошибка.</value>
+  </data>
+  <data name="PageErrorsTitle" xml:space="preserve">
+    <value>Ошибки</value>
+  </data>
+  <data name="PageForgotPasswordConfirmationCaption" xml:space="preserve">
+    <value>Вы успешно восстановили свой пароль.</value>
+  </data>
+  <data name="PageForgotPasswordConfirmationTitle" xml:space="preserve">
+    <value>Успешное восстановление пароля</value>
+  </data>
+  <data name="PageForgotPasswordTitle" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="PageHomeTitle" xml:space="preserve">
+    <value>Главная</value>
+  </data>
+  <data name="PageLockedOutTitle" xml:space="preserve">
+    <value>Заблокировано</value>
+  </data>
+  <data name="PageLoginTitle" xml:space="preserve">
+    <value>Авторизация</value>
+  </data>
+  <data name="PageManageAccountForm" xml:space="preserve">
+    <value>Измените параметры вашей учетной записи</value>
+  </data>
+  <data name="PageManageAccountTitle" xml:space="preserve">
+    <value>Управление аккаунтом</value>
+  </data>
+  <data name="PageNotConfirmedUsersTitle" xml:space="preserve">
+    <value>Неподтвержденные пользователи</value>
+  </data>
+  <data name="PageResetPasswordConfirmationTitle" xml:space="preserve">
+    <value>Успешный сброс пароля</value>
+  </data>
+  <data name="PageResetPasswordTitle" xml:space="preserve">
+    <value>Сброс пароля</value>
+  </data>
+  <data name="PageUsersTitle" xml:space="preserve">
+    <value>Пользователи</value>
+  </data>
+  <data name="PasswordChangedConfirmation" xml:space="preserve">
+    <value>Ваш пароль был изменен.</value>
+  </data>
+  <data name="PasswordChangedConfirmation1" xml:space="preserve">
+    <value>Ваш пароль был изменен.</value>
+  </data>
+  <data name="PleaseClickHere" xml:space="preserve">
+    <value>Пожалуйста перейдтие на </value>
+  </data>
+  <data name="Previous" xml:space="preserve">
+    <value>Пред.</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Профиль</value>
+  </data>
+  <data name="Register" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="RegisterANewAccount" xml:space="preserve">
+    <value>Зарегистрируйте учетную запись:</value>
+  </data>
+  <data name="RegisterAsNewUser" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Registration" xml:space="preserve">
+    <value>Регистрация</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Сброс</value>
+  </data>
+  <data name="ResetPasswordCaption" xml:space="preserve">
+    <value>Укажите ваш новый пароль</value>
+  </data>
+  <data name="ResetPasswordConfirmationCaption" xml:space="preserve">
+    <value>Вы успешно сбросили пароль.</value>
+  </data>
+  <data name="RetreivePasswordInstructions" xml:space="preserve">
+    <value>Введите ваш email и получите инструкции по восстановлению вашего пароля.</value>
+  </data>
+  <data name="RetrievePassword" xml:space="preserve">
+    <value>Восстановление пароля</value>
+  </data>
+  <data name="RoleAdministrator" xml:space="preserve">
+    <value>Администратор</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Сохранить</value>
+  </data>
+  <data name="SendMe" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки</value>
+  </data>
+  <data name="ShowingEntries" xml:space="preserve">
+    <value>Показывается c {0} по {1} записи. Всего {2} записей.</value>
+  </data>
+  <data name="ToLogin" xml:space="preserve">
+    <value>страницу входа</value>
+  </data>
+  <data name="TwoFactorAuthenticationNotConfigured" xml:space="preserve">
+    <value>Двух-факторная аутентификация не настроена</value>
+  </data>
+  <data name="Upload" xml:space="preserve">
+    <value>Загрузить</value>
+  </data>
+  <data name="UserAgreementAccepts" xml:space="preserve">
+    <value>Пользовательским соглашением</value>
+  </data>
+  <data name="UserStatusDisabled" xml:space="preserve">
+    <value>Отключен</value>
+  </data>
+  <data name="UserStatusRegistered" xml:space="preserve">
+    <value>Зарегистрирован</value>
+  </data>
+  <data name="UserStatusWaitingApproval" xml:space="preserve">
+    <value>Ожидает подтверждения</value>
+  </data>
+  <data name="ValidationMessageCompare" xml:space="preserve">
+    <value>Пароль и подтверждение пароля отличаются</value>
+  </data>
+  <data name="ValidationMessageEmailAddress" xml:space="preserve">
+    <value>Поле {0} не является e-mail адресом</value>
+  </data>
+  <data name="ValidationMessageRequired" xml:space="preserve">
+    <value>Поле {0} обязательно к заполнению.</value>
+  </data>
+  <data name="ValidationMessageStringLength" xml:space="preserve">
+    <value>{0} должен быть {2} символов в длину.</value>
+  </data>
+  <data name="ValidationMessageSubmissionCommitteeRequired" xml:space="preserve">
+    <value>Необходимо указать комитет, куда будет отправляться заявка на рассмотрение</value>
+  </data>
+  <data name="ViewErrorLogEntry" xml:space="preserve">
+    <value>Просмотр ошибки №</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Внимание</value>
+  </data>
+  <data name="Welcome" xml:space="preserve">
+    <value>Здравстуйте,</value>
+  </data>
+</root>

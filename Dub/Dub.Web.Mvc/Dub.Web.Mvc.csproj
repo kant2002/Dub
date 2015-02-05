@@ -135,6 +135,7 @@
     <Compile Include="Controllers\Api\ApiControllerBase.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="DubModelMetadataProvider.cs" />
     <Compile Include="HelpPopupAttribute.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
@@ -180,6 +181,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="DefaultResources.resx" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
