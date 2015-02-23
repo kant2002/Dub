@@ -6,19 +6,13 @@
 
 namespace Dub.Web.Mvc.Controllers.Api
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
-    using System.Web;
     using System.Web.Http;
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.Owin;
     using Microsoft.Owin.Security;
 
     /// <summary>
@@ -101,17 +95,6 @@ namespace Dub.Web.Mvc.Controllers.Api
             get
             {
                 return this.OwinContext.Authentication;
-            }
-        }
-
-        /// <summary>
-        /// Gets OWIN context.
-        /// </summary>
-        private IOwinContext OwinContext
-        {
-            get
-            {
-                return HttpContext.Current.GetOwinContext();
             }
         }
 

@@ -270,4 +270,7 @@
   <data name="LocalizationFailed" xml:space="preserve">
     <value>Ошибка локализации {0}. Не удается найти свойство {2} у типа {1}</value>
   </data>
+  <data name="FailedToVerifyPhone" xml:space="preserve">
+    <value>Не удалось подтвердить телефон</value>
+  </data>
 </root>

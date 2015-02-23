@@ -8,15 +8,28 @@ namespace Dub.Web.Mvc.Controllers.Api
 {
     using System.Collections.Generic;
     using System.Linq;
+    using System.Web;
     using System.Web.Http;
     using Dub.Web.Core;
     using Dub.Web.Mvc.Models;
+    using Microsoft.Owin;
 
     /// <summary>
     /// Base controller for all API controllers.
     /// </summary>
     public class ApiControllerBase : ApiController
     {
+        /// <summary>
+        /// Gets OWIN context.
+        /// </summary>
+        protected IOwinContext OwinContext
+        {
+            get
+            {
+                return HttpContext.Current.GetOwinContext();
+            }
+        }
+
         /// <summary>
         /// Returns  simple API status code.
         /// </summary>

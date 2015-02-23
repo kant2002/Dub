@@ -279,7 +279,7 @@ namespace Dub.Web.Mvc.Controllers
             }
 
             // If we got this far, something failed, redisplay form
-            ModelState.AddModelError(string.Empty, "Failed to verify phone");
+            ModelState.AddModelError(string.Empty, Resources.FailedToVerifyPhone);
             return this.View(model);
         }
 

@@ -61,6 +61,15 @@ namespace Dub.Web.Mvc.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Не удалось подтвердить телефон.
+        /// </summary>
+        public static string FailedToVerifyPhone {
+            get {
+                return ResourceManager.GetString("FailedToVerifyPhone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Рассмотрено.
         /// </summary>
         public static string FieldAcceptedBy {

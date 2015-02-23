@@ -1,5 +1,5 @@
 ﻿// -----------------------------------------------------------------------
-// <copyright file="ManageMessageId.cs" company="Andrey Kurdiumov">
+// <copyright file="ManageAccountMessageId.cs" company="Andrey Kurdiumov">
 // Copyright (c) Andrey Kurdiumov. All rights reserved.
 // </copyright>
 // -----------------------------------------------------------------------
