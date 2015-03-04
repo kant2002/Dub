@@ -70,9 +70,9 @@ namespace Dub.Web.Identity
             var userIdentity = await manager.CreateIdentityAsync((T)this, DefaultAuthenticationTypes.ApplicationCookie);
 
             // Add custom user claims here
-            userIdentity.AddClaim(new Claim(ClaimTypes.Sid, this.Id.ToString()));
-            userIdentity.AddClaim(new Claim(ClaimTypes.Surname, this.LastName));
-            userIdentity.AddClaim(new Claim(ClaimTypes.GivenName, this.FirstName));
+            userIdentity.AddClaim(new Claim(ClaimTypes.Sid, this.Id == null ? string.Empty : this.Id.ToString()));
+            userIdentity.AddClaim(new Claim(ClaimTypes.Surname, this.LastName ?? string.Empty));
+            userIdentity.AddClaim(new Claim(ClaimTypes.GivenName, this.FirstName ?? string.Empty));
             
             return userIdentity;
         }
