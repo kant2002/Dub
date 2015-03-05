@@ -7,9 +7,11 @@
 namespace Dub.Web.Mvc.Controllers
 {
     using System.Linq;
+    using System.Net.Mail;
     using System.Threading.Tasks;
     using System.Web;
     using System.Web.Mvc;
+    using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
     using Dub.Web.Mvc.Properties;
@@ -23,11 +25,13 @@ namespace Dub.Web.Mvc.Controllers
     /// <typeparam name="TUser">Type of the user.</typeparam>
     /// <typeparam name="TSignInManager">Type of sign in manager used.</typeparam>
     /// <typeparam name="TUserManager">Type of user manager used to manage the users.</typeparam>
+    /// <typeparam name="TRegistrationModel">Type of model used for registration.</typeparam>
     [Authorize]
-    public class AccountController<TUser, TSignInManager, TUserManager> : Controller
+    public class AccountController<TUser, TSignInManager, TUserManager, TRegistrationModel> : Controller
         where TUser : DubUser, new()
         where TSignInManager : SignInManager<TUser, string>
         where TUserManager : UserManager<TUser, string>
+        where TRegistrationModel : RegisterViewModel
     {
         /// <summary>
         /// Sign-in manager.
@@ -40,14 +44,14 @@ namespace Dub.Web.Mvc.Controllers
         private TUserManager userManager;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController{TUser,TSignInManager,TUserManager}"/> class.
+        /// Initializes a new instance of the <see cref="AccountController{TUser,TSignInManager,TUserManager,TRegistrationModel}"/> class.
         /// </summary>
         public AccountController()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController{TUser,TSignInManager,TUserManager}"/> class.
+        /// Initializes a new instance of the <see cref="AccountController{TUser,TSignInManager,TUserManager,TRegistrationModel}"/> class.
         /// </summary>
         /// <param name="userManager">User manager for this controller.</param>
         /// <param name="signInManager">Sign-in manager for this controller.</param>
@@ -216,17 +220,17 @@ namespace Dub.Web.Mvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(TRegistrationModel model)
         {
             // var model = this.CreateModel();
             // this.TryUpdateModel(model);
-            if (this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
                 return this.View(model);
             }
 
             // If we got this far, something failed, redisplay form
-            var user = new TUser { UserName = model.Email, Email = model.Email };
+            var user = this.CreateUserFromRegistrationModel(model);
             var result = await this.UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
@@ -238,7 +242,18 @@ namespace Dub.Web.Mvc.Controllers
 
             // Send an email with confirmation link
             string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-            await this.SendRegistrationEmail(user, code);
+            try
+            {
+                await this.SendRegistrationEmail(user, code);
+            }
+            catch (SmtpException ex)
+            {
+                var exceptionToPublish = new System.InvalidOperationException(
+                    string.Format("The sending email failed for the user {0}", user.Email), 
+                    ex);
+                ExceptionHelper.PublishException("system", exceptionToPublish);
+            }
+
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -517,7 +532,7 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
-            this.AuthenticationManager.SignOut();
+            this.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -527,6 +542,16 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Result of the action.</returns>
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
+        {
+            return this.View();
+        }
+
+        /// <summary>
+        /// Shows message after registration success.
+        /// </summary>
+        /// <returns>Result of the action.</returns>
+        [AllowAnonymous]
+        public ActionResult RegistrationSuccess()
         {
             return this.View();
         }
@@ -562,6 +587,17 @@ namespace Dub.Web.Mvc.Controllers
         {
             var callbackUrl = this.Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
             await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+        }
+
+        /// <summary>
+        /// Create user from registration model.
+        /// </summary>
+        /// <param name="model">Model for the registration model.</param>
+        /// <returns>User corresponding to the model.</returns>
+        protected virtual TUser CreateUserFromRegistrationModel(TRegistrationModel model)
+        {
+            var user = new TUser { UserName = model.Email, Email = model.Email };
+            return user;
         }
 
         /// <summary>
