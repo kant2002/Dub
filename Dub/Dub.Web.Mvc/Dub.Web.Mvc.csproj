@@ -163,6 +163,8 @@
     <Compile Include="Models\Manage\SetPasswordViewModel.cs" />
     <Compile Include="Models\Manage\VerifyPhoneNumberViewModel.cs" />
     <Compile Include="Models\Security\ErrorLogViewModel.cs" />
+    <Compile Include="Models\Security\ErrorsListFilter.cs" />
+    <Compile Include="Models\Security\ErrorsListViewModel.cs" />
     <Compile Include="Models\User\CreateUserViewModel.cs" />
     <Compile Include="Models\User\EditUserViewModel.cs" />
     <Compile Include="Models\User\UsersListViewModel.cs" />

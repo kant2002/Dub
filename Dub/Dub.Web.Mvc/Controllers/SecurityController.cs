@@ -32,11 +32,13 @@ namespace Dub.Web.Mvc.Controllers
         /// <summary>
         /// Display list of log entries.
         /// </summary>
+        /// <param name="filter">Filter which should be applied to the log entries.</param>
         /// <returns>Return action result.</returns>
-        public ActionResult Errors()
+        public ActionResult Errors([Bind(Prefix = "Filter")]ErrorsListFilter filter)
         {
             var dbContext = new ErrorsModel();
-            return this.View(dbContext.ErrorLogs);
+            var model = new ErrorsListViewModel(dbContext.ErrorLogs, filter);
+            return this.View(model);
         }
 
         /// <summary>
