@@ -38,6 +38,7 @@
 
     <Copy SourceFiles="@(AssembliesBuiltByChildProjects)" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).xml')" DestinationFolder="$(OutputPath)" />
+	<Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).pdb')" DestinationFolder="$(OutputPath)" />
   </Target>
   
   <!-- Package Nuget files -->
