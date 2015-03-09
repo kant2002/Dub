@@ -10,5 +10,5 @@ using System.Reflection;
 [assembly: AssemblyCompany("Andrey Kurdiumov")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("0.2.9.0")]
-[assembly: AssemblyFileVersion("0.2.9.0")]
+[assembly: AssemblyVersion("0.3.0.0")]
+[assembly: AssemblyFileVersion("0.3.0.0")]
