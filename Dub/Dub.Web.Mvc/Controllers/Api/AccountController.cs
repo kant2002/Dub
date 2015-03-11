@@ -105,6 +105,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>HTTP OK in case of success; </returns>
         public async Task<IHttpActionResult> Login(LoginViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             var result = await this.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
@@ -127,6 +132,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Action result.</returns>
         public async Task<IHttpActionResult> VerifyCode(VerifyCodeViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             // The following code protects for brute force attacks against the two factor codes. 
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
@@ -151,6 +161,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Action result.</returns>
         public async Task<IHttpActionResult> Register(RegisterViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             var user = new TUser { UserName = model.Email, Email = model.Email };
             var result = await this.UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
@@ -173,6 +188,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Result of the action.</returns>
         public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             var user = await this.UserManager.FindByNameAsync(model.Email);
             if (user == null || !(await this.UserManager.IsEmailConfirmedAsync(user.Id)))
             {
@@ -194,6 +214,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Result of the action.</returns>
         public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             var user = await this.UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
@@ -217,6 +242,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Result of the action.</returns>
         public async Task<IHttpActionResult> SendCode(SendCodeViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             // Generate the token and send it
             if (!await this.SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -233,6 +263,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Result of the action.</returns>
         public async Task<IHttpActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             if (this.User.Identity.IsAuthenticated)
             {
                 return this.StatusCode(ApiStatusCode.Ok);

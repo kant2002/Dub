@@ -141,6 +141,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         [HttpPost]
         public async Task<IHttpActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.StatusCode(ApiStatusCode.InvalidArguments);
+            }
+
             var result = await this.UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
