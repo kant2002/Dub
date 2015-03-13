@@ -76,19 +76,19 @@ namespace Dub.Web.Mvc.Controllers.Api
             int pageSize)
         {
             collection = filter.Filter(collection);
-            
-            // Perform filtering.
-            collection = collection.Skip(startRow).Take(pageSize);
-            
-            // Perform sorting
             if (sortBy == null)
             {
                 return collection;
             }
 
-            return sortAscending
+            // Perform sorting
+            var sortedCollection = sortAscending
                 ? collection.OrderBy(sortBy)
                 : collection.OrderByDescending(sortBy);
+            
+            // Perform filtering.
+            var pagedCollection = sortedCollection.Skip(startRow).Take(pageSize);
+            return pagedCollection;
         }
     }
 }

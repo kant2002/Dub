@@ -27,7 +27,7 @@ namespace Dub.Web.Mvc.Controllers.Api
     public class UserController<TUser, TUserManager, TUserFilter> : ApiControllerBase
         where TUser : DubUser, new()
         where TUserManager : UserManager<TUser, string>
-        where TUserFilter : ICollectionFilter<TUser>, ICollectionTransform<TUser>, new()
+        where TUserFilter : class, ICollectionFilter<TUser>, ICollectionTransform<TUser>, new()
     {
         /// <summary>
         /// User manager.
@@ -80,6 +80,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
+            displayParameters = displayParameters ?? new TUserFilter();
             var sourceData = this.UserManager.Users;
             var preparedData = this.Filter(sourceData, displayParameters, null, true, 0, 10);
             var transformedData = displayParameters.Transform(preparedData);

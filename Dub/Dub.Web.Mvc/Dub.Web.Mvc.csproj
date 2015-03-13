@@ -138,6 +138,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="HttpDubDirectRouteProvider.cs" />
     <Compile Include="DubModelMetadataProvider.cs" />
     <Compile Include="HelpPopupAttribute.cs" />
     <Compile Include="HtmlHelperExtensions.cs" />
