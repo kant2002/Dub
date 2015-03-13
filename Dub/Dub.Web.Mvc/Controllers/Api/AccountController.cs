@@ -115,7 +115,7 @@ namespace Dub.Web.Mvc.Controllers.Api
             switch (result)
             {
                 case SignInStatus.Success:
-                    return this.StatusCode(ApiStatusCode.Ok);
+                    return await this.OnSuccessLogin(model.Email);
                 case SignInStatus.LockedOut:
                     return this.StatusCode(ApiStatusCode.AccountLockedOut);
                 case SignInStatus.RequiresVerification:
@@ -320,6 +320,17 @@ namespace Dub.Web.Mvc.Controllers.Api
         {
             var callbackUrl = this.Url.Link("Default", new { @controller = "ConfirmEmail", @action = "Account", userId = user.Id, code = code });
             await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+        }
+
+        /// <summary>
+        /// Gets result which should be returned on the success login.
+        /// </summary>
+        /// <param name="userEmail">Email of the user.</param>
+        /// <returns>Result to be returned on success login.</returns>
+        protected virtual Task<IHttpActionResult> OnSuccessLogin(string userEmail)
+        {
+            var result = this.StatusCode(ApiStatusCode.Ok);
+            return Task.FromResult<IHttpActionResult>(result);
         }
     }
 }
