@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Dub.Identity</id>
-    <version>0.3.3</version>
+    <version>0.3.4</version>
     <authors>Andrey Kurdyumov</authors>
     <owners>Andrey Kurdyumov</owners>
     <projectUrl>https://github.com/kant2002/Dub</projectUrl>
@@ -11,7 +11,7 @@
     <description>Identity classes for the SaaS web application</description>
     <tags>Dub SaaS tools</tags>
     <dependencies>
-      <dependency id="Dub.Core" version="0.3.3" />
+      <dependency id="Dub.Core" version="0.3.4" />
       <dependency id="CommonMark.NET" version="0.6.0" />
       <dependency id="Microsoft.AspNet.Identity.EntityFramework" version="2.1.0" />
     </dependencies>
