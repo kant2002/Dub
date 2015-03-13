@@ -21,7 +21,6 @@ namespace Dub.Web.Mvc.Controllers.Api
     /// <typeparam name="TUser">Type of the user.</typeparam>
     /// <typeparam name="TSignInManager">Type of sign in manager used.</typeparam>
     /// <typeparam name="TUserManager">Type of user manager used to manage the users.</typeparam>
-    [Authorize]
     public class AccountController<TUser, TSignInManager, TUserManager> : ApiControllerBase
         where TUser : DubUser, new()
         where TSignInManager : SignInManager<TUser, string>
@@ -103,6 +102,8 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model for the performing login.</param>
         /// <returns>HTTP OK in case of success; </returns>
+        [HttpPost]
+        [Route("account/login")]
         public async Task<IHttpActionResult> Login(LoginViewModel model)
         {
             if (!this.ModelState.IsValid)
