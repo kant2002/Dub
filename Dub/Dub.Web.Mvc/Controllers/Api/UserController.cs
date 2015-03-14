@@ -81,7 +81,7 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             displayParameters = displayParameters ?? new TUserFilter();
-            var sourceData = this.UserManager.Users;
+            var sourceData = this.GetUsers();
             var preparedData = this.Filter(sourceData, displayParameters, null, true, 0, 10);
             var transformedData = displayParameters.Transform(preparedData);
             return this.Ok(transformedData.ToArray());
@@ -114,6 +114,15 @@ namespace Dub.Web.Mvc.Controllers.Api
         protected virtual object Transform(TUser user)
         {
             return user;
+        }
+
+        /// <summary>
+        /// Gets the initial sequence of the users.
+        /// </summary>
+        /// <returns>Sequence of users to display in the list.</returns>
+        protected virtual IQueryable<TUser> GetUsers()
+        {
+            return this.UserManager.Users;
         }
     }
 }

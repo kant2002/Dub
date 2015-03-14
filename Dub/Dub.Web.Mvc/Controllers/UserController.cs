@@ -21,11 +21,36 @@ namespace Dub.Web.Mvc.Controllers
     /// <typeparam name="TApplicationUserManager">
     /// Type of application manager which will be used for the managing users
     /// </typeparam>
+    /// <typeparam name="TCreateUserViewModel">Model for the user creation.</typeparam>
+    /// <typeparam name="TEditUserViewModel">Model for the user editing.</typeparam>
     [Authorize]
-    public class UserController<TUser, TApplicationUserManager> : Controller
+    public class UserController<TUser, TApplicationUserManager, TCreateUserViewModel, TEditUserViewModel> : Controller
         where TUser : DubUser, new()
         where TApplicationUserManager : DubUserManager<TUser>
+        where TCreateUserViewModel : CreateUserViewModel, new()
+        where TEditUserViewModel : EditUserViewModel, new()
     {
+        /// <summary>
+        /// User manager.
+        /// </summary>
+        private TApplicationUserManager userManager;
+
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TApplicationUserManager UserManager
+        {
+            get
+            {
+                return this.userManager ?? HttpContext.GetOwinContext().GetUserManager<TApplicationUserManager>();
+            }
+
+            private set
+            {
+                this.userManager = value;
+            }
+        }
+
         /// <summary>
         /// Displays list of all users.
         /// </summary>
@@ -81,7 +106,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which returns result of the action.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create(CreateUserViewModel model)
+        public async Task<ActionResult> Create(TCreateUserViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -168,17 +193,7 @@ namespace Dub.Web.Mvc.Controllers
                 return this.RedirectToAction("Index");
             }
 
-            var model = new EditUserViewModel();
-            model.Id = user.Id;
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.PatronymicName = user.PatronymicName;
-            model.City = user.City;
-            model.Address = user.Address;
-            model.ContactPhone = user.ContactPhone;
-            var roles = await userManager.GetRolesAsync(user.Id);
-            model.Roles = roles.ToArray();
-
+            var model = await this.CreateUserModel(user);
             return this.View(model);
         }
 
@@ -189,7 +204,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which returns result of the action.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditUserViewModel model)
+        public async Task<ActionResult> Edit(TEditUserViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -200,53 +215,8 @@ namespace Dub.Web.Mvc.Controllers
             var context = HttpContext.GetOwinContext();
             var userManager = context.Get<TApplicationUserManager>();
             var user = await userManager.FindByIdAsync(model.Id);
-            user.FirstName = model.FirstName;
-            user.LastName = model.LastName;
-            user.PatronymicName = model.PatronymicName;
-            user.City = model.City;
-            user.Address = model.Address;
-            user.ContactPhone = model.ContactPhone;
-
-            var result = await userManager.UpdateAsync(user);
-            if (!result.Succeeded)
+            if (!await this.UpdateUser(model, user))
             {
-                // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
-                return this.View(model);
-            }
-
-            model.Roles = this.SanitizeRoles(model.Roles ?? new string[0]);
-
-            var currentRoles = await userManager.GetRolesAsync(user.Id);
-
-            // Add new roles
-            var rolesAdded = model.Roles.Except(currentRoles).ToArray();
-            result = await userManager.AddToRolesAsync(user.Id, rolesAdded);
-            if (!result.Succeeded)
-            {
-                // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
-                return this.View(model);
-            }
-
-            // Remove roles
-            var rolesRemoved = currentRoles.Except(model.Roles).ToArray();
-            result = await userManager.RemoveFromRolesAsync(user.Id, rolesRemoved);
-            if (!result.Succeeded)
-            {
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
                 return this.View(model);
             }
 
@@ -269,16 +239,7 @@ namespace Dub.Web.Mvc.Controllers
                 return this.RedirectToAction("Index");
             }
 
-            var model = new EditUserViewModel();
-            model.Id = user.Id;
-            model.FirstName = user.FirstName;
-            model.LastName = user.LastName;
-            model.PatronymicName = user.PatronymicName;
-            model.City = user.City;
-            model.Address = user.Address;
-            model.ContactPhone = user.ContactPhone;
-            var roles = await userManager.GetRolesAsync(user.Id);
-            model.Roles = roles.ToArray();
+            var model = await this.CreateUserModel(user);
             return this.View(model);
         }
 
@@ -288,7 +249,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <param name="model">New data about the user to delete.</param>
         /// <returns>Task which returns result of the action.</returns>
         [HttpPost]
-        public async Task<ActionResult> Delete(EditUserViewModel model)
+        public async Task<ActionResult> Delete(TEditUserViewModel model)
         {
             var context = HttpContext.GetOwinContext();
             var userManager = context.Get<TApplicationUserManager>();
@@ -380,6 +341,87 @@ namespace Dub.Web.Mvc.Controllers
 
             allowedManageRoles = roles.Intersect(allowedManageRoles).ToArray();
             return allowedManageRoles;
+        }
+
+        /// <summary>
+        /// Create edit users model.
+        /// </summary>
+        /// <param name="user">User for which create edit model.</param>
+        /// <returns>Edit model for the user.</returns>
+        protected virtual async Task<TEditUserViewModel> CreateUserModel(TUser user)
+        {
+            var model = new TEditUserViewModel();
+            model.Id = user.Id;
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.PatronymicName = user.PatronymicName;
+            model.City = user.City;
+            model.Address = user.Address;
+            model.ContactPhone = user.ContactPhone;
+            var roles = await this.UserManager.GetRolesAsync(user.Id);
+            model.Roles = roles.ToArray();
+            return model;
+        }
+
+        /// <summary>
+        /// Asynchronously update the user entity with the model information.
+        /// </summary>
+        /// <param name="model">Model with information to update user entity.</param>
+        /// <param name="user">User entity to update with model information.</param>
+        /// <returns>Task which asynchronously return status of update.</returns>
+        protected virtual async Task<bool> UpdateUser(TEditUserViewModel model, TUser user)
+        {
+            user.FirstName = model.FirstName;
+            user.LastName = model.LastName;
+            user.PatronymicName = model.PatronymicName;
+            user.City = model.City;
+            user.Address = model.Address;
+            user.ContactPhone = model.ContactPhone;
+
+            var result = await this.UserManager.UpdateAsync(user);
+            if (!result.Succeeded)
+            {
+                // Add errors.
+                foreach (var errorMessage in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, errorMessage);
+                }
+
+                return false;
+            }
+
+            model.Roles = this.SanitizeRoles(model.Roles ?? new string[0]);
+
+            var currentRoles = await this.UserManager.GetRolesAsync(user.Id);
+
+            // Add new roles
+            var rolesAdded = model.Roles.Except(currentRoles).ToArray();
+            result = await this.UserManager.AddToRolesAsync(user.Id, rolesAdded);
+            if (!result.Succeeded)
+            {
+                // Add errors.
+                foreach (var errorMessage in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, errorMessage);
+                }
+
+                return false;
+            }
+
+            // Remove roles
+            var rolesRemoved = currentRoles.Except(model.Roles).ToArray();
+            result = await this.UserManager.RemoveFromRolesAsync(user.Id, rolesRemoved);
+            if (!result.Succeeded)
+            {
+                foreach (var errorMessage in result.Errors)
+                {
+                    this.ModelState.AddModelError(string.Empty, errorMessage);
+                }
+
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
