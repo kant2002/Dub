@@ -30,7 +30,7 @@
              Properties="Configuration=Release;" />
     <MSBuild Projects="@(SolutionsToBuild)"
              Targets="Build"
-             Properties="Configuration=Release;">
+             Properties="Configuration=Release;RunCodeAnalysis=true">
       <Output
           TaskParameter="TargetOutputs"
           ItemName="AssembliesBuiltByChildProjects" />
