@@ -67,6 +67,11 @@ namespace Dub.Web.Identity
         /// <returns>List of roles which could be managed by the user.</returns>
         public virtual string[] GetManagedRoles(System.Security.Principal.IPrincipal user)
         {
+            if (user == null)
+            {
+                throw new ArgumentNullException("user");
+            }
+
             if (user.IsInRole(RoleNames.Administrator))
             {
                 return new[] 
@@ -97,7 +102,7 @@ namespace Dub.Web.Identity
         {
             if (!typeof(DubUserWithClient).IsAssignableFrom(typeof(T)))
             {
-                throw new NotSupportedException("User class does not inherited from DubUserWithClient.");
+                throw new NotSupportedException(string.Format("User class does not inherited from {0}.", typeof(DubUserWithClient).Name));
             }
 
             return this.Users.Cast<DubUserWithClient>()
@@ -113,6 +118,16 @@ namespace Dub.Web.Identity
         /// <returns>Filter sequence with applied security rules.</returns>
         protected virtual IQueryable<T> FilterUsers(IQueryable<T> users, System.Security.Claims.ClaimsPrincipal principal)
         {
+            if (principal == null)
+            {
+                throw new ArgumentNullException("principal");
+            }
+
+            if (users == null)
+            {
+                throw new ArgumentNullException("users");
+            }
+
             if (principal.IsInRole(RoleNames.Administrator))
             {
                 return users;

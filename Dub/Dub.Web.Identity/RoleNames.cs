@@ -9,7 +9,7 @@ namespace Dub.Web.Identity
     /// <summary>
     /// Constants for the role names
     /// </summary>
-    public class RoleNames
+    public static class RoleNames
     {
         /// <summary>
         /// Name of the administrator role.

@@ -1,0 +1,12 @@
+﻿<Dictionary>
+  <Words>
+    <Recognized>
+      <Word>Sms</Word>
+    </Recognized>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>SMS</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

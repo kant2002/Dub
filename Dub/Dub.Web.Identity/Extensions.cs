@@ -20,9 +20,19 @@ namespace Dub.Web.Identity
         /// <typeparam name="TUser">Type of the user.</typeparam>
         /// <param name="manager">User manager which has to be configured.</param>
         /// <param name="emailDisplayName">Display name for the email service.</param>
-        public static void ConfigureUserManager<TUser>(this DubUserManager<TUser> manager, string emailDisplayName)
+        public static void ConfigureUserManager<TUser>(this UserManager<TUser, string> manager, string emailDisplayName)
             where TUser : DubUser
         {
+            if (manager == null)
+            {
+                throw new ArgumentNullException("manager");
+            }
+
+            if (string.IsNullOrWhiteSpace(emailDisplayName))
+            {
+                throw new ArgumentException("Email display name could not be empty.", "emailDisplayName");
+            }
+
             manager.UserValidator = new UserValidator<TUser>(manager)
             {
                 AllowOnlyAlphanumericUserNames = false,
