@@ -29,6 +29,7 @@ namespace Dub.Web.Mvc.Models.Account
         /// <summary>
         /// Gets or sets a url to which return after authentication.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "The design imposed by MVC")]
         public string ReturnUrl { get; set; }
         
         /// <summary>

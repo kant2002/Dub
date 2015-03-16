@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Mvc
 {
+    using System;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http.Controllers;
@@ -15,7 +16,8 @@ namespace Dub.Web.Mvc
     /// An action filter used to do basic validation against the model and return a result
     /// straight away if it fails.
     /// </summary>
-    public class ValidationApiFilterAttribute : ActionFilterAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class ValidationApiFilterAttribute : ActionFilterAttribute
     {
         /// <summary>
         /// Occurs before the action method is invoked.

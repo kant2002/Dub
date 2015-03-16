@@ -19,6 +19,11 @@ namespace Dub.Web.Core
         /// <returns>String which is no longer then specified length.</returns>
         public static string Ellipsis(this string data, int length)
         {
+            if (data == null)
+            {
+                return null;
+            }
+
             if (data.Length > length)
             {
                 data = data.Substring(0, length - 1) + "\u2026";

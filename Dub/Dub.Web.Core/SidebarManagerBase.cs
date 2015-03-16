@@ -50,10 +50,10 @@ namespace Dub.Web.Core
                 return this.rootItem;
             }
 
-            var rootItem = new SidebarItem();
-            this.PopulateRootItem(rootItem);
-            this.rootItem = rootItem;
-            return rootItem;
+            var item = new SidebarItem();
+            this.PopulateRootItem(item);
+            this.rootItem = item;
+            return item;
         }
 
         /// <summary>
@@ -92,8 +92,8 @@ namespace Dub.Web.Core
         /// <summary>
         /// Populates the root item.
         /// </summary>
-        /// <param name="rootItem">Root item to populate with child items.</param>
-        protected virtual void PopulateRootItem(SidebarItem rootItem)
+        /// <param name="item">Root item to populate with child items.</param>
+        protected virtual void PopulateRootItem(SidebarItem item)
         {
         }
 

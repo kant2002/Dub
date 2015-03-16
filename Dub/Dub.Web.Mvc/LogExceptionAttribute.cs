@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Mvc
 {
+    using System;
     using System.Web.Mvc;
     using Dub.Web.Core;
 
@@ -13,7 +14,8 @@ namespace Dub.Web.Mvc
     /// Represents an attribute that is used to log an exception that is thrown
     /// by an action method.
     /// </summary>
-    public class LogExceptionAttribute : FilterAttribute, IExceptionFilter
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class LogExceptionAttribute : FilterAttribute, IExceptionFilter
     {
         /// <summary>
         /// Called when an exception occurs.

@@ -37,7 +37,7 @@ namespace Dub.Web.Core
         /// </summary>
         /// <param name="entityType">Type of the entity to check.</param>
         /// <returns>True if action type is supported.</returns>
-        public bool IsTypeSuported(Type entityType)
+        public bool IsTypeSupported(Type entityType)
         {
             return typeof(T).IsAssignableFrom(entityType);
         }

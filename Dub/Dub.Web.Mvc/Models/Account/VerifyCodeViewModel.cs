@@ -7,6 +7,7 @@
 namespace Dub.Web.Mvc.Models.Account
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
     using Dub.Web.Mvc.Properties;
 
     /// <summary>
@@ -31,6 +32,7 @@ namespace Dub.Web.Mvc.Models.Account
         /// <summary>
         /// Gets or sets a url to which return after authentication.
         /// </summary>
+        [SuppressMessage("Microsoft.Design", "CA1056:UriPropertiesShouldNotBeStrings", Justification = "The design imposed by MVC")]
         public string ReturnUrl { get; set; }
 
         /// <summary>

@@ -58,10 +58,8 @@ namespace Dub.Web.Mvc.Controllers
         [Authorize(Roles = RoleNames.Administrator)]
         public ActionResult Index()
         {
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
             var principal = (System.Security.Claims.ClaimsPrincipal)HttpContext.User;
-            var users = userManager.GetAccessibleUsers(principal);
+            var users = this.UserManager.GetAccessibleUsers(principal);
             var isAdmin = principal.IsInRole(RoleNames.Administrator);
             var model = new UsersListViewModel
             {
@@ -76,10 +74,8 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Result of the action.</returns>
         public ActionResult Pending()
         {
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
             var principal = (System.Security.Claims.ClaimsPrincipal)HttpContext.User;
-            var notConfirmedUsers = userManager.GetAccessibleUsers(principal)
+            var notConfirmedUsers = this.UserManager.GetAccessibleUsers(principal)
                 .Where(_ => !_.EmailConfirmed);
             var isAdmin = principal.IsInRole(RoleNames.Administrator);
             var model = new UsersListViewModel

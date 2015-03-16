@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Mvc.Controllers
 {
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Net.Mail;
     using System.Threading.Tasks;
@@ -110,6 +111,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <param name="returnUrl">Url to which user should return after login.</param>
         /// <returns>Action result.</returns>
         [AllowAnonymous]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Justification = "This design imposed by the Mvc")]
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
@@ -125,6 +127,7 @@ namespace Dub.Web.Mvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
             if (!this.ModelState.IsValid)
@@ -158,6 +161,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <param name="rememberMe">True if authenticated user should be persisted for future visits; false otherwise.</param>
         /// <returns>Action result.</returns>
         [AllowAnonymous]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
             // Require that the user has already logged in via username/password or external login
@@ -397,6 +401,7 @@ namespace Dub.Web.Mvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This design imposed by the Mvc")]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
@@ -410,6 +415,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <param name="rememberMe">True to persist user for next visits; false otherwise.</param>
         /// <returns>Result of the action.</returns>
         [AllowAnonymous]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
             var userId = await this.SignInManager.GetVerifiedUserIdAsync();
@@ -453,6 +459,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <param name="returnUrl">Return url to which user should be redirected.</param>
         /// <returns>Result of the action.</returns>
         [AllowAnonymous]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
             var loginInfo = await this.AuthenticationManager.GetExternalLoginInfoAsync();
@@ -489,6 +496,7 @@ namespace Dub.Web.Mvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
+        [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model, string returnUrl)
         {
             if (this.User.Identity.IsAuthenticated)

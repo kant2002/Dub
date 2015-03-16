@@ -15,7 +15,7 @@ namespace Dub.Web.Core
     /// <summary>
     /// Class for handling exceptions.
     /// </summary>
-    public class ExceptionHelper
+    public static class ExceptionHelper
     {
         /// <summary>
         /// Publish exceptions async.
@@ -94,6 +94,11 @@ namespace Dub.Web.Core
         /// <returns>String that represent exception information.</returns>
         public static string FormatException(DbEntityValidationException ex)
         {
+            if (ex == null)
+            {
+                throw new ArgumentNullException("ex");
+            }
+
             var newline = Environment.NewLine;
             StringBuilder validationErrors = new StringBuilder();
             foreach (var entityValidationError in ex.EntityValidationErrors)

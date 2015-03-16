@@ -20,7 +20,7 @@ namespace Dub.Web.Core
         /// </summary>
         /// <param name="entityType">Type of the entity to check.</param>
         /// <returns>True if action type is supported.</returns>
-        bool IsTypeSuported(Type entityType);
+        bool IsTypeSupported(Type entityType);
 
         /// <summary>
         /// Gets actions which action provider could add for given entity.

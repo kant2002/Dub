@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Mvc
 {
+    using System;
     using System.Threading;
     using System.Threading.Tasks;
     using System.Web.Http.Filters;
@@ -15,7 +16,8 @@ namespace Dub.Web.Mvc
     /// Represents an attribute that is used to log an exception that is thrown
     /// by an action method.
     /// </summary>
-    public class LogApiExceptionAttribute : ExceptionFilterAttribute
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class LogApiExceptionAttribute : ExceptionFilterAttribute
     {
         /// <summary>
         /// Raises the exception event.
