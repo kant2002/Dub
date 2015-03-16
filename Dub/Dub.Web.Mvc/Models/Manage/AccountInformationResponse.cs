@@ -7,6 +7,7 @@
 namespace Dub.Web.Mvc.Models.Manage
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
 
@@ -23,11 +24,13 @@ namespace Dub.Web.Mvc.Models.Manage
         /// <summary>
         /// Gets or sets list of logins which is associated with the user.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "The property is binded by MVC")]
         public IList<UserLoginInfo> Logins { get; set; }
 
         /// <summary>
         /// Gets or sets list of available providers.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "The property is binded by MVC")]
         public IList<AuthenticationDescription> OtherLogins { get; set; }
 
         /// <summary>

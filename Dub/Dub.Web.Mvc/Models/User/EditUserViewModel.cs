@@ -7,6 +7,7 @@
 namespace Dub.Web.Mvc.Models.User
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Diagnostics.CodeAnalysis;
     using Dub.Web.Mvc.Properties;
 
     /// <summary>
@@ -61,6 +62,7 @@ namespace Dub.Web.Mvc.Models.User
         /// Gets or sets roles for the user.
         /// </summary>
         [Display(Name = "FieldRoles", ResourceType = typeof(Resources))]
+        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Property is bound by MVC")]
         public string[] Roles { get; set; }
 
         /// <summary>

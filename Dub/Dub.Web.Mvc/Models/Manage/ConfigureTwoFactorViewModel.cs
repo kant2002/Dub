@@ -7,6 +7,7 @@
 namespace Dub.Web.Mvc.Models.Manage
 {
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Web.Mvc;
 
     /// <summary>
@@ -22,6 +23,7 @@ namespace Dub.Web.Mvc.Models.Manage
         /// <summary>
         /// Gets or sets list of available login providers.
         /// </summary>
+        [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "The property is binded by MVC")]
         public ICollection<SelectListItem> Providers { get; set; }
     }
 }

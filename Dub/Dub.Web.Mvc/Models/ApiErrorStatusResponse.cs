@@ -6,6 +6,8 @@
 
 namespace Dub.Web.Mvc.Models
 {
+    using System.Diagnostics.CodeAnalysis;
+
     /// <summary>
     /// Response object which contains errors
     /// </summary>
@@ -14,6 +16,7 @@ namespace Dub.Web.Mvc.Models
         /// <summary>
         /// Gets or sets error codes.
         /// </summary>
+        [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "The property is used as DTO.")]
         public string[] Errors { get; set; }
     }
 }
