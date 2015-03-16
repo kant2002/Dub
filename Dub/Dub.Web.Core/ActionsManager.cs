@@ -17,6 +17,11 @@ namespace Dub.Web.Core
     public class ActionsManager : IDisposable
     {
         /// <summary>
+        /// A value indicating that object is disposed.
+        /// </summary>
+        private bool disposed;
+
+        /// <summary>
         /// Action providers registers within this action manager.
         /// </summary>
         private List<IActionProvider> providers = new List<IActionProvider>();
@@ -42,6 +47,7 @@ namespace Dub.Web.Core
         /// <returns>Action descriptions.</returns>
         public IEnumerable<ActionDescription> GetActions(object item)
         {
+            this.ThrowIfDisposed();
             var providers = this.GetProviders(item);
             foreach (var provider in providers)
             {
@@ -60,6 +66,7 @@ namespace Dub.Web.Core
         /// <returns>True if operation on entity is allowed.</returns>
         public bool IsOperationAllowed(string commandId, object item)
         {
+            this.ThrowIfDisposed();
             var actions = this.GetActions(item);
             return actions.FirstOrDefault(_ => _.Id == commandId) != null;
         }
@@ -73,6 +80,7 @@ namespace Dub.Web.Core
         public bool IsOperationAllowed<T>(string commandId)
             where T : class, new()
         {
+            this.ThrowIfDisposed();
             return this.IsOperationAllowed(commandId, new T());
         }
 
@@ -82,15 +90,29 @@ namespace Dub.Web.Core
         /// <param name="provider">Action provider to register.</param>
         public void RegisterProvider(IActionProvider provider)
         {
+            this.ThrowIfDisposed();
             this.providers.Add(provider);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or
-        /// resetting unmanaged resources.
+        /// Dispose this object
         /// </summary>
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged resources and optionally releases managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !this.disposed)
+            {
+                this.disposed = true;
+            }
         }
 
         /// <summary>
@@ -106,6 +128,17 @@ namespace Dub.Web.Core
                 {
                     yield return provider;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Throws exception if object is disposed.
+        /// </summary>
+        private void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
             }
         }
     }

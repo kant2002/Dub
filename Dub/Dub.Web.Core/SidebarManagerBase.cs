@@ -15,6 +15,11 @@ namespace Dub.Web.Core
     public class SidebarManagerBase : IDisposable
     {
         /// <summary>
+        /// A value indicating that object is disposed.
+        /// </summary>
+        private bool disposed;
+
+        /// <summary>
         /// Root sidebar item.
         /// </summary>
         private SidebarItem rootItem;
@@ -39,6 +44,7 @@ namespace Dub.Web.Core
         /// <returns>Root sidebar items.</returns>
         public SidebarItem GetRootSidebarItem()
         {
+            this.ThrowIfDisposed();
             if (this.rootItem != null)
             {
                 return this.rootItem;
@@ -57,16 +63,30 @@ namespace Dub.Web.Core
         /// <returns>Sidebar item with requested id if exists, null otherwise.</returns>
         public SidebarItem FindById(string id)
         {
+            this.ThrowIfDisposed();
             var root = this.GetRootSidebarItem();
             return FindById(id, root);
         }
 
         /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or
-        /// resetting unmanaged resources.
+        /// Dispose this object
         /// </summary>
         public void Dispose()
         {
+            this.Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Releases unmanaged resources and optionally releases managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing && !this.disposed)
+            {
+                this.disposed = true;
+            }
         }
 
         /// <summary>
@@ -100,6 +120,17 @@ namespace Dub.Web.Core
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Throws exception if object is disposed.
+        /// </summary>
+        private void ThrowIfDisposed()
+        {
+            if (this.disposed)
+            {
+                throw new ObjectDisposedException(this.GetType().Name);
+            }
         }
     }
 }

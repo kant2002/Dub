@@ -27,7 +27,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <summary>
         /// Gets persistence store.
         /// </summary>
-        private GenericStore<TEntityKey, TEntity> Store
+        protected GenericStore<TEntityKey, TEntity> Store
         {
             get
             {
