@@ -135,6 +135,7 @@
     <Compile Include="Controllers\Api\ApiControllerBase.cs" />
     <Compile Include="Controllers\Api\ManageController.cs" />
     <Compile Include="Controllers\Api\UserController.cs" />
+    <Compile Include="Controllers\GenericEditController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserController.cs" />
