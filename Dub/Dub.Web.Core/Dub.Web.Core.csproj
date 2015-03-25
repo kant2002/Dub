@@ -66,6 +66,7 @@
     <Compile Include="ICollectionFilter.cs" />
     <Compile Include="ICollectionTransform.cs" />
     <Compile Include="IGenericStore.cs" />
+    <Compile Include="IHasOwner.cs" />
     <Compile Include="SimpleAudit.cs" />
     <Compile Include="ErrorLog.cs" />
     <Compile Include="ErrorsModel.cs" />

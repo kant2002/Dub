@@ -48,10 +48,18 @@ namespace Dub.Web.Core
         /// <param name="principal">Principal which attempts to retrieve list of actions.</param>
         /// <param name="item">Entity for which actions could be provided.</param>
         /// <returns>Sequence of <see cref="ActionDescription"/> objects which represents actions.</returns>
-        public IEnumerable<ActionDescription> GetActions(ClaimsPrincipal principal, object item)
+        public virtual IEnumerable<ActionDescription> GetActions(ClaimsPrincipal principal, object item)
         {
             dynamic ditem = item;
             bool isAllowed = this.roles.Any(_ => principal.IsInRole(_));
+            bool isAllowedEdit = isAllowed;
+            if (item is IHasOwner)
+            {
+                var ownerProvider = (IHasOwner)item;
+                var userId = principal.FindFirst(ClaimTypes.Sid).Value;
+                isAllowedEdit &= ownerProvider.UserId == userId;
+            }
+
             if (isAllowed)
             {
                 yield return new ActionDescription
@@ -65,6 +73,10 @@ namespace Dub.Web.Core
                     Action = "Create",
                     NotItemOperation = true,
                 };
+            }
+            
+            if (isAllowedEdit)
+            {
                 yield return new ActionDescription
                 {
                     Id = "Common.Edit",
