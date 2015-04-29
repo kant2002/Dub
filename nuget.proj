@@ -6,6 +6,7 @@
     <AssemblyName>MSBuildSample</AssemblyName>
     <NugetPath>Nuget\</NugetPath>
     <OutputPath>bin\</OutputPath>
+    <NugetCurrentPath>Nuget\archive\3.7.0\</NugetCurrentPath>
     <NugetOutputPath>Nuget\dist\</NugetOutputPath>
     <NugetTempPath>Nuget\dist\latest</NugetTempPath>
     <NugetSource>https://www.myget.org/F/dub-nightly/api/v2/package</NugetSource>
@@ -40,12 +41,19 @@
     <Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).xml')" DestinationFolder="$(OutputPath)" />
 	<Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).pdb')" DestinationFolder="$(OutputPath)" />
   </Target>
+
+  <ItemGroup>
+    <BuiltNugetFiles Include="$(NugetTempPath)\**\*.*"/>
+  </ItemGroup>
   
   <!-- Package Nuget files -->
   <Target Name="PackageNuget" DependsOnTargets="BuildSolution">
     <RemoveDir Directories="$(NugetTempPath)" Condition="Exists('$(NugetTempPath)')" />
     <MakeDir Directories="$(NugetTempPath)" Condition="!Exists('$(NugetTempPath)')" />
+    <RemoveDir Directories="$(NugetCurrentPath)" Condition="Exists('$(NugetCurrentPath)')" />
+    <MakeDir Directories="$(NugetCurrentPath)" Condition="!Exists('$(NugetCurrentPath)')" />
     <Exec Command="$(NugetPath)Nuget.exe pack $(NugetPath)%(NugetSpecFile.Identity) -OutputDirectory $(NugetTempPath)" />
+    <Copy SourceFiles="@(BuiltNugetFiles)" DestinationFolder="$(NugetCurrentPath)" />
   </Target>
 
   <Target Name="PublishNightly" DependsOnTargets="PackageNuget">
