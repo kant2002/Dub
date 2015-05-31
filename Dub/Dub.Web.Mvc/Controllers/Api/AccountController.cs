@@ -332,5 +332,16 @@ namespace Dub.Web.Mvc.Controllers.Api
             var result = this.StatusCode(ApiStatusCode.Ok);
             return Task.FromResult<IHttpActionResult>(result);
         }
+
+        /// <summary>
+        /// Create user from registration model.
+        /// </summary>
+        /// <param name="model">Model for the registration model.</param>
+        /// <returns>User corresponding to the model.</returns>
+        protected virtual TUser CreateUserFromRegistrationModel(RegisterViewModel model)
+        {
+            var user = new TUser { UserName = model.Email, Email = model.Email };
+            return user;
+        }
     }
 }

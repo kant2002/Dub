@@ -282,6 +282,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="model">Model with information required to change password.</param>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
+        [Route("manage/password")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
@@ -310,6 +311,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="model">Model with information required to set password.</param>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
+        [Route("manage/password/add")]
         public async Task<IHttpActionResult> SetPassword(SetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
