@@ -51,6 +51,18 @@ namespace Dub.Web.Core
         }
 
         /// <summary>
+        /// Gets database context.
+        /// </summary>
+        protected DbContext Context
+        {
+            get
+            {
+                this.ThrowIfDisposed();
+                return this.context;
+            }
+        }
+
+        /// <summary>
         /// Creates a new entity.
         /// </summary>
         /// <param name="entity">Message object to be persisted.</param>
