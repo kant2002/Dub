@@ -1,4 +1,10 @@
-﻿namespace Dub.Web.Mvc
+﻿// -----------------------------------------------------------------------
+// <copyright file="CordovaAuthenticationFilterAttribute.cs" company="Andrey Kurdiumov">
+// Copyright (c) Andrey Kurdiumov. All rights reserved.
+// </copyright>
+// -----------------------------------------------------------------------
+
+namespace Dub.Web.Mvc
 {
     using System;
     using System.Collections.Generic;
@@ -20,7 +26,7 @@
         public const string DefaultAuthenticationHeader = "X-Auth-Token";
 
         /// <summary>
-        /// Initialize a new instance of the <see cref="CordovaAuthenticationFilterAttribute"/> class.
+        /// Initializes a new instance of the <see cref="CordovaAuthenticationFilterAttribute"/> class.
         /// </summary>
         /// <param name="header">HTTP header used for the delivering authentication header.</param>
         public CordovaAuthenticationFilterAttribute(string header = DefaultAuthenticationHeader)
