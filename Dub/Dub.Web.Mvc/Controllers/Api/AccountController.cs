@@ -127,6 +127,18 @@ namespace Dub.Web.Mvc.Controllers.Api
         }
 
         /// <summary>
+        /// Logout from the service.
+        /// </summary>
+        /// <returns>Action result.</returns>
+        [HttpPost]
+        [Route("account/logout")]
+        public IHttpActionResult Logout()
+        {
+            this.SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return this.StatusCode(ApiStatusCode.Ok);
+        }
+
+        /// <summary>
         /// Performs verification of security code generated during two-factor authentication.
         /// </summary>
         /// <param name="model">Data for verify security code.</param>
