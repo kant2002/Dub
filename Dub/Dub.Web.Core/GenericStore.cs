@@ -7,7 +7,11 @@
 namespace Dub.Web.Core
 {
     using System;
+#if !NETCORE
     using System.Data.Entity;
+#else
+    using Microsoft.Data.Entity;
+#endif
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -17,7 +21,8 @@ namespace Dub.Web.Core
     /// <typeparam name="TEntityKey">Type of key for the entity.</typeparam>
     /// <typeparam name="TEntity">Type of entity to be persisted.</typeparam>
     public class GenericStore<TEntityKey, TEntity> : IGenericStore<TEntityKey, TEntity>
-        where TEntity : class
+        where TEntity : class, IHasKey<TEntityKey>
+        where TEntityKey : IEquatable<TEntityKey>
     {
         /// <summary>
         /// A value indicating that object is disposed.
@@ -94,7 +99,7 @@ namespace Dub.Web.Core
         public async Task<TEntity> FindByIdAsync(TEntityKey id)
         {
             this.ThrowIfDisposed();
-            return await this.context.Set<TEntity>().FindAsync(id);
+            return await this.context.Set<TEntity>().FirstOrDefaultAsync(_ => _.Id.Equals(id));
         }
 
         /// <summary>

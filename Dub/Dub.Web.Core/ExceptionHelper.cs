@@ -7,7 +7,9 @@
 namespace Dub.Web.Core
 {
     using System;
+#if !NETCORE
     using System.Data.Entity.Validation;
+#endif
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
@@ -18,6 +20,20 @@ namespace Dub.Web.Core
     public static class ExceptionHelper
     {
         /// <summary>
+        /// Model builder.
+        /// </summary>
+        private static Func<ErrorsModel> modelBuilder = BuildErrorsModel;
+
+        /// <summary>
+        /// Overrides the model builder with new value.
+        /// </summary>
+        /// <param name="builder">New value for the model builder.</param>
+        public static void SetModelBuilder(Func<ErrorsModel> builder)
+        {
+            modelBuilder = builder;
+        }
+
+        /// <summary>
         /// Publish exceptions async.
         /// </summary>
         /// <param name="userName">Name of the user.</param>
@@ -27,7 +43,7 @@ namespace Dub.Web.Core
         public static async Task PublishExceptionAsync(string userName, Exception ex, CancellationToken cancellationToken)
         {
             var errorMessage = FormatException(ex);
-            var context = new ErrorsModel();
+            var context = modelBuilder();
             var logEntry = new ErrorLog();
             logEntry.Created = DateTime.UtcNow;
             logEntry.ErrorMessage = errorMessage;
@@ -44,7 +60,7 @@ namespace Dub.Web.Core
         public static void PublishException(string userName, Exception ex)
         {
             var errorMessage = FormatException(ex);
-            var context = new ErrorsModel();
+            var context = modelBuilder();
             var logEntry = new ErrorLog();
             logEntry.Created = DateTime.UtcNow;
             logEntry.ErrorMessage = errorMessage;
@@ -65,11 +81,13 @@ namespace Dub.Web.Core
                 return string.Empty;
             }
 
+#if !NETCORE
             var databaseValidationException = ex as DbEntityValidationException;
             if (databaseValidationException != null)
             {
                 return FormatException(databaseValidationException);
             }
+#endif
 
             var newline = Environment.NewLine;
             var message = ex.Message + newline
@@ -87,6 +105,7 @@ namespace Dub.Web.Core
             return message;
         }
 
+#if !NETCORE
         /// <summary>
         /// Format exception to string.
         /// </summary>
@@ -124,6 +143,20 @@ namespace Dub.Web.Core
             }
 
             return message;
+        }
+#endif
+
+        /// <summary>
+        /// Builds the default errors model.
+        /// </summary>
+        /// <returns>Default errors model built.</returns>
+        private static ErrorsModel BuildErrorsModel()
+        {
+#if !NETCORE
+            return new ErrorsModel();
+#else
+            throw new NotImplementedException("Please implement function which will create your instance of ErrorsModel and use ExceptionHelper.SetModelBuilder to set it as default model builder.");
+#endif
         }
     }
 }

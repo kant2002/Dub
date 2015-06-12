@@ -124,7 +124,7 @@ namespace Dub.Web.Core
         {
             foreach (var provider in this.providers)
             {
-                if (provider.IsTypeSupported(item.GetType()))
+                if (provider.IsEntitySupported(item))
                 {
                     yield return provider;
                 }

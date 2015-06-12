@@ -10,7 +10,6 @@ namespace Dub.Web.Core
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
-    using Dub.Web.Core.Properties;
 
     /// <summary>
     /// Generic action provider for the entity editing.
@@ -24,22 +23,43 @@ namespace Dub.Web.Core
         private string[] roles;
 
         /// <summary>
+        /// Title for the action create.
+        /// </summary>
+        private string createActionTitle;
+
+        /// <summary>
+        /// Title for the action edit.
+        /// </summary>
+        private string editActionTitle;
+
+        /// <summary>
+        /// Title for the action delete.
+        /// </summary>
+        private string deleteActionTitle;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GenericEditActionProvider{T}"/> class.
         /// </summary>
+        /// <param name="createActionTitle">Title for the action create.</param>
+        /// <param name="editActionTitle">Title for the action edit.</param>
+        /// <param name="deleteActionTitle">Title for the action delete.</param>
         /// <param name="roles">Roles for which allowed editing entity.</param>
-        public GenericEditActionProvider(params string[] roles)
+        public GenericEditActionProvider(string createActionTitle = "Create", string editActionTitle = "Edit", string deleteActionTitle = "Delete", params string[] roles)
         {
+            this.createActionTitle = createActionTitle;
+            this.editActionTitle = editActionTitle;
+            this.deleteActionTitle = deleteActionTitle;
             this.roles = roles;
         }
 
         /// <summary>
-        /// Checks whether entity type is supported by this provider.
+        /// Checks whether entity is supported by this provider.
         /// </summary>
-        /// <param name="entityType">Type of the entity to check.</param>
-        /// <returns>True if action type is supported.</returns>
-        public bool IsTypeSupported(Type entityType)
+        /// <param name="entity">The entity to check.</param>
+        /// <returns>True if action type is supported on given entity.</returns>
+        public bool IsEntitySupported(object entity)
         {
-            return typeof(T).IsAssignableFrom(entityType);
+            return entity is T;
         }
 
         /// <summary>
@@ -68,7 +88,7 @@ namespace Dub.Web.Core
                     CssClass = "info",
                     SmallCssClass = "blue",
                     Icon = "fa-edit",
-                    Text = Resources.ActionCreate,
+                    Text = this.createActionTitle,
                     SortOrder = 10,
                     Action = "Create",
                     NotItemOperation = true,
@@ -83,7 +103,7 @@ namespace Dub.Web.Core
                     CssClass = "info",
                     SmallCssClass = "blue",
                     Icon = "fa-edit",
-                    Text = Resources.ActionEdit,
+                    Text = this.editActionTitle,
                     SortOrder = 10,
                     Action = "Edit",
                     RouteParameters = new { id = ditem.Id },
@@ -94,7 +114,7 @@ namespace Dub.Web.Core
                     CssClass = "danger",
                     SmallCssClass = "red",
                     Icon = "fa-remove",
-                    Text = Resources.ActionDelete,
+                    Text = this.deleteActionTitle,
                     SortOrder = 20,
                     Action = "Delete",
                     RouteParameters = new { id = ditem.Id },

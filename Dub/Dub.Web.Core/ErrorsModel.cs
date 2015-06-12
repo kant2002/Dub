@@ -6,13 +6,19 @@
 
 namespace Dub.Web.Core
 {
+#if !NETCORE
     using System.Data.Entity;
+#else
+    using Microsoft.Data.Entity;
+    using Microsoft.Data.Entity.Infrastructure;
+#endif
 
     /// <summary>
     /// Database model for the errors handling.
     /// </summary>
     public class ErrorsModel : DbContext
     {
+#if !NETCORE
         /// <summary>
         /// Initializes a new instance of the <see cref="ErrorsModel" /> class.
         /// </summary>
@@ -20,6 +26,16 @@ namespace Dub.Web.Core
             : base("name=ErrorsModel")
         {
         }
+#else
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ErrorsModel" /> class.
+        /// </summary>
+        /// <param name="options">The options for this context.</param>
+        public ErrorsModel(DbContextOptions options)
+            : base(options)
+        {
+        }
+#endif
 
         /// <summary>
         /// Gets or sets error logs which belongs to the given context.

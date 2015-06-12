@@ -22,7 +22,8 @@ namespace Dub.Web.Mvc.Controllers
     /// <typeparam name="TEntityKey">Type of key for the entity.</typeparam>
     /// <typeparam name="TEntity">Type of entity to be managed.</typeparam>
     public class GenericEditController<TEntityKey, TEntity> : Controller
-        where TEntity : class, new()
+        where TEntity : class, IHasKey<TEntityKey>, new()
+        where TEntityKey : IEquatable<TEntityKey>
     {
         /// <summary>
         /// Gets persistence store.

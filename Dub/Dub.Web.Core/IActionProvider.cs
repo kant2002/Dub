@@ -16,11 +16,11 @@ namespace Dub.Web.Core
     public interface IActionProvider
     {
         /// <summary>
-        /// Checks whether entity type is supported by this provider.
+        /// Checks whether entity is supported by this provider.
         /// </summary>
-        /// <param name="entityType">Type of the entity to check.</param>
-        /// <returns>True if action type is supported.</returns>
-        bool IsTypeSupported(Type entityType);
+        /// <param name="entity">The entity to check.</param>
+        /// <returns>True if action type is supported on given entity.</returns>
+        bool IsEntitySupported(object entity);
 
         /// <summary>
         /// Gets actions which action provider could add for given entity.

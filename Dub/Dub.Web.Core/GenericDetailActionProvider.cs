@@ -10,7 +10,6 @@ namespace Dub.Web.Core
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Claims;
-    using Dub.Web.Core.Properties;
 
     /// <summary>
     /// Generic action provider for the entity viewing.
@@ -29,24 +28,31 @@ namespace Dub.Web.Core
         private string actionName;
 
         /// <summary>
+        /// Human readable name of the action to view.
+        /// </summary>
+        private string actionTitle;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="GenericDetailActionProvider{T}"/> class.
         /// </summary>
         /// <param name="actionName">Name of the action for viewing.</param>
+        /// <param name="actionTitle">Human readable name of the title.</param>
         /// <param name="roles">Roles for which allowed viewing entity.</param>
-        public GenericDetailActionProvider(string actionName, params string[] roles)
+        public GenericDetailActionProvider(string actionName, string actionTitle = "Details", params string[] roles)
         {
             this.actionName = actionName;
+            this.actionTitle = actionTitle;
             this.roles = roles;
         }
 
         /// <summary>
-        /// Checks whether entity type is supported by this provider.
+        /// Checks whether entity is supported by this provider.
         /// </summary>
-        /// <param name="entityType">Type of the entity to check.</param>
-        /// <returns>True if action type is supported.</returns>
-        public bool IsTypeSupported(Type entityType)
+        /// <param name="entity">The entity to check.</param>
+        /// <returns>True if action type is supported on given entity.</returns>
+        public bool IsEntitySupported(object entity)
         {
-            return typeof(T).IsAssignableFrom(entityType);
+            return entity is T;
         }
 
         /// <summary>
@@ -67,7 +73,7 @@ namespace Dub.Web.Core
                     CssClass = "info",
                     SmallCssClass = "blue",
                     Icon = "fa-eye",
-                    Text = Resources.ActionDetails,
+                    Text = this.actionTitle,
                     SortOrder = 10,
                     Action = this.actionName,
                     RouteParameters = new { id = ditem.Id },

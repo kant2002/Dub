@@ -7,12 +7,18 @@
 namespace Dub.Web.Core
 {
     using System;
+#if !NETCORE
     using System.ComponentModel.DataAnnotations.Schema;
+#else
+    using Microsoft.Data.Entity.Metadata.ModelConventions;
+#endif
 
     /// <summary>
     /// Complex type which describe simple audit entities in the database.
     /// </summary>
+#if !NETCORE
     [ComplexType]
+#endif
     public class SimpleAudit
     {
         /// <summary>
