@@ -6,17 +6,13 @@
 
 namespace Dub.Web.Mvc.Controllers.Api
 {
-    using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using System.Web.Http;
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
-    using Microsoft.Owin.Security;
 
     /// <summary>
     /// API User controller.
@@ -69,11 +65,13 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <summary>
         /// Returns list of the users.
         /// </summary>
+        /// <param name="offset">Page of the data to return.</param>
+        /// <param name="pageSize">Size of the page.</param>
         /// <param name="displayParameters">Model for the applying filtering parameters to the list.</param>
         /// <returns>Result which returns the list of the users which match the requested criteria.</returns>
         [HttpGet]
         [Route("users")]
-        public IHttpActionResult Get(TUserFilter displayParameters)
+        public IHttpActionResult Get(int offset, int pageSize, TUserFilter displayParameters)
         {
             if (!this.ModelState.IsValid)
             {
@@ -82,7 +80,7 @@ namespace Dub.Web.Mvc.Controllers.Api
 
             displayParameters = displayParameters ?? new TUserFilter();
             var sourceData = this.GetUsers();
-            var preparedData = this.Filter(sourceData, displayParameters, null, true, 0, 10);
+            var preparedData = this.Filter(sourceData, displayParameters, null, true, offset, pageSize);
             var transformedData = displayParameters.Transform(preparedData);
             return this.Ok(transformedData.ToArray());
         }
