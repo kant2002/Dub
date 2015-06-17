@@ -90,5 +90,15 @@ namespace Dub.Web.Mvc.Controllers.Api
             var pagedCollection = sortedCollection.Skip(startRow).Take(pageSize);
             return pagedCollection;
         }
+
+        /// <summary>
+        /// Get OWIN variable from request.
+        /// </summary>
+        /// <typeparam name="T">Type of the element.</typeparam>
+        /// <returns>Element of the given type from the request context.</returns>
+        protected internal T GetOwinValiable<T>()
+        {
+            return (T)this.OwinContext.Request.Environment["AspNet.Identity.Owin:" + typeof(T).AssemblyQualifiedName];
+        }
     }
 }
