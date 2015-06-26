@@ -28,6 +28,11 @@ namespace Dub.Web.Identity
         }
 
         /// <summary>
+        /// Event which fired when user is created.
+        /// </summary>
+        public event Action<T> Created;
+
+        /// <summary>
         /// Create a user with no password
         /// </summary>
         /// <param name="user">User which should be created.</param>
@@ -142,6 +147,19 @@ namespace Dub.Web.Identity
             }
 
             return Enumerable.Empty<T>().AsQueryable();
+        }
+
+        /// <summary>
+        /// Releases unmanaged resources and optionally releases managed resources.
+        /// </summary>
+        /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                this.Created = null;
+            }
         }
     }
 }
