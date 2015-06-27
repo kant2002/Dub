@@ -6,12 +6,9 @@
 
 namespace Dub.Web.Mvc
 {
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Mvc;
-#else
-    using Microsoft.AspNet.Mvc;
-#endif
     using Microsoft.Owin.Security;
 
     /// <summary>
@@ -84,4 +81,5 @@ namespace Dub.Web.Mvc
             context.HttpContext.GetOwinContext().Authentication.Challenge(properties, this.LoginProvider);
         }
     }
+#endif
 }

@@ -9,7 +9,11 @@ namespace Dub.Web.Mvc.Models.Manage
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.Owin.Security;
+#else
+    using Microsoft.AspNet.Http.Authentication;
+#endif
 
     /// <summary>
     /// View model for managing logins from different providers.

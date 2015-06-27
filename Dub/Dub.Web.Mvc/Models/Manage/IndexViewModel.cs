@@ -10,7 +10,9 @@ namespace Dub.Web.Mvc.Models.Manage
     using System.ComponentModel.DataAnnotations;
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.Owin.Security;
+#endif
 
     /// <summary>
     /// View model for the main account view page.

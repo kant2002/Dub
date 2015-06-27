@@ -12,25 +12,28 @@ namespace Dub.Web.Mvc.Controllers
     using System.Net.Mail;
 #endif
     using System.Threading.Tasks;
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Mvc;
 #endif
+    using System.Security.Claims;
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
     using Dub.Web.Mvc.Properties;
 #if NETCORE
+    using Microsoft.AspNet.Authentication;
     using Microsoft.AspNet.Authorization;
+    using Microsoft.AspNet.Mvc.Rendering;
 #endif
     using Microsoft.AspNet.Identity;
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
 #endif
 #if NETCORE
     using Microsoft.AspNet.Mvc;
 #endif
-    using Microsoft.Owin.Security;
 
     /// <summary>
     /// Account controller.
@@ -51,6 +54,7 @@ namespace Dub.Web.Mvc.Controllers
 #endif
         where TRegistrationModel : RegisterViewModel
     {
+#if !NETCORE
         /// <summary>
         /// Sign-in manager.
         /// </summary>
@@ -67,7 +71,7 @@ namespace Dub.Web.Mvc.Controllers
         public AccountController()
         {
         }
-
+#endif
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController{TUser,TSignInManager,TUserManager,TRegistrationModel}"/> class.
         /// </summary>
@@ -79,6 +83,7 @@ namespace Dub.Web.Mvc.Controllers
             this.SignInManager = signInManager;
         }
 
+#if !NETCORE
         /// <summary>
         /// Gets sign-in manager.
         /// </summary>
@@ -121,6 +126,17 @@ namespace Dub.Web.Mvc.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+#else
+        /// <summary>
+        /// Gets sign-in manager.
+        /// </summary>
+        public TSignInManager SignInManager { get; set; }
+
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Shows login page for entering login information.
@@ -201,12 +217,22 @@ namespace Dub.Web.Mvc.Controllers
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
+#if !NETCORE
             // Require that the user has already logged in via username/password or external login
             if (!await this.SignInManager.HasBeenVerifiedAsync())
             {
                 return this.View("Error");
             }
+#else
+            var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                return View("Error");
+            }
 
+            // Remove before production
+            // ViewBag.Status = "For DEMO purposes the current " + provider + " code is: " + await UserManager.GenerateTwoFactorTokenAsync(user, provider);
+#endif
             return this.View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
@@ -304,6 +330,7 @@ namespace Dub.Web.Mvc.Controllers
 
             // Send an email with confirmation link
             string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(userIdentity);
+#if !NETCORE || SUPPORT_SMTP
             try
             {
                 await this.SendRegistrationEmail(user, code);
@@ -315,6 +342,7 @@ namespace Dub.Web.Mvc.Controllers
                     ex);
                 ExceptionHelper.PublishException("system", exceptionToPublish);
             }
+#endif
 
             return this.RedirectToAction("Index", "Home");
         }
@@ -494,7 +522,13 @@ namespace Dub.Web.Mvc.Controllers
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
             // Request a redirect to the external login provider
-            return new ChallengeResult(provider, this.Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+            var redirectUrl = this.Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl });
+#if !NETCORE
+            return new ChallengeResult(provider, redirectUrl);
+#else
+            var properties = this.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+            return new ChallengeResult(provider, properties);
+#endif
         }
 
         /// <summary>
@@ -507,7 +541,11 @@ namespace Dub.Web.Mvc.Controllers
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> SendCode(string returnUrl, bool rememberMe)
         {
+#if !NETCORE
             var userId = await this.SignInManager.GetVerifiedUserIdAsync();
+#else
+            var userId = await this.SignInManager.GetTwoFactorAuthenticationUserAsync();
+#endif
             if (userId == null)
             {
                 return this.View("Error");
@@ -533,11 +571,36 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View();
             }
 
+#if !NETCORE
             // Generate the token and send it
             if (!await this.SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
                 return this.View("Error");
             }
+#else
+            var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            // Generate the token and send it
+            var code = await UserManager.GenerateTwoFactorTokenAsync(user, model.SelectedProvider);
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return View("Error");
+            }
+
+            var message = "Your security code is: " + code;
+            if (model.SelectedProvider == "Email")
+            {
+                await MessageServices.SendEmailAsync(await UserManager.GetEmailAsync(user), "Security Code", message);
+            }
+            else if (model.SelectedProvider == "Phone")
+            {
+                await MessageServices.SendSmsAsync(await UserManager.GetPhoneNumberAsync(user), message);
+            }
+#endif
 
             return this.RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
         }
@@ -551,6 +614,7 @@ namespace Dub.Web.Mvc.Controllers
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "0#", Justification = "This design imposed by the Mvc")]
         public async Task<ActionResult> ExternalLoginCallback(string returnUrl)
         {
+#if !NETCORE
             var loginInfo = await this.AuthenticationManager.GetExternalLoginInfoAsync();
             if (loginInfo == null)
             {
@@ -574,6 +638,38 @@ namespace Dub.Web.Mvc.Controllers
                     this.ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
                     return this.View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
             }
+#else
+            var info = await SignInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return this.RedirectToAction("Login");
+            }
+
+            // Sign in the user with this external login provider if the user already has a login
+            var result = await this.SignInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey,
+                isPersistent: false);
+            if (result.Succeeded)
+            {
+                return this.RedirectToLocal(returnUrl);
+            }
+            if (result.RequiresTwoFactor)
+            {
+                return this.RedirectToAction("SendCode", new { ReturnUrl = returnUrl });
+            }
+            if (result.IsLockedOut)
+            {
+                return this.View("Lockout");
+            }
+            else
+            {
+                // If the user does not have an account, then prompt the user to create an account
+                this.ViewBag.ReturnUrl = returnUrl;
+                this.ViewBag.LoginProvider = info.LoginProvider;
+                // REVIEW: handle case where email not in claims?
+                var email = info.ExternalPrincipal.FindFirstValue(ClaimTypes.Email);
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
+            }
+#endif
         }
 
         /// <summary>
@@ -593,32 +689,51 @@ namespace Dub.Web.Mvc.Controllers
                 return this.RedirectToAction("Index", "Manage");
             }
 
-            if (this.ModelState.IsValid)
+            if (!this.ModelState.IsValid)
             {
-                // Get the information about the user from the external login provider
-                var info = await this.AuthenticationManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return this.View("ExternalLoginFailure");
-                }
 
-                var user = new TUser { UserName = model.Email, Email = model.Email };
-                var result = await this.UserManager.CreateAsync(user);
-                if (result.Succeeded)
-                {
-                    result = await this.UserManager.AddLoginAsync(user.Id, info.Login);
-                    if (result.Succeeded)
-                    {
-                        await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                        return this.RedirectToLocal(returnUrl);
-                    }
-                }
-
-                this.AddErrors(result);
+                this.ViewBag.ReturnUrl = returnUrl;
+                return this.View(model);
             }
 
-            this.ViewBag.ReturnUrl = returnUrl;
-            return this.View(model);
+            // Get the information about the user from the external login provider
+#if !NETCORE
+            var info = await this.AuthenticationManager.GetExternalLoginInfoAsync();
+#else
+            var info = await this.SignInManager.GetExternalLoginInfoAsync();
+#endif
+            if (info == null)
+            {
+                return this.View("ExternalLoginFailure");
+            }
+
+            var user = new TUser { UserName = model.Email, Email = model.Email };
+            var result = await this.UserManager.CreateAsync(user);
+            if (!result.Succeeded)
+            {
+                this.AddErrors(result);
+                this.ViewBag.ReturnUrl = returnUrl;
+                return View(model);
+            }
+
+#if !NETCORE
+            result = await this.UserManager.AddLoginAsync(user.Id, info.Login);
+#else
+            result = await this.UserManager.AddLoginAsync(user, info);
+#endif
+            if (!result.Succeeded)
+            {
+                this.AddErrors(result);
+                this.ViewBag.ReturnUrl = returnUrl;
+                return View(model);
+            }
+
+#if !NETCORE
+            await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+#else
+            await this.SignInManager.SignInAsync(user, isPersistent: false);
+#endif
+            return this.RedirectToLocal(returnUrl);
         }
 
         /// <summary>
@@ -629,7 +744,11 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+#if !NETCORE
             this.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+#else
+            this.SignInManager.SignOut();
+#endif
             return this.RedirectToAction("Index", "Home");
         }
 
@@ -670,8 +789,13 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Asynchronously send forgot password email.</returns>
         protected virtual async Task SendForgotPasswordEmail(TUser user, string code)
         {
+#if !NETCORE
             var callbackUrl = this.Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
             await this.UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#else
+            var callbackUrl = this.Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Scheme);
+            await MessageServices.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#endif
         }
 
         /// <summary>
@@ -682,8 +806,13 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Asynchronous task which sends registration email.</returns>
         protected virtual async Task SendRegistrationEmail(TUser user, string code)
         {
+#if !NETCORE
             var callbackUrl = this.Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
             await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#else
+            var callbackUrl = this.Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Scheme);
+            await MessageServices.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#endif
         }
 
         /// <summary>
@@ -717,9 +846,6 @@ namespace Dub.Web.Mvc.Controllers
                     this.signInManager.Dispose();
                     this.signInManager = null;
                 }
-#else
-                this.userManager = null;
-                this.signInManager = null;
 #endif
             }
 

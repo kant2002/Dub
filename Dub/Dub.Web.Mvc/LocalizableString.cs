@@ -41,7 +41,6 @@ namespace Dub.Web.Mvc
         /// Initializes a new instance of the <see cref="LocalizableString"/> class.
         /// </summary>
         /// <param name="propertyName">Name of the property.</param>
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
         public LocalizableString(string propertyName)
         {
             this.propertyName = propertyName;
@@ -52,7 +51,6 @@ namespace Dub.Web.Mvc
         /// </summary>
         public string Value
         {
-            [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
             get
             {
                 return this.propertyValue;
@@ -73,7 +71,6 @@ namespace Dub.Web.Mvc
         /// </summary>
         public Type ResourceType
         {
-            [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
             get
             {
                 return this.resourceType;

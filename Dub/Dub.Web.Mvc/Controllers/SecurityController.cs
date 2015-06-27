@@ -7,8 +7,8 @@
 namespace Dub.Web.Mvc.Controllers
 {
     using System.Threading.Tasks;
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Mvc;
 #endif
     using AutoMapper;

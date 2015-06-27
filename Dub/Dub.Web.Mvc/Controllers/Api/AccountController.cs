@@ -22,8 +22,8 @@ namespace Dub.Web.Mvc.Controllers.Api
 #if NETCORE
     using Microsoft.AspNet.Mvc;
 #endif
-    using Microsoft.Owin.Security;
 #if !NETCORE
+    using Microsoft.Owin.Security;
     using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
 
@@ -105,17 +105,6 @@ namespace Dub.Web.Mvc.Controllers.Api
                 this.userManager = value;
             }
         }
-#else
-        /// <summary>
-        /// Gets sign-in manager.
-        /// </summary>
-        public TSignInManager SignInManager { get; set; }
-
-        /// <summary>
-        /// Gets user manager.
-        /// </summary>
-        public TUserManager UserManager { get; set; }
-#endif
 
         /// <summary>
         /// Gets authentication manager.
@@ -127,6 +116,17 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.OwinContext.Authentication;
             }
         }
+#else
+        /// <summary>
+        /// Gets sign-in manager.
+        /// </summary>
+        public TSignInManager SignInManager { get; set; }
+
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Performs registration of the API.
@@ -184,10 +184,10 @@ namespace Dub.Web.Mvc.Controllers.Api
         [Route("account/logout")]
         public IActionResult Logout()
         {
-#if NETCORE
-            this.AuthenticationManager.SignOut();
-#else
+#if !NETCORE
             this.SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+#else
+            this.SignInManager.SignOut();
 #endif
             return this.StatusCode(ApiStatusCode.Ok);
         }
@@ -355,6 +355,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
+#if !NETCORE
             // Generate the token and send it
             if (!await this.SignInManager.SendTwoFactorCodeAsync(model.SelectedProvider))
             {
@@ -362,6 +363,32 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             return this.StatusCode(ApiStatusCode.Ok);
+#else
+            var user = await this.SignInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                return this.View("Error");
+            }
+
+            // Generate the token and send it
+            var code = await this.UserManager.GenerateTwoFactorTokenAsync(user, model.SelectedProvider);
+            if (string.IsNullOrWhiteSpace(code))
+            {
+                return this.View("Error");
+            }
+
+            var message = "Your security code is: " + code;
+            if (model.SelectedProvider == "Email")
+            {
+                await MessageServices.SendEmailAsync(await UserManager.GetEmailAsync(user), "Security Code", message);
+            }
+            else if (model.SelectedProvider == "Phone")
+            {
+                await MessageServices.SendSmsAsync(await UserManager.GetPhoneNumberAsync(user), message);
+            }
+
+            return this.RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+#endif
         }
 
         /// <summary>
@@ -382,7 +409,11 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             // Get the information about the user from the external login provider
+#if !NETCORE
             var info = await this.AuthenticationManager.GetExternalLoginInfoAsync();
+#else
+            var info = await this.SignInManager.GetExternalLoginInfoAsync();
+#endif
             if (info == null)
             {
                 return this.StatusCode(ApiStatusCode.OperationFailed);
@@ -395,7 +426,11 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
             }
 
+#if !NETCORE
             result = await this.UserManager.AddLoginAsync(user.Id, info.Login);
+#else
+            result = await this.UserManager.AddLoginAsync(user, info);
+#endif
             if (!result.Succeeded)
             {
                 return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
@@ -419,7 +454,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         protected virtual async Task SendForgotPasswordEmail(TUser user, string code)
         {
             var callbackUrl = this.Url.Link("Default", new { @controller = "ResetPassword", @action = "Account", userId = user.Id, code = code });
+#if !NETCORE
             await this.UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#else
+            await MessageServices.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#endif
         }
 
         /// <summary>
@@ -431,7 +470,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         protected virtual async Task SendRegistrationEmail(TUser user, string code)
         {
             var callbackUrl = this.Url.Link("Default", new { @controller = "ConfirmEmail", @action = "Account", userId = user.Id, code = code });
+#if !NETCORE
             await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#else
+            await MessageServices.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#endif
         }
 
         /// <summary>

@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Mvc
 {
+#if !NETCORE
     using System.Collections.Generic;
     using System.Web.Http.Controllers;
     using System.Web.Http.Routing;
@@ -25,4 +26,5 @@ namespace Dub.Web.Mvc
             return actionDescriptor.GetCustomAttributes<IDirectRouteFactory>(true);
         }
     }
+#endif
 }

@@ -127,10 +127,10 @@
           "lib/dnx451/Microsoft.AspNet.Authentication.dll": {}
         }
       },
-      "Microsoft.AspNet.Authentication.Cookies/1.0.0-beta6-12600": {
+      "Microsoft.AspNet.Authentication.Cookies/1.0.0-beta6-12589": {
         "dependencies": {
-          "Microsoft.AspNet.Authentication": "1.0.0-beta6-12600",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta6-11657",
+          "Microsoft.AspNet.Authentication": "1.0.0-beta6-12589",
+          "Microsoft.Framework.WebEncoders": "1.0.0-beta6-11650",
           "Newtonsoft.Json": "6.0.6"
         },
         "frameworkAssemblies": [
@@ -199,9 +199,9 @@
           "lib/dnx451/Microsoft.AspNet.Cryptography.Internal.dll": {}
         }
       },
-      "Microsoft.AspNet.Cryptography.KeyDerivation/1.0.0-beta6-11547": {
+      "Microsoft.AspNet.Cryptography.KeyDerivation/1.0.0-beta6-11538": {
         "dependencies": {
-          "Microsoft.AspNet.Cryptography.Internal": "1.0.0-beta6-11547"
+          "Microsoft.AspNet.Cryptography.Internal": "1.0.0-beta6-11538"
         },
         "frameworkAssemblies": [
           "mscorlib",
@@ -340,10 +340,10 @@
           "lib/dnx451/Microsoft.AspNet.Http.dll": {}
         }
       },
-      "Microsoft.AspNet.Http.Abstractions/1.0.0-beta6-11650": {
+      "Microsoft.AspNet.Http.Abstractions/1.0.0-beta6-11657": {
         "dependencies": {
-          "Microsoft.AspNet.Http.Features": "1.0.0-beta6-11650",
-          "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta6-11650"
+          "Microsoft.AspNet.Http.Features": "1.0.0-beta6-11657",
+          "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta6-11657"
         },
         "frameworkAssemblies": [
           "mscorlib",
@@ -377,7 +377,7 @@
           "lib/dnx451/Microsoft.AspNet.Http.Extensions.dll": {}
         }
       },
-      "Microsoft.AspNet.Http.Features/1.0.0-beta6-11650": {
+      "Microsoft.AspNet.Http.Features/1.0.0-beta6-11657": {
         "frameworkAssemblies": [
           "mscorlib",
           "System",
@@ -391,12 +391,12 @@
           "lib/dnx451/Microsoft.AspNet.Http.Features.dll": {}
         }
       },
-      "Microsoft.AspNet.Identity/3.0.0-beta6-12642": {
+      "Microsoft.AspNet.Identity/3.0.0-beta6-12632": {
         "dependencies": {
-          "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta6-12600",
-          "Microsoft.AspNet.Cryptography.KeyDerivation": "1.0.0-beta6-11547",
-          "Microsoft.AspNet.DataProtection": "1.0.0-beta6-11547",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta6-12040"
+          "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta6-12589",
+          "Microsoft.AspNet.Cryptography.KeyDerivation": "1.0.0-beta6-11538",
+          "Microsoft.AspNet.DataProtection": "1.0.0-beta6-11538",
+          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta6-12025"
         },
         "frameworkAssemblies": [
           "mscorlib",
@@ -955,10 +955,10 @@
           "lib/dnxcore50/Microsoft.AspNet.Authentication.dll": {}
         }
       },
-      "Microsoft.AspNet.Authentication.Cookies/1.0.0-beta6-12600": {
+      "Microsoft.AspNet.Authentication.Cookies/1.0.0-beta6-12589": {
         "dependencies": {
-          "Microsoft.AspNet.Authentication": "1.0.0-beta6-12600",
-          "Microsoft.Framework.WebEncoders": "1.0.0-beta6-11657",
+          "Microsoft.AspNet.Authentication": "1.0.0-beta6-12589",
+          "Microsoft.Framework.WebEncoders": "1.0.0-beta6-11650",
           "Newtonsoft.Json": "6.0.6"
         },
         "compile": {
@@ -1014,9 +1014,9 @@
           "lib/dnxcore50/Microsoft.AspNet.Cryptography.Internal.dll": {}
         }
       },
-      "Microsoft.AspNet.Cryptography.KeyDerivation/1.0.0-beta6-11547": {
+      "Microsoft.AspNet.Cryptography.KeyDerivation/1.0.0-beta6-11538": {
         "dependencies": {
-          "Microsoft.AspNet.Cryptography.Internal": "1.0.0-beta6-11547",
+          "Microsoft.AspNet.Cryptography.Internal": "1.0.0-beta6-11538",
           "System.Runtime.Extensions": "4.0.10-beta-23021",
           "System.Security.Cryptography.Hashing": "4.0.0-beta-23021",
           "System.Security.Cryptography.Hashing.Algorithms": "4.0.0-beta-23021",
@@ -1144,10 +1144,10 @@
           "lib/dnxcore50/Microsoft.AspNet.Http.dll": {}
         }
       },
-      "Microsoft.AspNet.Http.Abstractions/1.0.0-beta6-11650": {
+      "Microsoft.AspNet.Http.Abstractions/1.0.0-beta6-11657": {
         "dependencies": {
-          "Microsoft.AspNet.Http.Features": "1.0.0-beta6-11650",
-          "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta6-11650",
+          "Microsoft.AspNet.Http.Features": "1.0.0-beta6-11657",
+          "Microsoft.Framework.WebEncoders.Core": "1.0.0-beta6-11657",
           "System.Collections": "4.0.10-beta-23021",
           "System.Diagnostics.Tools": "4.0.0-beta-23021",
           "System.Globalization": "4.0.10-beta-23021",
@@ -1187,7 +1187,7 @@
           "lib/dnxcore50/Microsoft.AspNet.Http.Extensions.dll": {}
         }
       },
-      "Microsoft.AspNet.Http.Features/1.0.0-beta6-11650": {
+      "Microsoft.AspNet.Http.Features/1.0.0-beta6-11657": {
         "dependencies": {
           "System.Collections": "4.0.10-beta-23021",
           "System.Net.Primitives": "4.0.10-beta-23021",
@@ -1204,12 +1204,12 @@
           "lib/dnxcore50/Microsoft.AspNet.Http.Features.dll": {}
         }
       },
-      "Microsoft.AspNet.Identity/3.0.0-beta6-12642": {
+      "Microsoft.AspNet.Identity/3.0.0-beta6-12632": {
         "dependencies": {
-          "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta6-12600",
-          "Microsoft.AspNet.Cryptography.KeyDerivation": "1.0.0-beta6-11547",
-          "Microsoft.AspNet.DataProtection": "1.0.0-beta6-11547",
-          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta6-12040",
+          "Microsoft.AspNet.Authentication.Cookies": "1.0.0-beta6-12589",
+          "Microsoft.AspNet.Cryptography.KeyDerivation": "1.0.0-beta6-11538",
+          "Microsoft.AspNet.DataProtection": "1.0.0-beta6-11538",
+          "Microsoft.AspNet.Hosting.Abstractions": "1.0.0-beta6-12025",
           "System.Collections": "4.0.10-beta-23021",
           "System.ComponentModel": "4.0.0-beta-23021",
           "System.Diagnostics.Debug": "4.0.10-beta-23021",
@@ -2843,12 +2843,12 @@
         "lib/dnxcore50/Microsoft.AspNet.Authentication.xml"
       ]
     },
-    "Microsoft.AspNet.Authentication.Cookies/1.0.0-beta6-12600": {
+    "Microsoft.AspNet.Authentication.Cookies/1.0.0-beta6-12589": {
       "serviceable": true,
-      "sha512": "53RoYDBVoCy8iuyzlp+TnfW0aHjXTfgl+Ryhw5AK8ZODLhrrt2CloPdABVOXJUdSsi1y1f6BYZG79goCMZCi+g==",
+      "sha512": "TQm+ZsBKtJfXyFkyVymKLDalRr3TOdim5C4wBHmv5mHumpCqYVpdRLyRsUPhCaNi/20BGAw4HAV3RUOyRAUiSQ==",
       "files": [
-        "Microsoft.AspNet.Authentication.Cookies.1.0.0-beta6-12600.nupkg",
-        "Microsoft.AspNet.Authentication.Cookies.1.0.0-beta6-12600.nupkg.sha512",
+        "Microsoft.AspNet.Authentication.Cookies.1.0.0-beta6-12589.nupkg",
+        "Microsoft.AspNet.Authentication.Cookies.1.0.0-beta6-12589.nupkg.sha512",
         "Microsoft.AspNet.Authentication.Cookies.nuspec",
         "lib/dnx451/Microsoft.AspNet.Authentication.Cookies.dll",
         "lib/dnx451/Microsoft.AspNet.Authentication.Cookies.xml",
@@ -2897,12 +2897,12 @@
         "lib/net451/Microsoft.AspNet.Cryptography.Internal.xml"
       ]
     },
-    "Microsoft.AspNet.Cryptography.KeyDerivation/1.0.0-beta6-11547": {
+    "Microsoft.AspNet.Cryptography.KeyDerivation/1.0.0-beta6-11538": {
       "serviceable": true,
-      "sha512": "w6jvn9sJgIjyr10mYicYS88WBw06uWAbmxLV9zxS9pzoNskXueVY9VmBwZQhcAGrarusKXZRKn+34SsjIxtu4g==",
+      "sha512": "ZgWT1Y9UQC9TVBVR8Pth3jh5IOd1gwHmB2HL+ZZ98CHO/99gj03Izg4hnsDBcH2OByQKQ5zlDYArKZIN5RKBsw==",
       "files": [
-        "Microsoft.AspNet.Cryptography.KeyDerivation.1.0.0-beta6-11547.nupkg",
-        "Microsoft.AspNet.Cryptography.KeyDerivation.1.0.0-beta6-11547.nupkg.sha512",
+        "Microsoft.AspNet.Cryptography.KeyDerivation.1.0.0-beta6-11538.nupkg",
+        "Microsoft.AspNet.Cryptography.KeyDerivation.1.0.0-beta6-11538.nupkg.sha512",
         "Microsoft.AspNet.Cryptography.KeyDerivation.nuspec",
         "lib/dnx451/Microsoft.AspNet.Cryptography.KeyDerivation.dll",
         "lib/dnx451/Microsoft.AspNet.Cryptography.KeyDerivation.xml",
@@ -3009,12 +3009,12 @@
         "lib/dnxcore50/Microsoft.AspNet.Http.xml"
       ]
     },
-    "Microsoft.AspNet.Http.Abstractions/1.0.0-beta6-11650": {
+    "Microsoft.AspNet.Http.Abstractions/1.0.0-beta6-11657": {
       "serviceable": true,
-      "sha512": "Y4+c0dxyDLn0ho64ey3djIirNgzjX6o7cqg/rw21OBJqqLVXLiJqFYqKvHOgyKInNSX1jSEQwMz8KgPNq0WNcA==",
+      "sha512": "JbiiVHuJcyknwOickfkdGKt2C+N5eW5u89QHFNRbLynEoJZ8X4fkz4OjLddEW5X/qAWkUdjPqbQlYdsV8nN9sw==",
       "files": [
-        "Microsoft.AspNet.Http.Abstractions.1.0.0-beta6-11650.nupkg",
-        "Microsoft.AspNet.Http.Abstractions.1.0.0-beta6-11650.nupkg.sha512",
+        "Microsoft.AspNet.Http.Abstractions.1.0.0-beta6-11657.nupkg",
+        "Microsoft.AspNet.Http.Abstractions.1.0.0-beta6-11657.nupkg.sha512",
         "Microsoft.AspNet.Http.Abstractions.nuspec",
         "lib/dnx451/Microsoft.AspNet.Http.Abstractions.dll",
         "lib/dnx451/Microsoft.AspNet.Http.Abstractions.xml",
@@ -3035,12 +3035,12 @@
         "lib/dnxcore50/Microsoft.AspNet.Http.Extensions.xml"
       ]
     },
-    "Microsoft.AspNet.Http.Features/1.0.0-beta6-11650": {
+    "Microsoft.AspNet.Http.Features/1.0.0-beta6-11657": {
       "serviceable": true,
-      "sha512": "1cXTzMsIa1b/6OcQIyqESrse/FanFpyGzKSVhpScMjXNMgnkKDwVMQ7cX0mHT7JY4ER5WnGR0jcdISC86Op/+g==",
+      "sha512": "OH4/GCawI5+7sukdgYW85ZAGYv3EIp28YngzHg4Mpzi4u4iaDqaioIozZZVwqnx1A6u/EQDXZTwu/et+584p3w==",
       "files": [
-        "Microsoft.AspNet.Http.Features.1.0.0-beta6-11650.nupkg",
-        "Microsoft.AspNet.Http.Features.1.0.0-beta6-11650.nupkg.sha512",
+        "Microsoft.AspNet.Http.Features.1.0.0-beta6-11657.nupkg",
+        "Microsoft.AspNet.Http.Features.1.0.0-beta6-11657.nupkg.sha512",
         "Microsoft.AspNet.Http.Features.nuspec",
         "lib/dnx451/Microsoft.AspNet.Http.Features.dll",
         "lib/dnx451/Microsoft.AspNet.Http.Features.xml",
@@ -3048,12 +3048,12 @@
         "lib/dnxcore50/Microsoft.AspNet.Http.Features.xml"
       ]
     },
-    "Microsoft.AspNet.Identity/3.0.0-beta6-12642": {
+    "Microsoft.AspNet.Identity/3.0.0-beta6-12632": {
       "serviceable": true,
-      "sha512": "qlDuL+LMYVIs6F0bN0/1ULfLX9LDKn4HKVc5GFPGHHiEXc4gfk8SJvECYaNWc1oZifUXcXPPGSO9/geJZDdFHQ==",
+      "sha512": "6i/A/XzN8jA4a7Z8EJBYDHVOjBxkp7+v8mv9pXEn/GtSuDevfaH+TlII1nL+fQpiI9pFQAZtE114prRUyDfnMA==",
       "files": [
-        "Microsoft.AspNet.Identity.3.0.0-beta6-12642.nupkg",
-        "Microsoft.AspNet.Identity.3.0.0-beta6-12642.nupkg.sha512",
+        "Microsoft.AspNet.Identity.3.0.0-beta6-12632.nupkg",
+        "Microsoft.AspNet.Identity.3.0.0-beta6-12632.nupkg.sha512",
         "Microsoft.AspNet.Identity.nuspec",
         "lib/dnx451/Microsoft.AspNet.Identity.dll",
         "lib/dnx451/Microsoft.AspNet.Identity.xml",
@@ -5012,8 +5012,8 @@
       "Dub.Web.Core ",
       "Dub.Web.Identity ",
       "EntityFramework.Core >= 7.0.0-beta6-13586",
-      "Microsoft.AspNet.Http.Abstractions >= 1.0.0-beta6-11650",
-      "Microsoft.AspNet.Identity >= 3.0.0-beta6-12642",
+      "Microsoft.AspNet.Http.Abstractions >= 1.0.0-beta6-11657",
+      "Microsoft.AspNet.Identity >= 3.0.0-beta6-12632",
       "Microsoft.AspNet.Identity.EntityFramework >= 3.0.0-beta6-12642",
       "Microsoft.AspNet.Mvc.Core >= 6.0.0-beta6-14189",
       "Microsoft.AspNet.Mvc.Extensions >= 6.0.0-beta6-14192",

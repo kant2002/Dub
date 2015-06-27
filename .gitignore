@@ -187,3 +187,4 @@ UpgradeLog*.htm
 # Microsoft Fakes
 FakesAssemblies/
 /Dub/Dub.Web.Identity/project.lock.json
+/Dub/Dub.Web.Mvc/project.lock.json

@@ -13,6 +13,8 @@ namespace Dub.Web.Mvc.Controllers.Api
     using System.Threading.Tasks;
 #if !NETCORE
     using System.Web.Http;
+#else
+    using System.Security.Claims;
 #endif
     using Dub.Web.Core;
     using Dub.Web.Identity;
@@ -28,8 +30,8 @@ namespace Dub.Web.Mvc.Controllers.Api
 #if NETCORE
     using Microsoft.AspNet.Mvc;
 #endif
-    using Microsoft.Owin.Security;
 #if !NETCORE
+    using Microsoft.Owin.Security;
     using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
 
@@ -55,6 +57,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         private const string XsrfKey = "XsrfId";
 
+#if !NETCORE
         /// <summary>
         /// Sign-in manager.
         /// </summary>
@@ -71,6 +74,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         public ManageController()
         {
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ManageController{TUser,TSignInManager,TUserManager}"/> class.
@@ -83,6 +87,7 @@ namespace Dub.Web.Mvc.Controllers.Api
             this.SignInManager = signInManager;
         }
 
+#if !NETCORE
         /// <summary>
         /// Gets sign-in manager.
         /// </summary>
@@ -125,6 +130,17 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.OwinContext.Authentication;
             }
         }
+#else
+        /// <summary>
+        /// Gets sign-in manager.
+        /// </summary>
+        public TSignInManager SignInManager { get; set; }
+
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Displays person account.
@@ -132,18 +148,30 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Task which asynchronously display action result.</returns>
         public async Task<IActionResult> Index()
         {
+#if !NETCORE
             var userId = User.Identity.GetUserId();
             var userLogins = await this.UserManager.GetLoginsAsync(userId);
             var otherLogins = this.AuthenticationManager.GetExternalAuthenticationTypes()
                 .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider))
                 .ToList();
+#else
+            var userId = await this.GetCurrentUserAsync();
+            var userLogins = await this.UserManager.GetLoginsAsync(userId);
+            var otherLogins = this.SignInManager.GetExternalAuthenticationSchemes()
+                .Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider))
+                .ToList();
+#endif
             var model = new AccountInformationResponse
             {
                 Code = ApiStatusCode.Ok,
                 HasPassword = this.HasPassword(),
                 PhoneNumber = await this.UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await this.UserManager.GetTwoFactorEnabledAsync(userId),
+#if !NETCORE
                 BrowserRemembered = await this.AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+#else
+                BrowserRemembered = await this.SignInManager.IsTwoFactorClientRememberedAsync(userId),
+#endif
                 Logins = userLogins,
                 OtherLogins = otherLogins,
             };
@@ -366,5 +394,16 @@ namespace Dub.Web.Mvc.Controllers.Api
 
             return false;
         }
+
+#if NETCORE
+        /// <summary>
+        /// Get current user entity.
+        /// </summary>
+        /// <returns>Current entity.</returns>
+        private async Task<TUser> GetCurrentUserAsync()
+        {
+            return await UserManager.FindByIdAsync(this.Context.User.GetUserId());
+        }
+#endif
     }
 }

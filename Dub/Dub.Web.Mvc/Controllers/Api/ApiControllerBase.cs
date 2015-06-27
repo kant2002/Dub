@@ -9,14 +9,14 @@ namespace Dub.Web.Mvc.Controllers.Api
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Http;
 #endif
     using Dub.Web.Core;
     using Dub.Web.Mvc.Models;
-    using Microsoft.Owin;
 #if !NETCORE
+    using Microsoft.Owin;
     using Controller = System.Web.Http.ApiController;
 #else
     using Microsoft.AspNet.Mvc;
@@ -30,6 +30,7 @@ namespace Dub.Web.Mvc.Controllers.Api
     /// </summary>
     public class ApiControllerBase : Controller
     {
+#if !NETCORE
         /// <summary>
         /// Gets OWIN context.
         /// </summary>
@@ -37,11 +38,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         {
             get
             {
-#if NETCORE
-                return this.Context.GetOwinContext();
-#else
                 return HttpContext.Current.GetOwinContext();
-#endif
             }
         }
 
@@ -54,6 +51,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         {
             return (T)this.OwinContext.Request.Environment["AspNet.Identity.Owin:" + typeof(T).AssemblyQualifiedName];
         }
+#endif
 
         /// <summary>
         /// Returns  simple API status code.
@@ -81,6 +79,16 @@ namespace Dub.Web.Mvc.Controllers.Api
         }
 
 #if NETCORE
+        /// <summary>
+        /// Returns object.
+        /// </summary>
+        /// <param name="result">Object which represents result.</param>
+        /// <returns>Action result which represent specific API code.</returns>
+        protected IActionResult Ok(object result)
+        {
+            return new ObjectResult(result);
+        }
+
         /// <summary>
         /// Returns API status code which contains information about errors.
         /// </summary>

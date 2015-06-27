@@ -8,8 +8,8 @@ namespace Dub.Web.Mvc.Controllers
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Mvc;
 #endif
     using Dub.Web.Identity;
@@ -118,8 +118,7 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var claimPrincipal = (System.Security.Claims.ClaimsPrincipal)this.User;
             var user = new TUser();
             user.Email = model.Email;
@@ -177,8 +176,7 @@ namespace Dub.Web.Mvc.Controllers
         public async Task<ActionResult> Edit(string id)
         {
             var claimPrincipal = (System.Security.Claims.ClaimsPrincipal)this.User;
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -205,8 +203,7 @@ namespace Dub.Web.Mvc.Controllers
             }
 
             var claimPrincipal = (System.Security.Claims.ClaimsPrincipal)this.User;
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var user = await userManager.FindByIdAsync(model.Id);
             if (!await this.UpdateUser(model, user))
             {
@@ -223,8 +220,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which returns result of the action.</returns>
         public async Task<ActionResult> Delete(string id)
         {
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -244,8 +240,7 @@ namespace Dub.Web.Mvc.Controllers
         [HttpPost]
         public async Task<ActionResult> Delete(TEditUserViewModel model)
         {
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var user = await userManager.FindByIdAsync(model.Id);
             if (user == null)
             {
@@ -271,8 +266,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which returns result of the action.</returns>
         public async Task<ActionResult> Activate(string id)
         {
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -293,8 +287,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which returns result of the action.</returns>
         public async Task<ActionResult> Deactivate(string id)
         {
-            var context = HttpContext.GetOwinContext();
-            var userManager = context.Get<TApplicationUserManager>();
+            var userManager = this.UserManager;
             var user = await userManager.FindByIdAsync(id);
             if (user == null)
             {

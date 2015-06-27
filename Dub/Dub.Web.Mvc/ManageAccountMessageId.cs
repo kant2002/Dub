@@ -32,7 +32,12 @@ namespace Dub.Web.Mvc
         SetPasswordSuccess,
 
         /// <summary>
-        /// Message represents that login removed successfully.
+        /// Message represents that external login added successfully.
+        /// </summary>
+        AddLoginSuccess,
+
+        /// <summary>
+        /// Message represents that external login removed successfully.
         /// </summary>
         RemoveLoginSuccess,
 

@@ -8,8 +8,8 @@ namespace Dub.Web.Mvc.Controllers
 {
     using System.Linq;
     using System.Threading.Tasks;
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Mvc;
 #endif
     using Dub.Web.Identity;
@@ -22,11 +22,11 @@ namespace Dub.Web.Mvc.Controllers
     using Microsoft.AspNet.Identity;
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
 #endif
 #if NETCORE
     using Microsoft.AspNet.Mvc;
 #endif
-    using Microsoft.Owin.Security;
 
     /// <summary>
     /// Controller for managing account.
@@ -50,6 +50,7 @@ namespace Dub.Web.Mvc.Controllers
         /// </summary>
         private const string XsrfKey = "XsrfId";
 
+#if !NETCORE
         /// <summary>
         /// Sign-in manager.
         /// </summary>
@@ -66,7 +67,7 @@ namespace Dub.Web.Mvc.Controllers
         public ManageController()
         {
         }
-
+#endif
         /// <summary>
         /// Initializes a new instance of the <see cref="ManageController{TUser,TSignInManager,TUserManager}"/> class.
         /// </summary>
@@ -77,7 +78,7 @@ namespace Dub.Web.Mvc.Controllers
             this.UserManager = userManager;
             this.SignInManager = signInManager;
         }
-
+#if !NETCORE
         /// <summary>
         /// Gets sign-in manager.
         /// </summary>
@@ -120,6 +121,17 @@ namespace Dub.Web.Mvc.Controllers
                 return HttpContext.GetOwinContext().Authentication;
             }
         }
+#else
+        /// <summary>
+        /// Gets sign-in manager.
+        /// </summary>
+        public TSignInManager SignInManager { get; set; }
+        
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Displays person account.
@@ -151,12 +163,13 @@ namespace Dub.Web.Mvc.Controllers
 #if !NETCORE
                 BrowserRemembered = await this.AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
 #else
-                BrowserRemembered = await this.SignInManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await this.SignInManager.IsTwoFactorClientRememberedAsync(userId)
 #endif
             };
             return this.View(model);
         }
 
+#if !NETCORE
         /// <summary>
         /// Remove additional login from external authentication provider.
         /// </summary>
@@ -186,6 +199,7 @@ namespace Dub.Web.Mvc.Controllers
 
             return this.RedirectToAction("ManageLogins", new { Message = message });
         }
+#endif
 
         /// <summary>
         /// Show page for adding phone number for two-factor authentication.
@@ -217,6 +231,7 @@ namespace Dub.Web.Mvc.Controllers
 #endif
             // Generate the token and send it
             var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(userId, model.Number);
+#if !NETCORE
             if (this.UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
@@ -226,6 +241,8 @@ namespace Dub.Web.Mvc.Controllers
                 };
                 await this.UserManager.SmsService.SendAsync(message);
             }
+#else
+#endif
 
             return this.RedirectToAction("VerifyPhoneNumber", new { PhoneNumber = model.Number });
         }
@@ -238,12 +255,22 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EnableTwoFactorAuthentication()
         {
-            await this.UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
-            var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
+#if !NETCORE
+            var userIdentity = User.Identity.GetUserId();
+            await this.UserManager.SetTwoFactorEnabledAsync(userIdentity, true);
+            var user = await this.UserManager.FindByIdAsync(userIdentity);
             if (user != null)
             {
                 await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
+#else
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                await this.UserManager.SetTwoFactorEnabledAsync(user, true);
+                await this.SignInManager.RefreshSignInAsync(user);
+            }
+#endif
 
             return this.RedirectToAction("Index", "Manage");
         }
@@ -256,12 +283,22 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DisableTwoFactorAuthentication()
         {
-            await this.UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
-            var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
+#if !NETCORE
+            var userIdentity = User.Identity.GetUserId();
+            await this.UserManager.SetTwoFactorEnabledAsync(userIdentity, false);
+            var user = await this.UserManager.FindByIdAsync(userIdentity);
             if (user != null)
             {
                 await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
+#else
+            var user = await GetCurrentUserAsync();
+            if (user != null)
+            {
+                await this.UserManager.SetTwoFactorEnabledAsync(user, false);
+                await this.SignInManager.RefreshSignInAsync(user);
+            }
+#endif
 
             return this.RedirectToAction("Index", "Manage");
         }
@@ -273,7 +310,12 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which asynchronously display action result.</returns>
         public async Task<ActionResult> VerifyPhoneNumber(string phoneNumber)
         {
-            var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
+#if !NETCORE
+            var userIdentity = User.Identity.GetUserId();
+#else
+            var userIdentity = await GetCurrentUserAsync();
+#endif
+            var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(userIdentity, phoneNumber);
 
             // Send an SMS through the SMS provider to verify the phone number
             return phoneNumber == null
@@ -295,13 +337,26 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
-            var result = await this.UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
+#if !NETCORE
+            var userIdentity = User.Identity.GetUserId();
+#else
+            var userIdentity = await GetCurrentUserAsync();
+#endif
+            var result = await this.UserManager.ChangePhoneNumberAsync(userIdentity, model.PhoneNumber, model.Code);
             if (result.Succeeded)
             {
-                var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
+#if !NETCORE
+                var user = await this.UserManager.FindByIdAsync(userIdentity);
+#else
+                var user = userIdentity;
+#endif
                 if (user != null)
                 {
+#if !NETCORE
                     await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+#else
+                    await SignInManager.RefreshSignInAsync(user);
+#endif
                 }
 
                 return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.AddPhoneSuccess });
@@ -318,17 +373,32 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which asynchronously display action result.</returns>
         public async Task<ActionResult> RemovePhoneNumber()
         {
-            var result = await this.UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
+#if !NETCORE
+            var userIdentity = User.Identity.GetUserId();
+            var result = await this.UserManager.SetPhoneNumberAsync(userIdentity, null);
             if (!result.Succeeded)
             {
                 return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.Error });
             }
 
-            var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
+            var user = await this.UserManager.FindByIdAsync(userIdentity);
             if (user != null)
             {
                 await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
+#else
+            var userIdentity = await this.GetCurrentUserAsync();
+            if (userIdentity != null)
+            {
+                var result = await this.UserManager.SetPhoneNumberAsync(userIdentity, null);
+                if (!result.Succeeded)
+                {
+                    return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.Error });
+                }
+
+                await this.SignInManager.RefreshSignInAsync(userIdentity);
+            }
+#endif
 
             return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.RemovePhoneSuccess });
         }
@@ -356,6 +426,7 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
+#if !NETCORE
             var result = await this.UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
@@ -370,6 +441,23 @@ namespace Dub.Web.Mvc.Controllers
 
             this.AddErrors(result);
             return this.View(model);
+#else
+            var user = await this.GetCurrentUserAsync();
+            if (user != null)
+            {
+                var result = await this.UserManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    await SignInManager.RefreshSignInAsync(user);
+                    return RedirectToAction("Index", new { Message = ManageAccountMessageId.ChangePasswordSuccess });
+                }
+
+                this.AddErrors(result);
+                return this.View(model);
+            }
+
+            return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.Error });
+#endif
         }
 
         /// <summary>
@@ -390,25 +478,44 @@ namespace Dub.Web.Mvc.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SetPassword(SetPasswordViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = await this.UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+                // If we got this far, something failed, redisplay form
+                return this.View(model);
+            }
+
+#if !NETCORE
+            var result = await this.UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            if (result.Succeeded)
+            {
+                var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user != null)
+                {
+                    await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+                }
+
+                return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.SetPasswordSuccess });
+            }
+
+            this.AddErrors(result);
+            return this.View(model);
+#else
+            var user = await this.GetCurrentUserAsync();
+            if (user != null)
+            {
+                var result = await this.UserManager.AddPasswordAsync(user, model.NewPassword);
                 if (result.Succeeded)
                 {
-                    var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
-                    if (user != null)
-                    {
-                        await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-                    }
-
-                    return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.SetPasswordSuccess });
+                    await this.SignInManager.RefreshSignInAsync(user);
+                    return RedirectToAction("Index", new { Message = ManageAccountMessageId.SetPasswordSuccess });
                 }
 
                 this.AddErrors(result);
+                return this.View(model);
             }
 
-            // If we got this far, something failed, redisplay form
-            return this.View(model);
+            return this.RedirectToAction("Index", new { Message = ManageAccountMessageId.Error });
+#endif
         }
 
         /// <summary>
@@ -420,8 +527,10 @@ namespace Dub.Web.Mvc.Controllers
         {
             ViewBag.StatusMessage =
                 message == ManageAccountMessageId.RemoveLoginSuccess ? "The external login was removed."
+                : message == ManageAccountMessageId.AddLoginSuccess ? "The external login was added."
                 : message == ManageAccountMessageId.Error ? "An error has occurred."
-                : string.Empty;
+                : "";
+#if !NETCORE
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
             {
@@ -430,6 +539,16 @@ namespace Dub.Web.Mvc.Controllers
 
             var userLogins = await this.UserManager.GetLoginsAsync(User.Identity.GetUserId());
             var otherLogins = this.AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+#else
+            var user = await GetCurrentUserAsync();
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            var userLogins = await UserManager.GetLoginsAsync(user);
+            var otherLogins = SignInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+#endif
             ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return this.View(new ManageLoginsViewModel
             {

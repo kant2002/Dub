@@ -11,8 +11,8 @@ namespace Dub.Web.Mvc.Controllers
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
-    using System.Web;
 #if !NETCORE
+    using System.Web;
     using System.Web.Mvc;
 #endif
     using Dub.Web.Core;
@@ -32,6 +32,7 @@ namespace Dub.Web.Mvc.Controllers
         where TEntity : class, IHasKey<TEntityKey>, new()
         where TEntityKey : IEquatable<TEntityKey>
     {
+#if !NETCORE
         /// <summary>
         /// Gets persistence store.
         /// </summary>
@@ -44,6 +45,21 @@ namespace Dub.Web.Mvc.Controllers
                 return store;
             }
         }
+#else
+        /// <summary>
+        /// Create new instance of the <see cref="GenericStore{TEntityKey, TEntity}"/> class.
+        /// </summary>
+        /// <param name="store"></param>
+        public GenericEditController(GenericStore<TEntityKey, TEntity> store)
+        {
+            this.Store = store;
+        }
+
+        /// <summary>
+        /// Gets persistence store.
+        /// </summary>
+        protected GenericStore<TEntityKey, TEntity> Store { get; set; }
+#endif
 
         /// <summary>
         /// Displays list of all entities.
