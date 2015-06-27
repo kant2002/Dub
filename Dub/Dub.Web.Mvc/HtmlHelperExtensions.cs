@@ -8,9 +8,15 @@ namespace Dub.Web.Mvc
 {
     using System;
     using System.Linq.Expressions;
+#if !NETCORE
     using System.Web;
     using System.Web.Mvc;
+#endif
     using Dub.Web.Mvc.Properties;
+#if NETCORE
+    using Microsoft.AspNet.Mvc.ModelBinding;
+    using Microsoft.AspNet.Mvc.Rendering;
+#endif
 
     /// <summary>
     /// Extensions for the HTML helper

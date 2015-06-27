@@ -10,15 +10,25 @@ namespace Dub.Web.Mvc.Controllers.Api
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
+#if !NETCORE
     using System.Web.Http;
+#endif
     using Dub.Web.Core;
     using Dub.Web.Mvc.Models;
     using Microsoft.Owin;
+#if !NETCORE
+    using Controller = System.Web.Http.ApiController;
+#else
+    using Microsoft.AspNet.Mvc;
+#endif
+#if !NETCORE
+    using IActionResult = System.Web.Http.IHttpActionResult;
+#endif
 
     /// <summary>
     /// Base controller for all API controllers.
     /// </summary>
-    public class ApiControllerBase : ApiController
+    public class ApiControllerBase : Controller
     {
         /// <summary>
         /// Gets OWIN context.
@@ -27,7 +37,11 @@ namespace Dub.Web.Mvc.Controllers.Api
         {
             get
             {
+#if NETCORE
+                return this.Context.GetOwinContext();
+#else
                 return HttpContext.Current.GetOwinContext();
+#endif
             }
         }
 
@@ -46,7 +60,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="code">API code to return.</param>
         /// <returns>Action result which represent specific API code.</returns>
-        protected IHttpActionResult StatusCode(ApiStatusCode code)
+        protected IActionResult StatusCode(ApiStatusCode code)
         {
             return this.Ok(new ApiStatusResponse() { Code = code });
         }
@@ -57,7 +71,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="code">API code to return.</param>
         /// <param name="errors">Sequence of errors.</param>
         /// <returns>Action result which represent specific API code.</returns>
-        protected IHttpActionResult ErrorCode(ApiStatusCode code, IEnumerable<string> errors)
+        protected IActionResult ErrorCode(ApiStatusCode code, IEnumerable<string> errors)
         {
             return this.Ok(new ApiErrorStatusResponse() 
             { 
@@ -65,6 +79,23 @@ namespace Dub.Web.Mvc.Controllers.Api
                 Errors = errors.ToArray() 
             });
         }
+
+#if NETCORE
+        /// <summary>
+        /// Returns API status code which contains information about errors.
+        /// </summary>
+        /// <param name="code">API code to return.</param>
+        /// <param name="errors">Sequence of errors.</param>
+        /// <returns>Action result which represent specific API code.</returns>
+        protected IActionResult ErrorCode(ApiStatusCode code, IEnumerable<Microsoft.AspNet.Identity.IdentityError> errors)
+        {
+            return this.Ok(new ApiErrorStatusResponse()
+            {
+                Code = code,
+                Errors = errors.Select(_ => _.Description).ToArray()
+            });
+        }
+#endif
 
         /// <summary>
         /// Performs filtering of the data collection.

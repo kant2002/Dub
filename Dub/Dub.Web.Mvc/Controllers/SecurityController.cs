@@ -8,12 +8,20 @@ namespace Dub.Web.Mvc.Controllers
 {
     using System.Threading.Tasks;
     using System.Web;
+#if !NETCORE
     using System.Web.Mvc;
+#endif
     using AutoMapper;
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Security;
+#if NETCORE
+    using Microsoft.AspNet.Authorization;
+    using Microsoft.AspNet.Mvc;
+#endif
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
 
     /// <summary>
     /// Controller for managing security related stuff.

@@ -9,10 +9,19 @@ namespace Dub.Web.Mvc.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
+#if !NETCORE
     using System.Web.Mvc;
+#endif
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.User;
+    using Microsoft.AspNet.Identity;
+#if NETCORE
+    using Microsoft.AspNet.Authorization;
+    using Microsoft.AspNet.Mvc;
+#endif
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
 
     /// <summary>
     /// Controller for managing users.
@@ -126,11 +135,7 @@ namespace Dub.Web.Mvc.Controllers
             if (!result.Succeeded)
             {
                 // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return this.View(model);
             }
 
@@ -144,11 +149,7 @@ namespace Dub.Web.Mvc.Controllers
             if (!result.Succeeded)
             {
                 // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return this.View(model);
             }
 
@@ -157,11 +158,7 @@ namespace Dub.Web.Mvc.Controllers
             result = await userManager.RemoveFromRolesAsync(user.Id, rolesRemoved);
             if (!result.Succeeded)
             {
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return this.View(model);
             }
 
@@ -260,11 +257,7 @@ namespace Dub.Web.Mvc.Controllers
             if (!result.Succeeded)
             {
                 // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return this.View(model);
             }
 
@@ -378,11 +371,7 @@ namespace Dub.Web.Mvc.Controllers
             if (!result.Succeeded)
             {
                 // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return false;
             }
 
@@ -396,11 +385,7 @@ namespace Dub.Web.Mvc.Controllers
             if (!result.Succeeded)
             {
                 // Add errors.
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return false;
             }
 
@@ -409,15 +394,27 @@ namespace Dub.Web.Mvc.Controllers
             result = await this.UserManager.RemoveFromRolesAsync(user.Id, rolesRemoved);
             if (!result.Succeeded)
             {
-                foreach (var errorMessage in result.Errors)
-                {
-                    this.ModelState.AddModelError(string.Empty, errorMessage);
-                }
-
+                this.AddErrors(result);
                 return false;
             }
 
             return true;
+        }
+
+        /// <summary>
+        /// Adds errors to model state from authorization results.
+        /// </summary>
+        /// <param name="result">Authorization result which errors should be added to model state.</param>
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+#if !NETCORE
+                this.ModelState.AddModelError(string.Empty, error);
+#else
+                this.ModelState.AddModelError(string.Empty, error.Description);
+#endif
+            }
         }
 
         /// <summary>

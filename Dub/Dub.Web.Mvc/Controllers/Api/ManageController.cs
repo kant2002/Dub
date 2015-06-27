@@ -11,14 +11,27 @@ namespace Dub.Web.Mvc.Controllers.Api
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+#if !NETCORE
     using System.Web.Http;
+#endif
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Manage;
     using Dub.Web.Mvc.Properties;
+#if NETCORE
+    using Microsoft.AspNet.Authorization;
+#endif
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
     using Microsoft.Owin.Security;
+#if !NETCORE
+    using IActionResult = System.Web.Http.IHttpActionResult;
+#endif
 
     /// <summary>
     /// Controller for managing account.
@@ -29,8 +42,13 @@ namespace Dub.Web.Mvc.Controllers.Api
     [Authorize]
     public class ManageController<TUser, TSignInManager, TUserManager> : ApiControllerBase
         where TUser : DubUser, new()
+#if NETCORE
+        where TSignInManager : SignInManager<TUser>
+        where TUserManager : UserManager<TUser>
+#else
         where TSignInManager : SignInManager<TUser, string>
         where TUserManager : UserManager<TUser, string>
+#endif
     {
         /// <summary>
         /// Used for XSRF protection when adding external logins
@@ -112,7 +130,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// Displays person account.
         /// </summary>
         /// <returns>Task which asynchronously display action result.</returns>
-        public async Task<IHttpActionResult> Index()
+        public async Task<IActionResult> Index()
         {
             var userId = User.Identity.GetUserId();
             var userLogins = await this.UserManager.GetLoginsAsync(userId);
@@ -139,7 +157,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="providerKey">Provider specific key for the login.</param>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
-        public async Task<IHttpActionResult> RemoveLogin(string loginProvider, string providerKey)
+        public async Task<IActionResult> RemoveLogin(string loginProvider, string providerKey)
         {
             if (!this.ModelState.IsValid)
             {
@@ -169,7 +187,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="model">Information for adding phone number.</param>
         /// <returns>An asynchronous task which return action result.</returns>
         [HttpPost]
-        public async Task<IHttpActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+        public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -196,7 +214,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
-        public async Task<IHttpActionResult> EnableTwoFactorAuthentication()
+        public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
             await this.UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -213,7 +231,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
-        public async Task<IHttpActionResult> DisableTwoFactorAuthentication()
+        public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
             await this.UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
@@ -231,7 +249,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="model">Model with information required for phone verification.</param>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
-        public async Task<IHttpActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
+        public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -259,7 +277,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
-        public async Task<IHttpActionResult> RemovePhoneNumber()
+        public async Task<IActionResult> RemovePhoneNumber()
         {
             var result = await this.UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
@@ -283,7 +301,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
         [Route("manage/password")]
-        public async Task<IHttpActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -312,7 +330,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
         [Route("manage/password/add")]
-        public async Task<IHttpActionResult> SetPassword(SetPasswordViewModel model)
+        public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {

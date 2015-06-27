@@ -7,13 +7,25 @@
 namespace Dub.Web.Mvc.Controllers.Api
 {
     using System.Threading.Tasks;
+#if !NETCORE
     using System.Web.Http;
+#else
+    using System.Linq;
+#endif
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
     using Microsoft.Owin.Security;
+#if !NETCORE
+    using IActionResult = System.Web.Http.IHttpActionResult;
+#endif
 
     /// <summary>
     /// API Account controller.
@@ -23,9 +35,15 @@ namespace Dub.Web.Mvc.Controllers.Api
     /// <typeparam name="TUserManager">Type of user manager used to manage the users.</typeparam>
     public class AccountController<TUser, TSignInManager, TUserManager> : ApiControllerBase
         where TUser : DubUser, new()
+#if NETCORE
+        where TSignInManager : SignInManager<TUser>
+        where TUserManager : UserManager<TUser>
+#else
         where TSignInManager : SignInManager<TUser, string>
         where TUserManager : UserManager<TUser, string>
+#endif
     {
+#if !NETCORE
         /// <summary>
         /// Sign-in manager.
         /// </summary>
@@ -42,6 +60,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         public AccountController()
         {
         }
+#endif
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AccountController{TUser,TSignInManager,TUserManager}"/> class.
@@ -54,6 +73,7 @@ namespace Dub.Web.Mvc.Controllers.Api
             this.SignInManager = signInManager;
         }
 
+#if !NETCORE
         /// <summary>
         /// Gets sign-in manager.
         /// </summary>
@@ -85,6 +105,17 @@ namespace Dub.Web.Mvc.Controllers.Api
                 this.userManager = value;
             }
         }
+#else
+        /// <summary>
+        /// Gets sign-in manager.
+        /// </summary>
+        public TSignInManager SignInManager { get; set; }
+
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Gets authentication manager.
@@ -104,14 +135,15 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>HTTP OK in case of success; </returns>
         [HttpPost]
         [Route("account/login")]
-        public async Task<IHttpActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
-            var result = await this.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await this.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+#if !NETCORE
             switch (result)
             {
                 case SignInStatus.Success:
@@ -124,6 +156,24 @@ namespace Dub.Web.Mvc.Controllers.Api
                 default:
                     return this.StatusCode(ApiStatusCode.AuthorizationFailure);
             }
+#else
+            if (result.Succeeded)
+            {
+                return await this.OnSuccessLogin(model.Email);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return this.StatusCode(ApiStatusCode.AccountLockedOut);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
+            }
+
+            return this.StatusCode(ApiStatusCode.AuthorizationFailure);
+#endif
         }
 
         /// <summary>
@@ -132,9 +182,13 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Action result.</returns>
         [HttpPost]
         [Route("account/logout")]
-        public IHttpActionResult Logout()
+        public IActionResult Logout()
         {
+#if NETCORE
+            this.AuthenticationManager.SignOut();
+#else
             this.SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+#endif
             return this.StatusCode(ApiStatusCode.Ok);
         }
 
@@ -143,7 +197,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Data for verify security code.</param>
         /// <returns>Action result.</returns>
-        public async Task<IHttpActionResult> VerifyCode(VerifyCodeViewModel model)
+        public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -154,17 +208,38 @@ namespace Dub.Web.Mvc.Controllers.Api
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await this.SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await this.SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberClient);
+#if !NETCORE
             switch (result)
             {
                 case SignInStatus.Success:
                     return this.StatusCode(ApiStatusCode.Ok);
                 case SignInStatus.LockedOut:
                     return this.StatusCode(ApiStatusCode.AccountLockedOut);
+                case SignInStatus.RequiresVerification:
+                    return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
                 case SignInStatus.Failure:
                 default:
-                    return this.StatusCode(ApiStatusCode.InvalidVerificationCode);
+                    return this.StatusCode(ApiStatusCode.AuthorizationFailure);
             }
+#else
+            if (result.Succeeded)
+            {
+                return this.StatusCode(ApiStatusCode.Ok);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return this.StatusCode(ApiStatusCode.AccountLockedOut);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
+            }
+
+            return this.StatusCode(ApiStatusCode.AuthorizationFailure);
+#endif
         }
 
         /// <summary>
@@ -172,7 +247,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Information about user to register.</param>
         /// <returns>Action result.</returns>
-        public async Task<IHttpActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -183,13 +258,23 @@ namespace Dub.Web.Mvc.Controllers.Api
             var result = await this.UserManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
+#if !NETCORE
                 return this.ErrorCode(ApiStatusCode.RegistrationFailed, result.Errors);
+#else
+                return this.ErrorCode(ApiStatusCode.RegistrationFailed, result.Errors.Select(_ => _.Description));
+#endif
             }
 
+#if !NETCORE
             await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+            var userIdentity = user.Id;
+#else
+            await this.SignInManager.SignInAsync(user, false, null);
+            var userIdentity = user;
+#endif
 
             // Send an email with confirmation link
-            string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(userIdentity);
             await this.SendRegistrationEmail(user, code);
             return this.StatusCode(ApiStatusCode.Ok);
         }
@@ -199,7 +284,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Information for the forgot password.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -207,7 +292,12 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             var user = await this.UserManager.FindByNameAsync(model.Email);
-            if (user == null || !(await this.UserManager.IsEmailConfirmedAsync(user.Id)))
+#if !NETCORE
+            var userIdentity = user.Id;
+#else
+            var userIdentity = user;
+#endif
+            if (user == null || !(await this.UserManager.IsEmailConfirmedAsync(userIdentity)))
             {
                 // Don't reveal that the user does not exist or is not confirmed
                 return this.StatusCode(ApiStatusCode.Ok);
@@ -215,7 +305,7 @@ namespace Dub.Web.Mvc.Controllers.Api
 
             // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
             // Send an email with this link
-            string code = await this.UserManager.GeneratePasswordResetTokenAsync(user.Id);
+            string code = await this.UserManager.GeneratePasswordResetTokenAsync(userIdentity);
             await this.SendForgotPasswordEmail(user, code);
             return this.StatusCode(ApiStatusCode.Ok);
         }
@@ -225,7 +315,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model with information about password reset.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IHttpActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -239,7 +329,12 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.Ok);
             }
 
-            var result = await this.UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+#if !NETCORE
+            var userIdentity = user.Id;
+#else
+            var userIdentity = user;
+#endif
+            var result = await this.UserManager.ResetPasswordAsync(userIdentity, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return this.StatusCode(ApiStatusCode.Ok);
@@ -253,7 +348,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model with information about sending security code.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IHttpActionResult> SendCode(SendCodeViewModel model)
+        public async Task<IActionResult> SendCode(SendCodeViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -274,7 +369,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model for confirming authorization using external login.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IHttpActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
+        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -306,7 +401,12 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
             }
 
+#if !NETCORE
             await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+#else
+            await this.SignInManager.SignInAsync(user, false, null);
+#endif
+
             return this.StatusCode(ApiStatusCode.Ok);
         }
 
@@ -339,10 +439,10 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="userEmail">Email of the user.</param>
         /// <returns>Result to be returned on success login.</returns>
-        protected virtual Task<IHttpActionResult> OnSuccessLogin(string userEmail)
+        protected virtual Task<IActionResult> OnSuccessLogin(string userEmail)
         {
             var result = this.StatusCode(ApiStatusCode.Ok);
-            return Task.FromResult<IHttpActionResult>(result);
+            return Task.FromResult<IActionResult>(result);
         }
 
         /// <summary>

@@ -11,9 +11,17 @@ namespace Dub.Web.Mvc
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+#if! NETCORE
     using System.Web.Http.Controllers;
     using System.Web.Http.Filters;
     using Microsoft.Owin.Security.DataProtection;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
+#if! NETCORE
+    using AuthorizationContext = System.Web.Http.Controllers.HttpActionContext;
+#endif
 
     /// <summary>
     /// Authentication filter which use custom header for sending authentication token.
@@ -43,7 +51,7 @@ namespace Dub.Web.Mvc
         /// Calls when a process requests authorization.
         /// </summary>
         /// <param name="actionContext">The action context, which encapsulates information for using <see cref="AuthorizationFilterAttribute"/>.</param>
-        public override void OnAuthorization(HttpActionContext actionContext)
+        public override void OnAuthorization(AuthorizationContext actionContext)
         {
             base.OnAuthorization(actionContext);
         }

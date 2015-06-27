@@ -8,11 +8,21 @@ namespace Dub.Web.Mvc.Controllers.Api
 {
     using System.Linq;
     using System.Threading.Tasks;
+#if !NETCORE
     using System.Web.Http;
+#endif
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
+#if !NETCORE
+    using IActionResult = System.Web.Http.IHttpActionResult;
+#endif
 
     /// <summary>
     /// API User controller.
@@ -22,7 +32,11 @@ namespace Dub.Web.Mvc.Controllers.Api
     /// <typeparam name="TUserFilter">Type which specify parameters to the users list.</typeparam>
     public class UserController<TUser, TUserManager, TUserFilter> : ApiControllerBase
         where TUser : DubUser, new()
+#if NETCORE
+        where TUserManager : UserManager<TUser>
+#else
         where TUserManager : UserManager<TUser, string>
+#endif
         where TUserFilter : class, ICollectionFilter<TUser>, ICollectionTransform<TUser>, new()
     {
         /// <summary>
@@ -71,7 +85,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Result which returns the list of the users which match the requested criteria.</returns>
         [HttpGet]
         [Route("users")]
-        public IHttpActionResult Get(int offset, int pageSize, TUserFilter displayParameters)
+        public IActionResult Get(int offset, int pageSize, TUserFilter displayParameters)
         {
             if (!this.ModelState.IsValid)
             {
@@ -92,7 +106,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Result which returns the list of the users which match the requested criteria.</returns>
         [HttpGet]
         [Route("users/{id}")]
-        public async Task<IHttpActionResult> GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
             if (!this.ModelState.IsValid)
             {

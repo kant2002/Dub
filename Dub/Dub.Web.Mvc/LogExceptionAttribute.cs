@@ -7,9 +7,17 @@
 namespace Dub.Web.Mvc
 {
     using System;
+#if !NETCORE
     using System.Web.Mvc;
+#endif
     using Dub.Web.Core;
+#if NETCORE
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Microsoft.AspNet.Mvc;
+#endif
 
+#if !NETCORE
     /// <summary>
     /// Represents an attribute that is used to log an exception that is thrown
     /// by an action method.
@@ -33,4 +41,40 @@ namespace Dub.Web.Mvc
             }
         }
     }
+#else
+    /// <summary>
+    /// Represents an attribute that is used to log an exception that is thrown
+    /// by an action method.
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
+    public sealed class LogExceptionAttribute : ExceptionFilterAttribute
+    {
+        /// <summary>
+        /// Raises the exception event.
+        /// </summary>
+        /// <param name="actionExecutedContext">The context for the action.</param>
+        public override void OnException(ExceptionContext actionExecutedContext)
+        {
+            if (actionExecutedContext != null && actionExecutedContext.Exception != null)
+            {
+                var userName = actionExecutedContext.HttpContext.User.Identity.Name;
+                ExceptionHelper.PublishException(userName, actionExecutedContext.Exception);
+            }
+        }
+
+        /// <summary>
+        /// Raises the exception event asynchronously.
+        /// </summary>
+        /// <param name="actionExecutedContext">The context for the action.</param>
+        /// <returns>A task representing the asynchronous exception logging operation.</returns>
+        public override async Task OnExceptionAsync(ExceptionContext actionExecutedContext)
+        {
+            if (actionExecutedContext != null && actionExecutedContext.Exception != null)
+            {
+                var userName = actionExecutedContext.HttpContext.User.Identity.Name;
+                await ExceptionHelper.PublishExceptionAsync(userName, actionExecutedContext.Exception, CancellationToken.None);
+            }
+        }
+    }
+#endif
 }

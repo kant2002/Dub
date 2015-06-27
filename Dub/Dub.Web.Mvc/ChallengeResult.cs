@@ -7,7 +7,11 @@
 namespace Dub.Web.Mvc
 {
     using System.Web;
+#if !NETCORE
     using System.Web.Mvc;
+#else
+    using Microsoft.AspNet.Mvc;
+#endif
     using Microsoft.Owin.Security;
 
     /// <summary>

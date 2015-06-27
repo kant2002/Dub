@@ -8,16 +8,28 @@ namespace Dub.Web.Mvc.Controllers
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+#if !NETCORE
     using System.Net.Mail;
+#endif
     using System.Threading.Tasks;
     using System.Web;
+#if !NETCORE
     using System.Web.Mvc;
+#endif
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
     using Dub.Web.Mvc.Properties;
+#if NETCORE
+    using Microsoft.AspNet.Authorization;
+#endif
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
     using Microsoft.Owin.Security;
 
     /// <summary>
@@ -30,8 +42,13 @@ namespace Dub.Web.Mvc.Controllers
     [Authorize]
     public class AccountController<TUser, TSignInManager, TUserManager, TRegistrationModel> : Controller
         where TUser : DubUser, new()
+#if NETCORE
+        where TSignInManager : SignInManager<TUser>
+        where TUserManager : UserManager<TUser>
+#else
         where TSignInManager : SignInManager<TUser, string>
         where TUserManager : UserManager<TUser, string>
+#endif
         where TRegistrationModel : RegisterViewModel
     {
         /// <summary>
@@ -137,7 +154,8 @@ namespace Dub.Web.Mvc.Controllers
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await this.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var result = await this.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+#if !NETCORE
             switch (result)
             {
                 case SignInStatus.Success:
@@ -151,6 +169,25 @@ namespace Dub.Web.Mvc.Controllers
                     this.ModelState.AddModelError(string.Empty, Resources.InvalidLoginAttempt);
                     return this.View(model);
             }
+#else
+            if (result.Succeeded)
+            {
+                return this.RedirectToLocal(returnUrl);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return this.View("Lockout");
+            }
+
+            if (result.RequiresTwoFactor)
+            {
+                return this.RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
+            }
+
+            this.ModelState.AddModelError(string.Empty, Resources.InvalidLoginAttempt);
+            return this.View(model);
+#endif
         }
 
         /// <summary>
@@ -192,7 +229,8 @@ namespace Dub.Web.Mvc.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await this.SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await this.SignInManager.TwoFactorSignInAsync(model.Provider, model.Code,  model.RememberMe, model.RememberClient);
+#if !NETCORE
             switch (result)
             {
                 case SignInStatus.Success:
@@ -204,6 +242,20 @@ namespace Dub.Web.Mvc.Controllers
                     this.ModelState.AddModelError(string.Empty, Resources.InvalidVerificationCode);
                     return this.View(model);
             }
+#else
+            if (result.Succeeded)
+            {
+                return this.RedirectToLocal(model.ReturnUrl);
+            }
+
+            if (result.IsLockedOut)
+            {
+                return this.View("Lockout");
+            }
+
+            this.ModelState.AddModelError(string.Empty, Resources.InvalidVerificationCode);
+            return this.View(model);
+#endif
         }
 
         /// <summary>
@@ -242,10 +294,16 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
+#if !NETCORE
+            var userIdentity = user.Id;
             await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
+#else
+            var userIdentity = user;
+            await this.SignInManager.SignInAsync(user, false, null);
+#endif
 
             // Send an email with confirmation link
-            string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            string code = await this.UserManager.GenerateEmailConfirmationTokenAsync(userIdentity);
             try
             {
                 await this.SendRegistrationEmail(user, code);
@@ -261,6 +319,7 @@ namespace Dub.Web.Mvc.Controllers
             return this.RedirectToAction("Index", "Home");
         }
 
+#if !NETCORE
         /// <summary>
         /// Confirm the user's email with confirmation token
         /// </summary>
@@ -278,6 +337,26 @@ namespace Dub.Web.Mvc.Controllers
             var result = await this.UserManager.ConfirmEmailAsync(userId, code);
             return this.View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
+#else
+        /// <summary>
+        /// Confirm the user's email with confirmation token
+        /// </summary>
+        /// <param name="userId">User identifier to confirm.</param>
+        /// <param name="code">Confirmation code.</param>
+        /// <returns>Action result.</returns>
+        [AllowAnonymous]
+        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return this.View("Error");
+            }
+
+            var user = await this.UserManager.FindByIdAsync(userId);
+            var result = await this.UserManager.ConfirmEmailAsync(user, code);
+            return this.View(result.Succeeded ? "ConfirmEmail" : "Error");
+        }
+#endif
 
         /// <summary>
         /// Show page for the start forgot password procedure.
@@ -302,7 +381,12 @@ namespace Dub.Web.Mvc.Controllers
             if (this.ModelState.IsValid)
             {
                 var user = await this.UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await this.UserManager.IsEmailConfirmedAsync(user.Id)))
+#if !NETCORE
+                var userIdentity = user.Id;
+#else
+                var userIdentity = user;
+#endif
+                if (user == null || !(await this.UserManager.IsEmailConfirmedAsync(userIdentity)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return this.View("ForgotPasswordConfirmation");
@@ -310,7 +394,7 @@ namespace Dub.Web.Mvc.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                string code = await this.UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                string code = await this.UserManager.GeneratePasswordResetTokenAsync(userIdentity);
                 await this.SendForgotPasswordEmail(user, code);
                 return this.RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
@@ -372,7 +456,12 @@ namespace Dub.Web.Mvc.Controllers
                 return this.RedirectToAction("ResetPasswordConfirmation", "Account");
             }
 
-            var result = await this.UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+#if !NETCORE
+            var userIdentity = user.Id;
+#else
+            var userIdentity = user;
+#endif
+            var result = await this.UserManager.ResetPasswordAsync(userIdentity, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return this.RedirectToAction("ResetPasswordConfirmation", "Account");
@@ -616,6 +705,7 @@ namespace Dub.Web.Mvc.Controllers
         {
             if (disposing)
             {
+#if !NETCORE
                 if (this.userManager != null)
                 {
                     this.userManager.Dispose();
@@ -627,6 +717,10 @@ namespace Dub.Web.Mvc.Controllers
                     this.signInManager.Dispose();
                     this.signInManager = null;
                 }
+#else
+                this.userManager = null;
+                this.signInManager = null;
+#endif
             }
 
             base.Dispose(disposing);
@@ -640,7 +734,11 @@ namespace Dub.Web.Mvc.Controllers
         {
             foreach (var error in result.Errors)
             {
+#if !NETCORE
                 this.ModelState.AddModelError(string.Empty, error);
+#else
+                this.ModelState.AddModelError(string.Empty, error.Description);
+#endif
             }
         }
 

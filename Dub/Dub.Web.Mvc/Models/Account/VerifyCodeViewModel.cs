@@ -40,7 +40,7 @@ namespace Dub.Web.Mvc.Models.Account
         /// in current browser should be persisted.
         /// </summary>
         [Display(Name = "FieldRememberThisBrowser", ResourceType = typeof(Resources))]
-        public bool RememberBrowser { get; set; }
+        public bool RememberClient { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether need to persist authenticated user.

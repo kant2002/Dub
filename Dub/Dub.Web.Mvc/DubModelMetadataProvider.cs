@@ -8,6 +8,7 @@ namespace Dub.Web.Mvc
 {
     using System;
     using System.Collections.Generic;
+#if !NETCORE
     using System.Web.Mvc;
 
     /// <summary>
@@ -44,4 +45,5 @@ namespace Dub.Web.Mvc
             return modelMetadata;
         }
     }
+#endif
 }

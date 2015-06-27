@@ -12,9 +12,16 @@ namespace Dub.Web.Mvc.Controllers
     using System.Text;
     using System.Threading.Tasks;
     using System.Web;
+#if !NETCORE
     using System.Web.Mvc;
+#endif
     using Dub.Web.Core;
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
 
     /// <summary>
     /// Generic controller for editing.

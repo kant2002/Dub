@@ -8,7 +8,11 @@ namespace Dub.Web.Mvc.Models.Account
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+#if !NETCORE
     using System.Web.Mvc;
+#else
+    using Microsoft.AspNet.Mvc.Rendering;
+#endif
 
     /// <summary>
     /// View model for the sending security code for two-factor authorization.

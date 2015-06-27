@@ -23,7 +23,7 @@ namespace Dub.Web.Identity
     /// <summary>
     /// User manager for this application.
     /// </summary>
-    /// <typeparam name="T">Actual type of the user.</typeparam>
+    /// <typeparam name="TUser">Actual type of the user.</typeparam>
     public class DubUserManager<TUser> : UserManager<TUser> 
         where TUser : DubUser, new()
     {

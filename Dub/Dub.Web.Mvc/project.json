@@ -1,0 +1,42 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "The Core library for the Dub project",
+  "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "AutoMapper": "4.0.0-ci1061",
+    "Dub.Web.Core": "",
+    "Dub.Web.Identity": "",
+    "EntityFramework.Core": "7.0.0-beta6-13586",
+    "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta6-11650",
+    "Microsoft.AspNet.Identity": "3.0.0-beta6-12642",
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta6-12642",
+    "Microsoft.AspNet.Mvc.Core": "6.0.0-beta6-14189",
+    "Microsoft.AspNet.Mvc.Extensions": "6.0.0-beta6-14192",
+    "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta6-11516",
+    "Microsoft.AspNet.Authorization": "1.0.0-beta6-12589",
+    "Microsoft.Owin": "3.0.1"
+  },
+  "compilationOptions": {
+    "define": [ "NETCORE" ]
+  },
+
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": {
+      "dependencies": {
+        "Microsoft.CSharp": "4.0.0-beta-23008",
+        "System.Collections": "4.0.10-beta-23008",
+        "System.Linq": "4.0.0-beta-23008",
+        "System.Runtime": "4.0.20-beta-23015",
+        "System.Runtime.Extensions": "4.0.10-beta-23015",
+        "System.Security.Claims": "4.0.0-beta-23008",
+        "System.Threading": "4.0.10-beta-23008",
+        "System.Diagnostics.Tools": "4.0.0-beta-23008"
+      }
+    }
+  }
+}

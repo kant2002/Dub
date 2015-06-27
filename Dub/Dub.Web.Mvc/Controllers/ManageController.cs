@@ -9,12 +9,23 @@ namespace Dub.Web.Mvc.Controllers
     using System.Linq;
     using System.Threading.Tasks;
     using System.Web;
+#if !NETCORE
     using System.Web.Mvc;
+#endif
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Manage;
     using Dub.Web.Mvc.Properties;
+#if NETCORE
+    using System.Security.Claims;
+    using Microsoft.AspNet.Authorization;
+#endif
     using Microsoft.AspNet.Identity;
+#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
+#endif
+#if NETCORE
+    using Microsoft.AspNet.Mvc;
+#endif
     using Microsoft.Owin.Security;
 
     /// <summary>
@@ -26,8 +37,13 @@ namespace Dub.Web.Mvc.Controllers
     [Authorize]
     public class ManageController<TUser, TSignInManager, TUserManager> : Controller
         where TUser : DubUser, new()
+#if NETCORE
+        where TSignInManager : SignInManager<TUser>
+        where TUserManager : UserManager<TUser>
+#else
         where TSignInManager : SignInManager<TUser, string>
         where TUserManager : UserManager<TUser, string>
+#endif
     {
         /// <summary>
         /// Used for XSRF protection when adding external logins
@@ -121,14 +137,22 @@ namespace Dub.Web.Mvc.Controllers
                 : message == ManageAccountMessageId.RemovePhoneSuccess ? "Your phone number was removed."
                 : string.Empty;
 
+#if !NETCORE
             var userId = User.Identity.GetUserId();
+#else
+            var userId = await this.GetCurrentUserAsync();
+#endif
             var model = new IndexViewModel
             {
                 HasPassword = this.HasPassword(),
                 PhoneNumber = await this.UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await this.UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await this.UserManager.GetLoginsAsync(userId),
+#if !NETCORE
                 BrowserRemembered = await this.AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+#else
+                BrowserRemembered = await this.SignInManager.TwoFactorBrowserRememberedAsync(userId)
+#endif
             };
             return this.View(model);
         }
@@ -186,8 +210,13 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
+#if NETCORE
+            var userId = await this.GetCurrentUserAsync();
+#else
+            var userId = User.Identity.GetUserId();
+#endif
             // Generate the token and send it
-            var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+            var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(userId, model.Number);
             if (this.UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
@@ -463,7 +492,11 @@ namespace Dub.Web.Mvc.Controllers
         {
             foreach (var error in result.Errors)
             {
-                ModelState.AddModelError(string.Empty, error);
+#if !NETCORE
+                this.ModelState.AddModelError(string.Empty, error);
+#else
+                this.ModelState.AddModelError(string.Empty, error.Description);
+#endif
             }
         }
 
@@ -496,5 +529,16 @@ namespace Dub.Web.Mvc.Controllers
 
             return false;
         }
+
+#if NETCORE
+        /// <summary>
+        /// Get current user entity.
+        /// </summary>
+        /// <returns>Current entity.</returns>
+        private async Task<TUser> GetCurrentUserAsync()
+        {
+            return await UserManager.FindByIdAsync(this.Context.User.GetUserId());
+        }
+#endif
     }
 }
