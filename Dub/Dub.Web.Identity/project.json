@@ -7,7 +7,11 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "EntityFramework.Core": "7.0.0-beta6-13586"
+    "EntityFramework.Core": "7.0.0-beta6-13586",
+    "Dub.Web.Core": "",
+    "Microsoft.AspNet.Identity": "3.0.0-beta6-12642",
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta6-12642",
+    "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta6-11516"
   },
   "compilationOptions": {
     "define": [ "NETCORE" ]

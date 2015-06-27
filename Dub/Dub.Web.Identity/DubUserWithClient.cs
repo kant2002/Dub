@@ -23,6 +23,7 @@ namespace Dub.Web.Identity
         /// </summary>
         public virtual Client Client { get; set; }
 
+#if !NETCORE
         /// <summary>
         /// Generates identity from this user entity.
         /// </summary>
@@ -39,5 +40,6 @@ namespace Dub.Web.Identity
 
             return userIdentity;
         }
+#endif
     }
 }

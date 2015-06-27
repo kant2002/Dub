@@ -9,6 +9,7 @@ namespace Dub.Web.Identity
     using System;
     using Microsoft.AspNet.Identity;
 
+#if !NETCORE
     /// <summary>
     /// Extension helpers.
     /// </summary>
@@ -20,7 +21,7 @@ namespace Dub.Web.Identity
         /// <typeparam name="TUser">Type of the user.</typeparam>
         /// <param name="manager">User manager which has to be configured.</param>
         /// <param name="emailDisplayName">Display name for the email service.</param>
-        public static void ConfigureUserManager<TUser>(this UserManager<TUser, string> manager, string emailDisplayName)
+        public static void ConfigureUserManager<TUser>(this UserManager<TUser> manager, string emailDisplayName)
             where TUser : DubUser
         {
             if (manager == null)
@@ -71,4 +72,5 @@ namespace Dub.Web.Identity
             manager.SmsService = new EmptySmsService();
         }
     }
+#endif
 }

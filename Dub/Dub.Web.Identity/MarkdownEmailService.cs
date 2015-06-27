@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Identity
 {
+#if !NETCORE
     using System.Configuration;
     using System.Net.Configuration;
     using System.Net.Mail;
@@ -56,4 +57,5 @@ namespace Dub.Web.Identity
             }
         }
     }
+#endif
 }

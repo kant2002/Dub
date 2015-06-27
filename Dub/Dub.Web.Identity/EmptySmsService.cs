@@ -9,6 +9,7 @@ namespace Dub.Web.Identity
     using System.Threading.Tasks;
     using Microsoft.AspNet.Identity;
 
+#if !NETCORE
     /// <summary>
     /// Service for sending SMS
     /// </summary>
@@ -25,4 +26,5 @@ namespace Dub.Web.Identity
             return Task.FromResult(0);
         }
     }
+#endif
 }
