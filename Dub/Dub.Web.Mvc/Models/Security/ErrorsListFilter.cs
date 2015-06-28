@@ -8,7 +8,11 @@ namespace Dub.Web.Mvc.Models.Security
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+#if !NETCORE
     using System.Data.Entity.SqlServer;
+#else
+    using Microsoft.SqlServer.Server;
+#endif
     using System.Linq;
     using Dub.Web.Core;
     using Dub.Web.Mvc.Properties;
@@ -42,13 +46,25 @@ namespace Dub.Web.Mvc.Models.Security
             if (this.FromDate.HasValue)
             {
                 var fromDate = this.FromDate.GetValueOrDefault(DateTime.MinValue);
+#if !NETCORE
                 source = source.Where(_ => SqlFunctions.DateDiff("minute", _.Created, fromDate) <= 0);
+#else
+                fromDate = fromDate.AddSeconds(-fromDate.Second);
+                fromDate = fromDate.AddMilliseconds(-fromDate.Millisecond);
+                source = source.Where(_ => _.Created >= fromDate);
+#endif
             }
 
             if (this.TillDate.HasValue)
             {
                 var tillDate = this.TillDate.GetValueOrDefault(DateTime.MinValue);
+#if !NETCORE
                 source = source.Where(_ => SqlFunctions.DateDiff("minute", _.Created, tillDate) >= 0);
+#else
+                tillDate = tillDate.AddSeconds(-tillDate.Second);
+                tillDate = tillDate.AddMilliseconds(-tillDate.Millisecond);
+                source = source.Where(_ => _.Created <= tillDate);
+#endif
             }
 
             return source;

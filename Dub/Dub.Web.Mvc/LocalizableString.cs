@@ -102,7 +102,12 @@ namespace Dub.Web.Mvc
                 {
                     PropertyInfo property = this.resourceType.GetProperty(this.propertyValue);
                     bool propertyNotFound = false;
-                    if (!this.resourceType.IsVisible || property == null || property.PropertyType != typeof(string))
+#if !NETCORE
+                    bool typeIsHidden = !this.resourceType.IsVisible || property == null || property.PropertyType != typeof(string);
+#else
+                    bool typeIsHidden = property == null || property.PropertyType != typeof(string);
+#endif
+                    if (typeIsHidden)
                     {
                         propertyNotFound = true;
                     }

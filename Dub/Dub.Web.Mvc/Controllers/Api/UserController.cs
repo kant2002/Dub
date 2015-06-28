@@ -39,6 +39,7 @@ namespace Dub.Web.Mvc.Controllers.Api
 #endif
         where TUserFilter : class, ICollectionFilter<TUser>, ICollectionTransform<TUser>, new()
     {
+#if !NETCORE
         /// <summary>
         /// User manager.
         /// </summary>
@@ -51,6 +52,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         {
         }
 
+#endif
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController{TUser,TUserManager,TUserFilter}"/> class.
         /// </summary>
@@ -60,6 +62,7 @@ namespace Dub.Web.Mvc.Controllers.Api
             this.UserManager = userManager;
         }
 
+#if !NETCORE
         /// <summary>
         /// Gets user manager.
         /// </summary>
@@ -75,6 +78,12 @@ namespace Dub.Web.Mvc.Controllers.Api
                 this.userManager = value;
             }
         }
+#else
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Returns list of the users.

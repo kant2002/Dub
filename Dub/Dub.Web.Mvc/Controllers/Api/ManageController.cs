@@ -164,7 +164,11 @@ namespace Dub.Web.Mvc.Controllers.Api
             var model = new AccountInformationResponse
             {
                 Code = ApiStatusCode.Ok,
+#if !NETCORE
                 HasPassword = this.HasPassword(),
+#else
+                HasPassword = await this.HasPassword(),
+#endif
                 PhoneNumber = await this.UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await this.UserManager.GetTwoFactorEnabledAsync(userId),
 #if !NETCORE
@@ -192,6 +196,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
+#if !NETCORE
             var result = await this.UserManager.RemoveLoginAsync(User.Identity.GetUserId(), new UserLoginInfo(loginProvider, providerKey));
             if (result.Succeeded)
             {
@@ -203,10 +208,17 @@ namespace Dub.Web.Mvc.Controllers.Api
 
                 return this.StatusCode(ApiStatusCode.Ok);
             }
-            else
+#else
+            var user = await GetCurrentUserAsync();
+            if (user != null)
             {
-                return this.StatusCode(ApiStatusCode.RemoveLoginError);
+                var result = await this.UserManager.RemoveLoginAsync(user, loginProvider, providerKey);
+                await this.SignInManager.SignInAsync(user, isPersistent: false);
+                return this.StatusCode(ApiStatusCode.Ok);
             }
+#endif
+
+            return this.StatusCode(ApiStatusCode.RemoveLoginError);
         }
 
         /// <summary>
@@ -223,17 +235,26 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             // Generate the token and send it
+#if !NETCORE
             var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), model.Number);
+#else
+            var user = await this.GetCurrentUserAsync();
+            var code = await this.UserManager.GenerateChangePhoneNumberTokenAsync(user, model.Number);
+#endif
+            var messageText = "Your security code is: " + code;
+#if !NETCORE
             if (this.UserManager.SmsService != null)
             {
                 var message = new IdentityMessage
                 {
                     Destination = model.Number,
-                    Body = "Your security code is: " + code
+                    Body = messageText
                 };
                 await this.UserManager.SmsService.SendAsync(message);
             }
-
+#else
+            await MessageServices.SendSmsAsync(model.Number, messageText);
+#endif
             return this.StatusCode(ApiStatusCode.Ok);
         }
 
@@ -244,12 +265,21 @@ namespace Dub.Web.Mvc.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> EnableTwoFactorAuthentication()
         {
+#if !NETCORE
             await this.UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), true);
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
+#else
+            var user = await this.GetCurrentUserAsync();
+            if (user != null)
+            {
+                await this.UserManager.SetTwoFactorEnabledAsync(user, true);
+                await this.SignInManager.SignInAsync(user, isPersistent: false);
+            }
+#endif
 
             return this.StatusCode(ApiStatusCode.Ok);
         }
@@ -261,12 +291,21 @@ namespace Dub.Web.Mvc.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> DisableTwoFactorAuthentication()
         {
+#if !NETCORE
             await this.UserManager.SetTwoFactorEnabledAsync(User.Identity.GetUserId(), false);
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user != null)
             {
                 await this.SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
             }
+#else
+            var user = await this.GetCurrentUserAsync();
+            if (user != null)
+            {
+                await this.UserManager.SetTwoFactorEnabledAsync(user, false);
+                await this.SignInManager.SignInAsync(user, isPersistent: false);
+            }
+#endif
 
             return this.StatusCode(ApiStatusCode.Ok);
         }
@@ -284,6 +323,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
+#if !NETCORE
             var result = await this.UserManager.ChangePhoneNumberAsync(User.Identity.GetUserId(), model.PhoneNumber, model.Code);
             if (result.Succeeded)
             {
@@ -298,6 +338,23 @@ namespace Dub.Web.Mvc.Controllers.Api
 
             // If we got this far, something failed, redisplay form
             return this.ErrorCode(ApiStatusCode.InvalidArguments, new string[] { Resources.FailedToVerifyPhone });
+#else
+            var user = await this.GetCurrentUserAsync();
+            if (user != null)
+            {
+                var result = await this.UserManager.ChangePhoneNumberAsync(user, model.PhoneNumber, model.Code);
+                if (result.Succeeded)
+                {
+                    await this.SignInManager.SignInAsync(user, isPersistent: false);
+                    return this.StatusCode(ApiStatusCode.Ok);
+                }
+
+                // If we got this far, something failed, redisplay form
+                return this.ErrorCode(ApiStatusCode.InvalidArguments, new string[] { Resources.FailedToVerifyPhone });
+            }
+
+            return this.StatusCode(ApiStatusCode.Ok);
+#endif
         }
 
         /// <summary>
@@ -307,6 +364,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         [HttpPost]
         public async Task<IActionResult> RemovePhoneNumber()
         {
+#if !NETCORE
             var result = await this.UserManager.SetPhoneNumberAsync(User.Identity.GetUserId(), null);
             if (!result.Succeeded)
             {
@@ -320,6 +378,21 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             return this.StatusCode(ApiStatusCode.Ok);
+#else
+            var user = await this.GetCurrentUserAsync();
+            var result = await this.UserManager.SetPhoneNumberAsync(user, null);
+            if (!result.Succeeded)
+            {
+                return this.StatusCode(ApiStatusCode.OperationFailed);
+            }
+
+            if (user != null)
+            {
+                await this.SignInManager.SignInAsync(user, isPersistent: false);
+            }
+
+            return this.StatusCode(ApiStatusCode.Ok);
+#endif
         }
 
         /// <summary>
@@ -336,6 +409,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
+#if !NETCORE
             var result = await this.UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
@@ -349,6 +423,21 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
+#else
+            var user = await this.GetCurrentUserAsync();
+            var result = await this.UserManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
+            }
+
+            if (user != null)
+            {
+                await this.SignInManager.SignInAsync(user, isPersistent: false);
+            }
+
+            return this.StatusCode(ApiStatusCode.Ok);
+#endif
         }
 
         /// <summary>
@@ -365,6 +454,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
+#if !NETCORE
             var result = await this.UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
             if (result.Succeeded)
             {
@@ -378,8 +468,25 @@ namespace Dub.Web.Mvc.Controllers.Api
             }
 
             return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
+#else
+            var user = await this.GetCurrentUserAsync();
+            if (user != null)
+            {
+                var result = await this.UserManager.AddPasswordAsync(user, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    await this.SignInManager.SignInAsync(user, isPersistent: false);
+                    return this.StatusCode(ApiStatusCode.Ok);
+                }
+
+                return this.ErrorCode(ApiStatusCode.OperationFailed, result.Errors);
+            }
+
+            return this.StatusCode(ApiStatusCode.Ok);
+#endif
         }
 
+#if !NETCORE
         /// <summary>
         /// Tests that current user has password.
         /// </summary>
@@ -394,6 +501,22 @@ namespace Dub.Web.Mvc.Controllers.Api
 
             return false;
         }
+#else
+        /// <summary>
+        /// Tests that current user has password.
+        /// </summary>
+        /// <returns>True of user has password; false otherwise.</returns>
+        private async Task<bool> HasPassword()
+        {
+            var user = await this.UserManager.FindByIdAsync(this.User.GetUserId());
+            if (user != null)
+            {
+                return user.PasswordHash != null;
+            }
+
+            return false;
+        }
+#endif
 
 #if NETCORE
         /// <summary>

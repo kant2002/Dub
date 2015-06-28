@@ -18,6 +18,7 @@ namespace Dub.Web.Mvc.Controllers
 #if NETCORE
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
+    using Microsoft.Data.Entity;
 #endif
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
@@ -37,6 +38,22 @@ namespace Dub.Web.Mvc.Controllers
             Mapper.CreateMap<ErrorLog, ErrorLogViewModel>();
         }
 
+#if NETCORE
+        /// <summary>
+        /// Initialize a new instance of the <see cref="SecurityController"/> class.
+        /// </summary>
+        /// <param name="model">Database context to use.</param>
+        public SecurityController(ErrorsModel model)
+        {
+            this.Model = model;
+        }
+
+        /// <summary>
+        /// Gets or sets database model to use.
+        /// </summary>
+        public ErrorsModel Model { get; set; }
+#endif
+
         /// <summary>
         /// Display list of log entries.
         /// </summary>
@@ -44,7 +61,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Return action result.</returns>
         public ActionResult Errors([Bind(Prefix = "Filter")]ErrorsListFilter filter)
         {
-            var dbContext = new ErrorsModel();
+            var dbContext = this.CreateModel();
             var model = new ErrorsListViewModel(dbContext.ErrorLogs, filter);
             return this.View(model);
         }
@@ -56,11 +73,28 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which asynchronously return action result.</returns>
         public async Task<ActionResult> ErrorDetail(int id)
         {
-            var dbContext = new ErrorsModel();
+            var dbContext = this.CreateModel();
+#if !NETCORE
             var logEntry = await dbContext.ErrorLogs.FindAsync(id);
+#else
+            var logEntry = await dbContext.ErrorLogs.FirstOrDefaultAsync(_ => _.Id == id);
+#endif
             var model = new ErrorLogViewModel();
             Mapper.Map(logEntry, model);
             return this.View(model);
+        }
+
+        /// <summary>
+        /// Create new database model.
+        /// </summary>
+        /// <returns>Database context for error handling.</returns>
+        public ErrorsModel CreateModel()
+        {
+#if !NETCORE
+            return new ErrorsModel();
+#else
+            return this.Model;
+#endif
         }
     }
 }

@@ -39,6 +39,7 @@ namespace Dub.Web.Mvc.Controllers
         where TCreateUserViewModel : CreateUserViewModel, new()
         where TEditUserViewModel : EditUserViewModel, new()
     {
+#if !NETCORE
         /// <summary>
         /// User manager.
         /// </summary>
@@ -59,6 +60,21 @@ namespace Dub.Web.Mvc.Controllers
                 this.userManager = value;
             }
         }
+#else
+        /// <summary>
+        /// Create a new instance of the <see cref="UserController{TUser, TApplicationUserManager, TCreateUserViewModel, TEditUserViewModel}"/> class.
+        /// </summary>
+        /// <param name="userManager">User manager to use.</param>
+        public UserController(TApplicationUserManager userManager)
+        {
+            this.UserManager = userManager;
+        }
+
+        /// <summary>
+        /// Gets user manager.
+        /// </summary>
+        public TApplicationUserManager UserManager { get; set; }
+#endif
 
         /// <summary>
         /// Displays list of all users.
@@ -67,7 +83,7 @@ namespace Dub.Web.Mvc.Controllers
         [Authorize(Roles = RoleNames.Administrator)]
         public ActionResult Index()
         {
-            var principal = (System.Security.Claims.ClaimsPrincipal)HttpContext.User;
+            var principal = (System.Security.Claims.ClaimsPrincipal)this.User;
             var users = this.UserManager.GetAccessibleUsers(principal);
             var isAdmin = principal.IsInRole(RoleNames.Administrator);
             var model = new UsersListViewModel
@@ -83,7 +99,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Result of the action.</returns>
         public ActionResult Pending()
         {
-            var principal = (System.Security.Claims.ClaimsPrincipal)HttpContext.User;
+            var principal = (System.Security.Claims.ClaimsPrincipal)this.User;
             var notConfirmedUsers = this.UserManager.GetAccessibleUsers(principal)
                 .Where(_ => !_.EmailConfirmed);
             var isAdmin = principal.IsInRole(RoleNames.Administrator);
@@ -140,11 +156,19 @@ namespace Dub.Web.Mvc.Controllers
 
             model.Roles = this.SanitizeRoles(model.Roles ?? new string[0]);
 
+#if !NETCORE
             var currentRoles = await userManager.GetRolesAsync(user.Id);
+#else
+            var currentRoles = await userManager.GetRolesAsync(user);
+#endif
 
             // Add new roles
             var rolesAdded = model.Roles.Except(currentRoles).ToArray();
+#if !NETCORE
             result = await userManager.AddToRolesAsync(user.Id, rolesAdded);
+#else
+            result = await userManager.AddToRolesAsync(user, rolesAdded);
+#endif
             if (!result.Succeeded)
             {
                 // Add errors.
@@ -154,7 +178,11 @@ namespace Dub.Web.Mvc.Controllers
 
             // Remove roles
             var rolesRemoved = currentRoles.Except(model.Roles).ToArray();
+#if !NETCORE
             result = await userManager.RemoveFromRolesAsync(user.Id, rolesRemoved);
+#else
+            result = await userManager.RemoveFromRolesAsync(user, rolesRemoved);
+#endif
             if (!result.Succeeded)
             {
                 this.AddErrors(result);
@@ -340,7 +368,11 @@ namespace Dub.Web.Mvc.Controllers
             model.City = user.City;
             model.Address = user.Address;
             model.ContactPhone = user.ContactPhone;
+#if !NETCORE
             var roles = await this.UserManager.GetRolesAsync(user.Id);
+#else
+            var roles = await this.UserManager.GetRolesAsync(user);
+#endif
             model.Roles = roles.ToArray();
             return model;
         }
@@ -370,11 +402,19 @@ namespace Dub.Web.Mvc.Controllers
 
             model.Roles = this.SanitizeRoles(model.Roles ?? new string[0]);
 
+#if !NETCORE
             var currentRoles = await this.UserManager.GetRolesAsync(user.Id);
+#else
+            var currentRoles = await this.UserManager.GetRolesAsync(user);
+#endif
 
             // Add new roles
             var rolesAdded = model.Roles.Except(currentRoles).ToArray();
+#if !NETCORE
             result = await this.UserManager.AddToRolesAsync(user.Id, rolesAdded);
+#else
+            result = await this.UserManager.AddToRolesAsync(user, rolesAdded);
+#endif
             if (!result.Succeeded)
             {
                 // Add errors.
@@ -384,7 +424,11 @@ namespace Dub.Web.Mvc.Controllers
 
             // Remove roles
             var rolesRemoved = currentRoles.Except(model.Roles).ToArray();
+#if !NETCORE
             result = await this.UserManager.RemoveFromRolesAsync(user.Id, rolesRemoved);
+#else
+            result = await this.UserManager.RemoveFromRolesAsync(user, rolesRemoved);
+#endif
             if (!result.Succeeded)
             {
                 this.AddErrors(result);
@@ -421,7 +465,12 @@ namespace Dub.Web.Mvc.Controllers
             // address, since somebody from untrusted website could execute our 
             // method and returns to their website.
             // We should always return to our website, when in doubts.
+#if !NETCORE
             return this.Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+#else
+            var uri = new System.Uri(this.Context.Request.Headers["Referer"]);
+            return this.Redirect(uri.AbsoluteUri);
+#endif
         }
     }
 }

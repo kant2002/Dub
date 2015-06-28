@@ -50,6 +50,7 @@ namespace Dub.Web.Mvc
             return new HtmlString(spanTag.ToString(TagRenderMode.Normal));
         }
 
+#if !NETCORE
         /// <summary>
         /// Helper method which displays help button.
         /// </summary>
@@ -69,5 +70,6 @@ namespace Dub.Web.Mvc
 
             return new HtmlString(string.Empty);
         }
+#endif
     }
 }

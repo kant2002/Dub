@@ -12,11 +12,11 @@ namespace Dub.Web.Mvc.Controllers
     using System.Web;
     using System.Web.Mvc;
 #endif
+    using System.Security.Claims;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Manage;
     using Dub.Web.Mvc.Properties;
 #if NETCORE
-    using System.Security.Claims;
     using Microsoft.AspNet.Authorization;
 #endif
     using Microsoft.AspNet.Identity;
@@ -156,7 +156,11 @@ namespace Dub.Web.Mvc.Controllers
 #endif
             var model = new IndexViewModel
             {
+#if !NETCORE
                 HasPassword = this.HasPassword(),
+#else
+                HasPassword = await this.HasPassword(),
+#endif
                 PhoneNumber = await this.UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await this.UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await this.UserManager.GetLoginsAsync(userId),
@@ -567,7 +571,14 @@ namespace Dub.Web.Mvc.Controllers
         public ActionResult LinkLogin(string provider)
         {
             // Request a redirect to the external login provider to link a login for the current user
-            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), User.Identity.GetUserId());
+#if !NETCORE
+            var userId = this.User.Identity.GetUserId();
+            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), userId);
+#else
+            var redirectUrl = this.Url.Action("LinkLoginCallback", "Manage");
+            var properties = this.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, this.User.GetUserId());
+            return new ChallengeResult(provider, properties);
+#endif
         }
 
         /// <summary>
@@ -576,13 +587,22 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Task which asynchronously display action result.</returns>
         public async Task<ActionResult> LinkLoginCallback()
         {
+#if !NETCORE
             var loginInfo = await this.AuthenticationManager.GetExternalLoginInfoAsync(XsrfKey, User.Identity.GetUserId());
+#else
+            var loginInfo = await this.SignInManager.GetExternalLoginInfoAsync(XsrfKey);
+#endif
             if (loginInfo == null)
             {
                 return this.RedirectToAction("ManageLogins", new { Message = ManageAccountMessageId.Error });
             }
 
+#if !NETCORE
             var result = await this.UserManager.AddLoginAsync(User.Identity.GetUserId(), loginInfo.Login);
+#else
+            var user = await this.GetCurrentUserAsync();
+            var result = await this.UserManager.AddLoginAsync(user, loginInfo);
+#endif
             return result.Succeeded
                 ? this.RedirectToAction("ManageLogins")
                 : this.RedirectToAction("ManageLogins", new { Message = ManageAccountMessageId.Error });
@@ -594,12 +614,13 @@ namespace Dub.Web.Mvc.Controllers
         /// <param name="disposing">true to release both managed and unmanaged resources; false to release only unmanaged resources.</param>
         protected override void Dispose(bool disposing)
         {
+#if !NETCORE
             if (disposing && this.userManager != null)
             {
                 this.userManager.Dispose();
                 this.userManager = null;
             }
-
+#endif
             base.Dispose(disposing);
         }
 
@@ -619,6 +640,7 @@ namespace Dub.Web.Mvc.Controllers
             }
         }
 
+#if !NETCORE
         /// <summary>
         /// Tests that current user has password.
         /// </summary>
@@ -648,6 +670,38 @@ namespace Dub.Web.Mvc.Controllers
 
             return false;
         }
+#else
+        /// <summary>
+        /// Tests that current user has password.
+        /// </summary>
+        /// <returns>True of user has password; false otherwise.</returns>
+        private async Task<bool> HasPassword()
+        {
+            var user = await this.UserManager.FindByIdAsync(this.User.GetUserId());
+            if (user != null)
+            {
+                return user.PasswordHash != null;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Tests that current user has phone number.
+        /// </summary>
+        /// <returns>True of user has phone associated with it; false otherwise.</returns>
+        private async Task<bool> HasPhoneNumber()
+        {
+            var user = await this.UserManager.FindByIdAsync(this.User.GetUserId());
+            if (user != null)
+            {
+                return user.PhoneNumber != null;
+            }
+
+            return false;
+        }
+
+#endif
 
 #if NETCORE
         /// <summary>
