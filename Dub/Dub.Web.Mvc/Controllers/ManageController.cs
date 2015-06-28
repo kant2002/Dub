@@ -7,12 +7,12 @@
 namespace Dub.Web.Mvc.Controllers
 {
     using System.Linq;
+    using System.Security.Claims;
     using System.Threading.Tasks;
 #if !NETCORE
     using System.Web;
     using System.Web.Mvc;
 #endif
-    using System.Security.Claims;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Manage;
     using Dub.Web.Mvc.Properties;
@@ -533,7 +533,7 @@ namespace Dub.Web.Mvc.Controllers
                 message == ManageAccountMessageId.RemoveLoginSuccess ? "The external login was removed."
                 : message == ManageAccountMessageId.AddLoginSuccess ? "The external login was added."
                 : message == ManageAccountMessageId.Error ? "An error has occurred."
-                : "";
+                : string.Empty;
 #if !NETCORE
             var user = await this.UserManager.FindByIdAsync(User.Identity.GetUserId());
             if (user == null)
@@ -544,16 +544,16 @@ namespace Dub.Web.Mvc.Controllers
             var userLogins = await this.UserManager.GetLoginsAsync(User.Identity.GetUserId());
             var otherLogins = this.AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
 #else
-            var user = await GetCurrentUserAsync();
+            var user = await this.GetCurrentUserAsync();
             if (user == null)
             {
-                return View("Error");
+                return this.View("Error");
             }
 
-            var userLogins = await UserManager.GetLoginsAsync(user);
-            var otherLogins = SignInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+            var userLogins = await this.UserManager.GetLoginsAsync(user);
+            var otherLogins = this.SignInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
 #endif
-            ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
+            this.ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return this.View(new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,

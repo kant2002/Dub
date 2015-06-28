@@ -11,12 +11,12 @@ namespace Dub.Web.Mvc.Controllers
 #if !NETCORE
     using System.Net.Mail;
 #endif
+    using System.Security.Claims;
     using System.Threading.Tasks;
 #if !NETCORE
     using System.Web;
     using System.Web.Mvc;
 #endif
-    using System.Security.Claims;
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
@@ -691,7 +691,6 @@ namespace Dub.Web.Mvc.Controllers
 
             if (!this.ModelState.IsValid)
             {
-
                 this.ViewBag.ReturnUrl = returnUrl;
                 return this.View(model);
             }
@@ -713,7 +712,7 @@ namespace Dub.Web.Mvc.Controllers
             {
                 this.AddErrors(result);
                 this.ViewBag.ReturnUrl = returnUrl;
-                return View(model);
+                return this.View(model);
             }
 
 #if !NETCORE
@@ -725,7 +724,7 @@ namespace Dub.Web.Mvc.Controllers
             {
                 this.AddErrors(result);
                 this.ViewBag.ReturnUrl = returnUrl;
-                return View(model);
+                return this.View(model);
             }
 
 #if !NETCORE

@@ -61,7 +61,14 @@ namespace Dub.Web.Identity
         {
             user.Created = DateTime.UtcNow;
             user.Modified = DateTime.UtcNow;
-            return await base.CreateAsync(user);
+            var result = await base.CreateAsync(user);
+            var handler = this.Created;
+            if (handler != null)
+            {
+                handler.Invoke(user);
+            }
+
+            return result;
         }
 
         /// <summary>
