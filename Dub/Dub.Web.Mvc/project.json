@@ -18,7 +18,8 @@
     "Microsoft.AspNet.Mvc.Extensions": "6.0.0-beta6-14192",
     "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta6-11516",
     "Microsoft.AspNet.Authorization": "1.0.0-beta6-12589",
-    "Microsoft.Owin": "3.0.1"
+    "Microsoft.Owin": "3.0.1",
+    "Newtonsoft.Json": "7.0.1"
   },
   "compilationOptions": {
     "define": [ "NETCORE" ]

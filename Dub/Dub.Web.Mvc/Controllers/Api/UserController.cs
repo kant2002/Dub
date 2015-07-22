@@ -17,6 +17,7 @@ namespace Dub.Web.Mvc.Controllers.Api
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
 #endif
+    using Newtonsoft.Json;
 #if NETCORE
     using Microsoft.AspNet.Mvc;
 #endif
@@ -90,18 +91,20 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="offset">Page of the data to return.</param>
         /// <param name="pageSize">Size of the page.</param>
-        /// <param name="displayParameters">Model for the applying filtering parameters to the list.</param>
+        /// <param name="parameters">JSON formatted model for the applying filtering parameters to the list.</param>
         /// <returns>Result which returns the list of the users which match the requested criteria.</returns>
         [HttpGet]
         [Route("users")]
-        public IActionResult Get(int offset, int pageSize, TUserFilter displayParameters)
+        public IActionResult Get(int offset, int pageSize, string parameters)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.StatusCode(ApiStatusCode.InvalidArguments);
             }
 
-            displayParameters = displayParameters ?? new TUserFilter();
+            var displayParameters = string.IsNullOrEmpty(parameters) 
+                ? new TUserFilter()
+                : JsonConvert.DeserializeObject<TUserFilter>(parameters);
             var sourceData = this.GetUsers();
             var preparedData = this.Filter(sourceData, displayParameters, null, true, offset, pageSize);
             var transformedData = displayParameters.Transform(preparedData);

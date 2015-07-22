@@ -8,12 +8,12 @@ How to build
 ===
 To build this project run 
 
-   msbuild nuget.proj /t:BuildSolution
+   &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:BuildSolution /verbosity:d
 
 To package NuGet packages to MyGet use
 
-   msbuild nuget.proj /t:PackageNuget
+   &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:PackageNuget /verbosity:d
 
 To package and publish NuGet packages to MyGet use
 
-   msbuild nuget.proj /t:PublishNightly
+   &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:PublishNightly /verbosity:d

@@ -807,7 +807,7 @@
           "lib/net45/Microsoft.Owin.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/7.0.1": {
         "compile": {
           "lib/net45/Newtonsoft.Json.dll": {}
         },
@@ -1683,12 +1683,12 @@
           "lib/DNXCore50/Microsoft.Win32.Registry.dll": {}
         }
       },
-      "Newtonsoft.Json/6.0.6": {
+      "Newtonsoft.Json/7.0.1": {
         "compile": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         },
         "runtime": {
-          "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll": {}
+          "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll": {}
         }
       },
       "Owin/1.0": {},
@@ -3441,11 +3441,11 @@
         "ref/net46/Microsoft.Win32.Registry.dll"
       ]
     },
-    "Newtonsoft.Json/6.0.6": {
-      "sha512": "w26uZNyCG5VeoKiEOJ4+9/o8koSofLKwHl7WLreIcp0U6r57L7WiRXmjp8MTKFw6dYNZ9AE0lw69WYbIhUsU9Q==",
+    "Newtonsoft.Json/7.0.1": {
+      "sha512": "q3V4KLetMLnt1gpAVWgtXnHjKs0UG/RalBc29u2ZKxd5t5Ze4JBL5WiiYIklJyK/5CRiIiNwigVQUo0FgbsuWA==",
       "files": [
-        "Newtonsoft.Json.6.0.6.nupkg",
-        "Newtonsoft.Json.6.0.6.nupkg.sha512",
+        "Newtonsoft.Json.7.0.1.nupkg",
+        "Newtonsoft.Json.7.0.1.nupkg.sha512",
         "Newtonsoft.Json.nuspec",
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
@@ -3455,12 +3455,10 @@
         "lib/net40/Newtonsoft.Json.xml",
         "lib/net45/Newtonsoft.Json.dll",
         "lib/net45/Newtonsoft.Json.xml",
-        "lib/netcore45/Newtonsoft.Json.dll",
-        "lib/netcore45/Newtonsoft.Json.xml",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.dll",
         "lib/portable-net40+sl5+wp80+win8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.dll",
-        "lib/portable-net45+wp80+win8+wpa81+aspnetcore50/Newtonsoft.Json.xml",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.dll",
+        "lib/portable-net45+wp80+win8+wpa81+dnxcore50/Newtonsoft.Json.xml",
         "tools/install.ps1"
       ]
     },
@@ -5019,7 +5017,8 @@
       "Microsoft.AspNet.Mvc.Extensions >= 6.0.0-beta6-14192",
       "Microsoft.Framework.Logging.Abstractions >= 1.0.0-beta6-11516",
       "Microsoft.AspNet.Authorization >= 1.0.0-beta6-12589",
-      "Microsoft.Owin >= 3.0.1"
+      "Microsoft.Owin >= 3.0.1",
+      "Newtonsoft.Json >= 7.0.1"
     ],
     "DNX,Version=v4.5.1": [],
     "DNXCore,Version=v5.0": [
