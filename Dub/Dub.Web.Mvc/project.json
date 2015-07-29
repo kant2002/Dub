@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "0.4.1",
   "description": "The Core library for the Dub project",
   "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
   "tags": [ "" ],
@@ -7,18 +7,18 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "AutoMapper": "4.0.0-ci1061",
+    "AutoMapper": "4.0.0-alpha1",
     "Dub.Web.Core": "",
     "Dub.Web.Identity": "",
-    "EntityFramework.Core": "7.0.0-beta6-13586",
-    "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta6-11657",
-    "Microsoft.AspNet.Identity": "3.0.0-beta6-12632",
-    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta6-12642",
-    "Microsoft.AspNet.Mvc.Core": "6.0.0-beta6-14189",
-    "Microsoft.AspNet.Mvc.Extensions": "6.0.0-beta6-14192",
-    "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta6-11516",
-    "Microsoft.AspNet.Authorization": "1.0.0-beta6-12589",
-    "Microsoft.Owin": "3.0.1",
+    "EntityFramework.Core": "7.0.0-beta7-13844",
+    "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7-11763",
+    "Microsoft.AspNet.Identity": "3.0.0-beta7-12779",
+    "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-12779",
+    "Microsoft.AspNet.Mvc.Core": "6.0.0-beta7-14369",
+    "Microsoft.AspNet.Mvc.Extensions": "6.0.0-beta6-14251",
+    "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-11625",
+    "Microsoft.AspNet.Authorization": "1.0.0-beta7-12737",
+    "Microsoft.Owin": "3.0.0",
     "Newtonsoft.Json": "7.0.1"
   },
   "compilationOptions": {
@@ -29,15 +29,15 @@
     "dnx451": { },
     "dnxcore50": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0-beta-23008",
-        "System.Collections": "4.0.10-beta-23008",
-        "System.Linq": "4.0.0-beta-23008",
-        "System.Runtime": "4.0.20-beta-23015",
-        "System.Resources.ResourceManager": "4.0.0-beta-23021",
-        "System.Runtime.Extensions": "4.0.10-beta-23015",
-        "System.Security.Claims": "4.0.0-beta-23008",
-        "System.Threading": "4.0.10-beta-23008",
-        "System.Diagnostics.Tools": "4.0.0-beta-23008"
+        "Microsoft.CSharp": "4.0.0",
+        "System.Collections": "4.0.10",
+        "System.Linq": "4.0.0",
+        "System.Runtime": "4.0.20",
+        "System.Resources.ResourceManager": "4.0.0",
+        "System.Runtime.Extensions": "4.0.10",
+        "System.Security.Claims": "4.0.0",
+        "System.Threading": "4.0.10",
+        "System.Diagnostics.Tools": "4.0.0"
       }
     }
   }
