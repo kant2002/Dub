@@ -77,6 +77,17 @@ namespace Dub.Web.Identity
             
             return userIdentity;
         }
+#else
+        /// <summary>
+        /// Add claims to identity.
+        /// </summary>
+        /// <param name="identity">Identity to which add user claims.</param>
+        public virtual void AddClaims(ClaimsIdentity identity)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.Sid, this.Id == null ? string.Empty : this.Id.ToString()));
+            identity.AddClaim(new Claim(ClaimTypes.Surname, this.LastName ?? string.Empty));
+            identity.AddClaim(new Claim(ClaimTypes.GivenName, this.FirstName ?? string.Empty));
+        }
 #endif
     }
 }

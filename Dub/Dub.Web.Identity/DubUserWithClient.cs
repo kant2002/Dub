@@ -40,6 +40,19 @@ namespace Dub.Web.Identity
 
             return userIdentity;
         }
+#else
+        /// <summary>
+        /// Add claims to identity.
+        /// </summary>
+        /// <param name="identity">Identity to which add user claims.</param>
+        public override void AddClaims(ClaimsIdentity identity)
+        {
+            base.AddClaims(identity);
+            if (this.ClientId.HasValue)
+            {
+                identity.AddClaim(new Claim(WellKnownClaims.ClientClaim, this.ClientId.ToString()));
+            }
+        }
 #endif
     }
 }
