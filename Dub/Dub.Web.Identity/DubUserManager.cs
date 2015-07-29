@@ -41,6 +41,15 @@ namespace Dub.Web.Identity
         /// Initializes a new instance of the <see cref="DubUserManager{TUser}"/> class.
         /// </summary>
         /// <param name="store">Store which uses for the persisting.</param>
+        /// <param name="optionsAccessor">The accessor used to access the <see cref="IdentityOptions"/>.</param>
+        /// <param name="passwordHasher">The password hashing implementation to use when saving passwords.</param>
+        /// <param name="userValidators">A collection of <see cref="IUserValidator{TUser}"/> to validate users against.</param>
+        /// <param name="passwordValidators">A collection of <see cref="IPasswordValidator{TUser}"/> to validate users against.</param>
+        /// <param name="keyNormalizer">The <see cref="ILookupNormalizer"/> to use when generating index keys for users.</param>
+        /// <param name="errors">The <see cref="IdentityErrorDescriber"/> used to provider error messages.</param>
+        /// <param name="tokenProviders">A collection of <see cref="IUserTokenProvider{TUser}"/> to generate two-factor auth tokens.</param>
+        /// <param name="logger">The logger used to log messages, warnings and errors.</param>
+        /// <param name="contextAccessor">The accessor used to access the <see cref="HttpContext"/>.</param>
         public DubUserManager(IUserStore<TUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher<TUser> passwordHasher, IEnumerable<IUserValidator<TUser>> userValidators, IEnumerable<IPasswordValidator<TUser>> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IEnumerable<IUserTokenProvider<TUser>> tokenProviders, ILogger<UserManager<TUser>> logger, IHttpContextAccessor contextAccessor)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, tokenProviders, logger, contextAccessor)
         {
