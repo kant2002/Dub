@@ -9,8 +9,6 @@ namespace Dub.Web.Core
     using System;
 #if !NETCORE
     using System.ComponentModel.DataAnnotations.Schema;
-#else
-    using Microsoft.Data.Entity.Metadata.ModelConventions;
 #endif
 
     /// <summary>

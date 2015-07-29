@@ -17,3 +17,7 @@ To package NuGet packages to MyGet use
 To package and publish NuGet packages to MyGet use
 
    &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:PublishNightly /verbosity:d
+
+To package and publish ASP.NET 5 NuGet packages to MyGet
+
+   &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:PublishAspNet5Nightly /verbosity:d

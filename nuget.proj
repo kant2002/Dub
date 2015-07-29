@@ -11,6 +11,7 @@
     <NugetTempPath>Nuget\dist\latest</NugetTempPath>
     <NugetSource>https://www.myget.org/F/dub-nightly/api/v2/package</NugetSource>
     <SymbolSource>https://nuget.symbolsource.org/MyGet/dub-nightly</SymbolSource>
+    <NugetAspnet5Source>https://www.myget.org/F/dub-aspnet5-nightly/api/v2/package</NugetAspnet5Source>
   </PropertyGroup>
   <ItemGroup>
     <!-- Solution files which has to be built. -->
@@ -54,6 +55,16 @@
     <MakeDir Directories="$(NugetCurrentPath)" Condition="!Exists('$(NugetCurrentPath)')" />
     <Exec Command="$(NugetPath)Nuget.exe pack $(NugetPath)%(NugetSpecFile.Identity) -OutputDirectory $(NugetTempPath)" />
     <Copy SourceFiles="@(BuiltNugetFiles)" DestinationFolder="$(NugetCurrentPath)" />
+  </Target>
+
+  <Target Name="PublishAspNet5Nightly" DependsOnTargets="BuildSolution">
+    <CreateItem Include="Dub\artifacts\**\*.nupkg">
+      <Output TaskParameter="Include" ItemName="NugetAspNet5Package" />
+    </CreateItem>
+
+    <Error Text="Please create nuget.proj.user which specify the NugetApiKey variable" Condition="$(NugetApiKey) == ''" />
+    <Exec Command="$(NugetPath)Nuget.exe push %(NugetAspNet5Package.Identity) $(NugetApiKey) -Source $(NugetSource)" Condition="$(NugetApiKey) != ''" />
+    <!--<Message Text="$(NugetPath)Nuget.exe push %(NugetAspNet5Package.Identity) $(NugetApiKey) -Source $(NugetSource)" Condition="$(NugetApiKey) != ''" />-->
   </Target>
 
   <Target Name="PublishNightly" DependsOnTargets="PackageNuget">

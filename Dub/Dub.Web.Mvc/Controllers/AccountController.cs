@@ -741,12 +741,16 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Result of the action.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
+#if !NETCORE
         public ActionResult LogOff()
+#else
+        public async Task<ActionResult> LogOff()
+#endif
         {
 #if !NETCORE
             this.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 #else
-            this.SignInManager.SignOut();
+            await this.SignInManager.SignOutAsync();
 #endif
             return this.RedirectToAction("Index", "Home");
         }

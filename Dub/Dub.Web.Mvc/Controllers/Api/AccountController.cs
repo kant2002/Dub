@@ -182,12 +182,16 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Action result.</returns>
         [HttpPost]
         [Route("account/logout")]
-        public IActionResult Logout()
+#if !NETCORE
+        public IActionResult LogOff()
+#else
+        public async Task<IActionResult> LogOff()
+#endif
         {
 #if !NETCORE
             this.SignInManager.AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 #else
-            this.SignInManager.SignOut();
+            await this.SignInManager.SignOutAsync();
 #endif
             return this.StatusCode(ApiStatusCode.Ok);
         }

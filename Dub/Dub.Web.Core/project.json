@@ -17,12 +17,12 @@
     "dnx451": { },
     "dnxcore50" : {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.0",
+        "Microsoft.CSharp": "4.0.0-beta-23029",
         "System.Collections": "4.0.10",
         "System.Linq": "4.0.0",
         "System.Runtime": "4.0.20",
         "System.Runtime.Extensions": "4.0.10",
-        "System.Security.Claims": "4.0.0",
+        "System.Security.Claims": "4.0.0-beta-23029",
         "System.Threading": "4.0.10",
         "System.Diagnostics.Tools": "4.0.0"
       }
