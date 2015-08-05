@@ -3,6 +3,11 @@ Dub
 
 Application framework for speedier development of the SaaS application
 
+What's changed
+===
+
+### 0.5.0
+- Moved all project to the new ASPNET Core projects.
 
 How to build
 ===

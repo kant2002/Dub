@@ -8,7 +8,7 @@
     <OutputPath>bin\</OutputPath>
     <NugetCurrentPath>Nuget\archive\4.1.0\</NugetCurrentPath>
     <NugetOutputPath>Nuget\dist\</NugetOutputPath>
-    <NugetTempPath>Nuget\dist\latest</NugetTempPath>
+    <NugetTempPath>Dub\artifacts</NugetTempPath>
     <NugetSource>https://www.myget.org/F/dub-nightly/api/v2/package</NugetSource>
     <SymbolSource>https://nuget.symbolsource.org/MyGet/dub-nightly</SymbolSource>
     <NugetAspnet5Source>https://www.myget.org/F/dub-aspnet5-nightly/api/v2/package</NugetAspnet5Source>
@@ -33,14 +33,14 @@
     <MSBuild Projects="@(SolutionsToBuild)"
              Targets="Build"
              Properties="Configuration=Release;RunCodeAnalysis=true">
-      <Output
+      <!--<Output
           TaskParameter="TargetOutputs"
-          ItemName="AssembliesBuiltByChildProjects" />
+          ItemName="AssembliesBuiltByChildProjects" />-->
     </MSBuild>
 
-    <Copy SourceFiles="@(AssembliesBuiltByChildProjects)" DestinationFolder="$(OutputPath)" />
+    <!--<Copy SourceFiles="@(AssembliesBuiltByChildProjects)" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).xml')" DestinationFolder="$(OutputPath)" />
-	<Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).pdb')" DestinationFolder="$(OutputPath)" />
+	<Copy SourceFiles="@(AssembliesBuiltByChildProjects->'%(rootdir)%(directory)%(filename).pdb')" DestinationFolder="$(OutputPath)" />-->
   </Target>
 
   <ItemGroup>
