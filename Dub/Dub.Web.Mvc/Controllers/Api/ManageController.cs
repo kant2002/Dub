@@ -227,7 +227,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="model">Information for adding phone number.</param>
         /// <returns>An asynchronous task which return action result.</returns>
         [HttpPost]
-        public async Task<IActionResult> AddPhoneNumber(AddPhoneNumberViewModel model)
+        public async Task<IActionResult> AddPhoneNumber([FromBody]AddPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -316,7 +316,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="model">Model with information required for phone verification.</param>
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
-        public async Task<IActionResult> VerifyPhoneNumber(VerifyPhoneNumberViewModel model)
+        public async Task<IActionResult> VerifyPhoneNumber([FromBody]VerifyPhoneNumberViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -402,7 +402,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
         [Route("manage/password")]
-        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        public async Task<IActionResult> ChangePassword([FromBody]ChangePasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -447,7 +447,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Task which asynchronously display action result.</returns>
         [HttpPost]
         [Route("manage/password/add")]
-        public async Task<IActionResult> SetPassword(SetPasswordViewModel model)
+        public async Task<IActionResult> SetPassword([FromBody]SetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {

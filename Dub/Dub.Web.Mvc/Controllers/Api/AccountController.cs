@@ -135,7 +135,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>HTTP OK in case of success; </returns>
         [HttpPost]
         [Route("account/login")]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -201,7 +201,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Data for verify security code.</param>
         /// <returns>Action result.</returns>
-        public async Task<IActionResult> VerifyCode(VerifyCodeViewModel model)
+        public async Task<IActionResult> VerifyCode([FromBody]VerifyCodeViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -251,7 +251,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Information about user to register.</param>
         /// <returns>Action result.</returns>
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -288,7 +288,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Information for the forgot password.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -319,7 +319,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model with information about password reset.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -352,7 +352,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model with information about sending security code.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IActionResult> SendCode(SendCodeViewModel model)
+        public async Task<IActionResult> SendCode([FromBody]SendCodeViewModel model)
         {
             if (!this.ModelState.IsValid)
             {
@@ -400,7 +400,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model for confirming authorization using external login.</param>
         /// <returns>Result of the action.</returns>
-        public async Task<IActionResult> ExternalLoginConfirmation(ExternalLoginConfirmationViewModel model)
+        public async Task<IActionResult> ExternalLoginConfirmation([FromBody]ExternalLoginConfirmationViewModel model)
         {
             if (!this.ModelState.IsValid)
             {

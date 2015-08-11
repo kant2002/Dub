@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.5.1",
+    "version": "0.5.2",
     "description": "The Core library for the Dub project",
     "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
     "tags": [ "" ],
@@ -29,7 +29,6 @@
             "dependencies": {
 
                 "EntityFramework.Core": "7.0.0-beta7-*",
-                "Microsoft.AspNet.Identity": "3.0.0-beta7-*",
                 "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-*",
                 "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-*"
             }
@@ -41,7 +40,8 @@
             "dependencies": {
 
                 "EntityFramework.Core": "7.0.0-beta7-*",
-                "Microsoft.AspNet.Identity": "3.0.0-beta7-*",
+                "EntityFramework.SqlServer": "7.0.0-beta7-13922",
+                "Microsoft.AspNet.Identity": "3.0.0-beta7-12822",
                 "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-*",
                 "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-*",
 
