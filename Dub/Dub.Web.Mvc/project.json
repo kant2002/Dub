@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.5.0",
+    "version": "0.5.1",
     "description": "The Core library for the Dub project",
     "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
     "tags": [ "" ],
@@ -36,14 +36,14 @@
             },
             "dependencies": {
 
-                "EntityFramework.Core": "7.0.0-beta7-13844",
-                "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7-11763",
-                "Microsoft.AspNet.Identity": "3.0.0-beta7-12779",
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-12779",
-                "Microsoft.AspNet.Mvc.Core": "6.0.0-beta7-14369",
-                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta7-14327",
-                "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-11625",
-                "Microsoft.AspNet.Authorization": "1.0.0-beta7-12737",
+                "EntityFramework.Core": "7.0.0-beta7-*",
+                "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7-*",
+                "Microsoft.AspNet.Identity": "3.0.0-beta7-*",
+                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-*",
+                "Microsoft.AspNet.Mvc.Core": "6.0.0-beta7-*",
+                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta7-*",
+                "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-*",
+                "Microsoft.AspNet.Authorization": "1.0.0-beta7-*",
         "Microsoft.Owin": "3.0.1"
             }
         },
@@ -53,14 +53,14 @@
             },
             "dependencies": {
 
-                "EntityFramework.Core": "7.0.0-beta7-13844",
-                "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7-11763",
-                "Microsoft.AspNet.Identity": "3.0.0-beta7-12779",
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-12779",
-                "Microsoft.AspNet.Mvc.Core": "6.0.0-beta7-14369",
-                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta7-14327",
-                "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-11625",
-                "Microsoft.AspNet.Authorization": "1.0.0-beta7-12737",
+                "EntityFramework.Core": "7.0.0-beta7-*",
+                "Microsoft.AspNet.Http.Abstractions": "1.0.0-beta7-*",
+                "Microsoft.AspNet.Identity": "3.0.0-beta7-*",
+                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-beta7-*",
+                "Microsoft.AspNet.Mvc.Core": "6.0.0-beta7-*",
+                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-beta7-*",
+                "Microsoft.Framework.Logging.Abstractions": "1.0.0-beta7-*",
+                "Microsoft.AspNet.Authorization": "1.0.0-beta7-*",
 
                 "Microsoft.CSharp": "4.0.0",
                 "System.Collections": "4.0.10",

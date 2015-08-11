@@ -31,14 +31,18 @@ namespace Dub.Web.Mvc.Controllers.Api
     /// <typeparam name="TUser">Type of the user.</typeparam>
     /// <typeparam name="TUserManager">Type of user manager used to manage the users.</typeparam>
     /// <typeparam name="TUserFilter">Type which specify parameters to the users list.</typeparam>
+#if NETCORE
+    public class UserController<TUser, TUserManager> : ApiControllerBase
+#else
     public class UserController<TUser, TUserManager, TUserFilter> : ApiControllerBase
+#endif
         where TUser : DubUser, new()
 #if NETCORE
         where TUserManager : UserManager<TUser>
 #else
         where TUserManager : UserManager<TUser, string>
-#endif
         where TUserFilter : class, ICollectionFilter<TUser>, ICollectionTransform<TUser>, new()
+#endif
     {
 #if !NETCORE
         /// <summary>
@@ -85,7 +89,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         public TUserManager UserManager { get; set; }
 #endif
-
+#if !NETCORE
         /// <summary>
         /// Returns list of the users.
         /// </summary>
@@ -148,5 +152,6 @@ namespace Dub.Web.Mvc.Controllers.Api
         {
             return this.UserManager.Users;
         }
+#endif
     }
 }
