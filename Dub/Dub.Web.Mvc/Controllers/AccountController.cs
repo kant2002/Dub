@@ -161,7 +161,7 @@ namespace Dub.Web.Mvc.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         [SuppressMessage("Microsoft.Design", "CA1054:UriParametersShouldNotBeStrings", MessageId = "1#", Justification = "This design imposed by the Mvc")]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
         {
             if (!this.ModelState.IsValid)
             {
