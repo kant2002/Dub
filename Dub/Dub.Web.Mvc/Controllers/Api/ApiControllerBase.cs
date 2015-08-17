@@ -80,16 +80,6 @@ namespace Dub.Web.Mvc.Controllers.Api
 
 #if NETCORE
         /// <summary>
-        /// Returns object.
-        /// </summary>
-        /// <param name="result">Object which represents result.</param>
-        /// <returns>Action result which represent specific API code.</returns>
-        protected IActionResult Ok(object result)
-        {
-            return new ObjectResult(result);
-        }
-
-        /// <summary>
         /// Returns API status code which contains information about errors.
         /// </summary>
         /// <param name="code">API code to return.</param>
