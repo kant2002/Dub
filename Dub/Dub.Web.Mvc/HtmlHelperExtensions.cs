@@ -23,6 +23,7 @@ namespace Dub.Web.Mvc
     /// </summary>
     public static class HtmlHelperExtensions
     {
+#if !NETCORE
         /// <summary>
         /// Helper method which displays help button.
         /// </summary>
@@ -49,7 +50,7 @@ namespace Dub.Web.Mvc
             spanTag.SetInnerText("?");
             return new HtmlString(spanTag.ToString(TagRenderMode.Normal));
         }
-
+#endif
 #if !NETCORE
         /// <summary>
         /// Helper method which displays help button.
