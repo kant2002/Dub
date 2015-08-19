@@ -51,7 +51,17 @@ namespace Dub.Web.Identity
         /// <param name="tokenProviders">A collection of <see cref="IUserTokenProvider{TUser}"/> to generate two-factor auth tokens.</param>
         /// <param name="logger">The logger used to log messages, warnings and errors.</param>
         /// <param name="contextAccessor">The accessor used to access the <see cref="HttpContext"/>.</param>
-        public DubUserManager(IUserStore<TUser> store, IOptions<IdentityOptions> optionsAccessor, IPasswordHasher passwordHasher, IEnumerable<IUserValidator> userValidators, IEnumerable<IPasswordValidator> passwordValidators, ILookupNormalizer keyNormalizer, IdentityErrorDescriber errors, IEnumerable<IUserTokenProvider> tokenProviders, ILogger<UserManager<TUser>> logger, IHttpContextAccessor contextAccessor)
+        public DubUserManager(
+            IUserStore<TUser> store, 
+            IOptions<IdentityOptions> optionsAccessor, 
+            IPasswordHasher<TUser> passwordHasher, 
+            IEnumerable<IUserValidator<TUser>> userValidators, 
+            IEnumerable<IPasswordValidator<TUser>> passwordValidators, 
+            ILookupNormalizer keyNormalizer, 
+            IdentityErrorDescriber errors, 
+            IEnumerable<IUserTokenProvider<TUser>> tokenProviders,
+            ILogger<UserManager<TUser>> logger, 
+            IHttpContextAccessor contextAccessor)
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, tokenProviders, logger, contextAccessor)
         {
         }
