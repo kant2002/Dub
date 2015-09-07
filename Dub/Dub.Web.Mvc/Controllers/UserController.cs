@@ -18,6 +18,7 @@ namespace Dub.Web.Mvc.Controllers
 #if NETCORE
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
+    using Microsoft.Framework.Caching.Memory;
 #endif
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
@@ -74,6 +75,12 @@ namespace Dub.Web.Mvc.Controllers
         /// Gets user manager.
         /// </summary>
         public TApplicationUserManager UserManager { get; set; }
+
+        /// <summary>
+        /// Gets or sets memory cache.
+        /// </summary>
+        [FromServices]
+        public IMemoryCache Cache { get; set; }
 #endif
 
         /// <summary>
@@ -147,6 +154,12 @@ namespace Dub.Web.Mvc.Controllers
             user.Address = model.Address;
             user.ContactPhone = model.ContactPhone;
             var result = await userManager.CreateAsync(user);
+#if NETCORE
+            if (this.Cache != null)
+            {
+                this.Cache.Remove("users");
+            }
+#endif
             if (!result.Succeeded)
             {
                 // Add errors.
@@ -238,6 +251,13 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
+#if NETCORE
+            if (this.Cache != null)
+            {
+                this.Cache.Remove("users");
+                this.Cache.Remove("user-" + model.Id);
+            }
+#endif
             return this.RedirectToAction("Index");
         }
 
@@ -284,6 +304,13 @@ namespace Dub.Web.Mvc.Controllers
                 return this.View(model);
             }
 
+#if NETCORE
+            if (this.Cache != null)
+            {
+                this.Cache.Remove("users");
+                this.Cache.Remove("user-" + model.Id);
+            }
+#endif
             return this.RedirectToAction("Index");
         }
 
@@ -304,6 +331,13 @@ namespace Dub.Web.Mvc.Controllers
 
             user.EmailConfirmed = true;
             var result = await userManager.UpdateAsync(user);
+#if NETCORE
+            if (this.Cache != null)
+            {
+                this.Cache.Remove("users");
+                this.Cache.Remove("user-" + id);
+            }
+#endif
 
             return this.ReturnToPreviousPage();
         }
@@ -325,6 +359,13 @@ namespace Dub.Web.Mvc.Controllers
 
             user.EmailConfirmed = false;
             var result = await userManager.UpdateAsync(user);
+#if NETCORE
+            if (this.Cache != null)
+            {
+                this.Cache.Remove("users");
+                this.Cache.Remove("user-" + id);
+            }
+#endif
 
             return this.ReturnToPreviousPage();
         }

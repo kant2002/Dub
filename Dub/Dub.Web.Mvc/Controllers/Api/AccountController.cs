@@ -167,7 +167,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.AccountLockedOut);
             }
 
-            if (result.IsLockedOut)
+            if (result.IsNotAllowed)
             {
                 return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
             }
