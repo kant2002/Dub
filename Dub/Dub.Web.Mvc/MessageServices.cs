@@ -6,6 +6,9 @@
 
 namespace Dub.Web.Mvc
 {
+#if !NOMAIL
+    using System.Net.Mail;
+#endif
     using System.Threading.Tasks;
 
 #if NETCORE
@@ -15,16 +18,23 @@ namespace Dub.Web.Mvc
     public class MessageServices
     {
         /// <summary>
-        /// Send email 
+        /// Sends the email.
         /// </summary>
-        /// <param name="email"></param>
-        /// <param name="subject"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static Task SendEmailAsync(string email, string subject, string message)
+        /// <param name="email">Recepient's email.</param>
+        /// <param name="subject">Email subject</param>
+        /// <param name="message">Email message text.</param>
+        /// <returns>Task which asynchronously send email.</returns>
+        public static async Task SendEmailAsync(string email, string subject, string message)
         {
+#if !NOMAIL
+            SmtpClient client = new SmtpClient("smtp.sendgrid.net");
+            client.Credentials = new System.Net.NetworkCredential("azure_246b6e0fe9ab9e8997340a3bc3b8e480@azure.com", "Xp8YZpA_");
+            var template = System.IO.File.ReadAllText("mailtemplate.html");
+            await client.SendMailAsync("info@hotlola.com", email, subject, template.Replace("$message", message));
+#else
             // Plug in your email service
-            return Task.FromResult(0);
+            await Task.FromResult(0);
+#endif
         }
 
         public static Task SendSmsAsync(string number, string message)

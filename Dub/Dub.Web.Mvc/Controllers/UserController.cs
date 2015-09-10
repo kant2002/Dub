@@ -6,6 +6,7 @@
 
 namespace Dub.Web.Mvc.Controllers
 {
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
 #if !NETCORE
@@ -339,6 +340,7 @@ namespace Dub.Web.Mvc.Controllers
             }
 #endif
 
+            this.OnUserActivated(user);
             return this.ReturnToPreviousPage();
         }
 
@@ -367,7 +369,24 @@ namespace Dub.Web.Mvc.Controllers
             }
 #endif
 
+            this.OnUserDeactivated(user);
             return this.ReturnToPreviousPage();
+        }
+
+        /// <summary>
+        /// Called after user was activated.
+        /// </summary>
+        /// <param name="user">User which was activated.</param>
+        protected virtual void OnUserActivated(TUser user)
+        {
+        }
+
+        /// <summary>
+        /// Called after user was deactivated.
+        /// </summary>
+        /// <param name="user">User which was deactivated.</param>
+        protected virtual void OnUserDeactivated(TUser user)
+        {
         }
 
         /// <summary>

@@ -381,16 +381,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.View("Error");
             }
 
-            var message = "Your security code is: " + code;
-            if (model.SelectedProvider == "Email")
-            {
-                await MessageServices.SendEmailAsync(await UserManager.GetEmailAsync(user), "Security Code", message);
-            }
-            else if (model.SelectedProvider == "Phone")
-            {
-                await MessageServices.SendSmsAsync(await UserManager.GetPhoneNumberAsync(user), message);
-            }
-
+            await this.OnRecoveryCodeSent(model.SelectedProvider, user, code);
             return this.RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
 #endif
         }
@@ -478,6 +469,44 @@ namespace Dub.Web.Mvc.Controllers.Api
             await this.UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 #else
             await MessageServices.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#endif
+        }
+
+#if NETCORE
+        /// <summary>
+        /// Send password recovery email.
+        /// </summary>
+        /// <param name="provider">Sending provider.</param>
+        /// <param name="user">User for which send notification.</param>
+        /// <param name="code">Password recovery code.</param>
+        /// <returns>Async task which send code.</returns>
+        protected virtual async Task OnRecoveryCodeSent(string provider, TUser user, string code)
+        {
+            var message = "Your security code is: " + code;
+            if (provider == "Email")
+            {
+                await MessageServices.SendEmailAsync(user.Email, "Security Code", message);
+            }
+            else if (provider == "Phone")
+            {
+                await MessageServices.SendSmsAsync(user.PhoneNumber, message);
+            }
+        }
+#endif
+
+        /// <summary>
+        /// Sends forgot password registration email.
+        /// </summary>
+        /// <param name="user">User which request forgot password email.</param>
+        /// <param name="code">Code for forgot password registration.</param>
+        /// <returns>Asynchronously send forgot password email.</returns>
+        protected virtual async Task SendResetPasswordEmail(TUser user, string code)
+        {
+            var callbackUrl = this.Url.Link("Default", new { @controller = "ResetPassword", @action = "Account", userId = user.Id, code = code });
+#if !NETCORE
+            await this.UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+#else
+            await MessageServices.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
 #endif
         }
 
