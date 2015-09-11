@@ -201,6 +201,8 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Data for verify security code.</param>
         /// <returns>Action result.</returns>
+        [HttpPost]
+        [Route("account/verifycode")]
         public async Task<IActionResult> VerifyCode([FromBody]VerifyCodeViewModel model)
         {
             if (!this.ModelState.IsValid)
@@ -288,6 +290,8 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Information for the forgot password.</param>
         /// <returns>Result of the action.</returns>
+        [HttpPost]
+        [Route("account/forgotpassword")]
         public async Task<IActionResult> ForgotPassword([FromBody]ForgotPasswordViewModel model)
         {
             if (!this.ModelState.IsValid)
@@ -319,6 +323,8 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model with information about password reset.</param>
         /// <returns>Result of the action.</returns>
+        [HttpPost]
+        [Route("account/resetpassword")]
         public async Task<IActionResult> ResetPassword([FromBody]ResetPasswordViewModel model)
         {
             if (!this.ModelState.IsValid)
@@ -352,6 +358,8 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// </summary>
         /// <param name="model">Model with information about sending security code.</param>
         /// <returns>Result of the action.</returns>
+        [HttpPost]
+        [Route("account/sendcode")]
         public async Task<IActionResult> SendCode([FromBody]SendCodeViewModel model)
         {
             if (!this.ModelState.IsValid)
