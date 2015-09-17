@@ -297,7 +297,7 @@ namespace Dub.Web.Mvc.Controllers
                 return this.RedirectToAction("Index");
             }
 
-            var result = await userManager.DeleteAsync(user);
+            IdentityResult result = await this.DoDeleteUser(user);
             if (!result.Succeeded)
             {
                 // Add errors.
@@ -371,6 +371,17 @@ namespace Dub.Web.Mvc.Controllers
 
             this.OnUserDeactivated(user);
             return this.ReturnToPreviousPage();
+        }
+
+        /// <summary>
+        /// Perform delete of the user.
+        /// </summary>
+        /// <param name="user">User to delete</param>
+        /// <returns>Task which delete the user.</returns>
+        protected virtual async Task<IdentityResult> DoDeleteUser(TUser user)
+        {
+            var userManager = this.UserManager;
+            return await userManager.DeleteAsync(user);
         }
 
         /// <summary>
