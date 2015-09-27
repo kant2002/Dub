@@ -409,12 +409,18 @@ namespace Dub.Web.Mvc.Controllers
             if (this.ModelState.IsValid)
             {
                 var user = await this.UserManager.FindByNameAsync(model.Email);
+                if (user == null)
+                {
+                    // Don't reveal that the user does not exist or is not confirmed
+                    return this.View("ForgotPasswordConfirmation");
+                }
+
 #if !NETCORE
                 var userIdentity = user.Id;
 #else
                 var userIdentity = user;
 #endif
-                if (user == null || !(await this.UserManager.IsEmailConfirmedAsync(userIdentity)))
+                if (!(await this.UserManager.IsEmailConfirmedAsync(userIdentity)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return this.View("ForgotPasswordConfirmation");
