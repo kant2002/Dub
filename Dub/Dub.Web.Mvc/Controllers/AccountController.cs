@@ -171,6 +171,7 @@ namespace Dub.Web.Mvc.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await this.SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            ViewBag.ReturnUrl = returnUrl;
 #if !NETCORE
             switch (result)
             {
@@ -183,7 +184,7 @@ namespace Dub.Web.Mvc.Controllers
                 case SignInStatus.Failure:
                 default:
                     this.ModelState.AddModelError(string.Empty, Resources.InvalidLoginAttempt);
-                    return this.View(model);
+                    return this.View(new LoginViewModel() { Email = model.Email, RememberMe = model.RememberMe });
             }
 #else
             if (result.Succeeded)
@@ -202,7 +203,7 @@ namespace Dub.Web.Mvc.Controllers
             }
 
             this.ModelState.AddModelError(string.Empty, Resources.InvalidLoginAttempt);
-            return this.View(model);
+            return this.View(new LoginViewModel() { Email = model.Email, RememberMe = model.RememberMe });
 #endif
         }
 
