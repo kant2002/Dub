@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.6.5",
+    "version": "0.6.6",
     "description": "The Core library for the Dub project",
     "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
     "tags": [ "" ],
