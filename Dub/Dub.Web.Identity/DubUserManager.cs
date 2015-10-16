@@ -59,10 +59,10 @@ namespace Dub.Web.Identity
             IEnumerable<IPasswordValidator<TUser>> passwordValidators, 
             ILookupNormalizer keyNormalizer, 
             IdentityErrorDescriber errors, 
-            IEnumerable<IUserTokenProvider<TUser>> tokenProviders,
+            IServiceProvider services,
             ILogger<UserManager<TUser>> logger, 
             IHttpContextAccessor contextAccessor)
-            : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, tokenProviders, logger, contextAccessor)
+            : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger, contextAccessor)
         {
         }
 #endif
