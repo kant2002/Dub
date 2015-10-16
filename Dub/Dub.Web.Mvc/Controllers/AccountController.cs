@@ -165,7 +165,7 @@ namespace Dub.Web.Mvc.Controllers
         {
             if (!this.ModelState.IsValid)
             {
-                return this.View(model);
+                return this.View(new LoginViewModel() { Email = model.Email, RememberMe = model.RememberMe });
             }
 
             // This doesn't count login failures towards account lockout
