@@ -14,7 +14,7 @@ namespace Dub.Web.Mvc
 #if NETCORE
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNet.Mvc.Filters;
 #endif
 
 #if !NETCORE

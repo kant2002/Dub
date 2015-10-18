@@ -525,7 +525,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Current entity.</returns>
         private async Task<TUser> GetCurrentUserAsync()
         {
-            return await UserManager.FindByIdAsync(this.Context.User.GetUserId());
+            return await UserManager.FindByIdAsync(this.HttpContext.User.GetUserId());
         }
 #endif
     }

@@ -19,7 +19,7 @@ namespace Dub.Web.Mvc.Controllers
 #if NETCORE
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
-    using Microsoft.Framework.Caching.Memory;
+    using Microsoft.Extensions.Caching.Memory;
 #endif
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
@@ -539,7 +539,7 @@ namespace Dub.Web.Mvc.Controllers
 #if !NETCORE
             return this.Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
 #else
-            var uri = new System.Uri(this.Context.Request.Headers["Referer"]);
+            var uri = new System.Uri(this.HttpContext.Request.Headers["Referer"]);
             return this.Redirect(uri.AbsoluteUri);
 #endif
         }

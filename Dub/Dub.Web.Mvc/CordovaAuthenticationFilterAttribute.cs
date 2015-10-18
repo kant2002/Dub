@@ -17,7 +17,7 @@ namespace Dub.Web.Mvc
     using Microsoft.Owin.Security.DataProtection;
 #endif
 #if NETCORE
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNet.Mvc.Filters;
 #endif
 #if! NETCORE
     using AuthorizationContext = System.Web.Http.Controllers.HttpActionContext;

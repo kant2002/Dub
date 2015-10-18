@@ -14,7 +14,7 @@ namespace Dub.Web.Mvc
 #endif
     using Dub.Web.Core;
 #if NETCORE
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNet.Mvc.Filters;
 #endif
 #if !NETCORE
     using ExceptionContext = System.Web.Http.Filters.HttpActionExecutedContext;
