@@ -16,8 +16,8 @@ namespace Dub.Web.Identity
 #endif
     using Microsoft.AspNet.Identity;
 #if NETCORE
-    using Microsoft.Extensions.OptionsModel;
-    using Microsoft.Extensions.Logging;
+    using Microsoft.Framework.OptionsModel;
+    using Microsoft.Framework.Logging;
     using Microsoft.AspNet.Http;
 #endif
 

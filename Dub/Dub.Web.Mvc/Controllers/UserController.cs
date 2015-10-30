@@ -19,7 +19,7 @@ namespace Dub.Web.Mvc.Controllers
 #if NETCORE
     using Microsoft.AspNet.Authorization;
     using Microsoft.AspNet.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
+    using Microsoft.Framework.Caching.Memory;
 #endif
 #if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
