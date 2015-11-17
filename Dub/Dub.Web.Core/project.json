@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.8.1",
+    "version": "0.8.3",
     "description": "The Core library for the Dub project",
     "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
     "tags": [ "" ],
@@ -24,7 +24,7 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "EntityFramework.Core": "7.0.0-beta8"
+                "EntityFramework.Core": "7.0.0-rc1-*"
             }
         },
         "dnxcore50": {
@@ -32,15 +32,9 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "EntityFramework.Core": "7.0.0-beta8",
+                "EntityFramework.Core": "7.0.0-rc1-*",
                 "Microsoft.CSharp": "4.0.0",
-                "System.Collections": "4.0.10",
-                "System.Linq": "4.0.0",
-                "System.Runtime": "4.0.21-beta-*",
-                "System.Runtime.Extensions": "4.0.11-beta-*",
-                "System.Security.Claims": "4.0.0",
-                "System.Threading": "4.0.10",
-                "System.Diagnostics.Tools": "4.0.0"
+                "System.Security.Claims": "4.0.0"
             }
         }
     }

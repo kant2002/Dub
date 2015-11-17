@@ -10,8 +10,6 @@ namespace Dub.Web.Mvc.Models.Security
     using System.ComponentModel.DataAnnotations;
 #if !NETCORE
     using System.Data.Entity.SqlServer;
-#else
-    using Microsoft.SqlServer.Server;
 #endif
     using System.Linq;
     using Dub.Web.Core;
