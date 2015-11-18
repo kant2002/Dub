@@ -6,8 +6,7 @@
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.Props" Condition="'$(VSToolsPath)' != '' And Exists('$(VSToolsPath)\DNX\Microsoft.DNX.Props')" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>564d7500-801d-4984-87e0-4f767ea1224f</ProjectGuid>
-    <RootNamespace>Dub.Web.NetCore</RootNamespace>
+    <ProjectGuid>9fd50775-5277-4768-9c63-e94e245d990e</ProjectGuid>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">..\artifacts\bin\$(MSBuildProjectName)\</OutputPath>
   </PropertyGroup>
@@ -21,9 +20,4 @@
     <ProduceOutputsOnBuild>True</ProduceOutputsOnBuild>
   </PropertyGroup>
   <Import Project="$(VSToolsPath)\DNX\Microsoft.DNX.targets" Condition="'$(VSToolsPath)' != '' And Exists('$(VSToolsPath)\DNX\Microsoft.DNX.targets')" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

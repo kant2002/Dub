@@ -16,11 +16,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.NetCore", "Dub.Web.Core\Dub.Web.NetCore.xproj", "{9FD50775-5277-4768-9C63-E94E245D990E}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Core", "Dub.Web.Core\Dub.Web.Core.xproj", "{9FD50775-5277-4768-9C63-E94E245D990E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.NetIdentity", "Dub.Web.Identity\Dub.Web.NetIdentity.xproj", "{564D7500-801D-4984-87E0-4F767EA1224F}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Identity", "Dub.Web.Identity\Dub.Web.Identity.xproj", "{564D7500-801D-4984-87E0-4F767EA1224F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.NetMvc", "Dub.Web.Mvc\Dub.Web.NetMvc.xproj", "{077B0748-9F20-4401-B8B6-AEF5FE457AD4}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Mvc", "Dub.Web.Mvc\Dub.Web.Mvc.xproj", "{077B0748-9F20-4401-B8B6-AEF5FE457AD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
