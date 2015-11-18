@@ -35,11 +35,11 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "EntityFramework.Core": "7.0.0-rc1-*",
-                "Microsoft.AspNet.Http.Abstractions": "1.0.0-rc1-*",
-                "Microsoft.AspNet.Mvc.Core": "6.0.0-rc1-*",
-                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-rc1-*",
-                "Microsoft.AspNet.Authorization": "1.0.0-rc1-*",
+                "EntityFramework.Core": "7.0.0-*",
+                "Microsoft.AspNet.Http.Abstractions": "1.0.0-*",
+                "Microsoft.AspNet.Mvc.Core": "6.0.0-*",
+                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-*",
+                "Microsoft.AspNet.Authorization": "1.0.0-*",
                 "Microsoft.Owin": "3.0.1"
             }
         },
@@ -48,11 +48,11 @@
                 "define": [ "NETCORE", "NOMAIL" ]
             },
             "dependencies": {
-                "EntityFramework.Core": "7.0.0-rc1-*",
-                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-rc1-*",
-                "Microsoft.AspNet.Authorization": "1.0.0-rc1-*",
+                "EntityFramework.Core": "7.0.0-*",
+                "Microsoft.AspNet.Mvc.ViewFeatures": "6.0.0-*",
+                "Microsoft.AspNet.Authorization": "1.0.0-*",
 
-                "System.Security.Claims": "4.0.1-beta-*"
+                "System.Security.Claims": "4.0.1-*"
             }
         }
     }

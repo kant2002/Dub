@@ -67,9 +67,11 @@ namespace Dub.Web.Mvc.Controllers
         /// Create a new instance of the <see cref="UserController{TUser, TApplicationUserManager, TCreateUserViewModel, TEditUserViewModel}"/> class.
         /// </summary>
         /// <param name="userManager">User manager to use.</param>
-        public UserController(TApplicationUserManager userManager)
+        /// <param name="cache">Cache to use.</param>
+        public UserController(TApplicationUserManager userManager, IMemoryCache cache)
         {
             this.UserManager = userManager;
+            this.Cache = cache;
         }
 
         /// <summary>
@@ -80,7 +82,6 @@ namespace Dub.Web.Mvc.Controllers
         /// <summary>
         /// Gets or sets memory cache.
         /// </summary>
-        [FromServices]
         public IMemoryCache Cache { get; set; }
 #endif
 

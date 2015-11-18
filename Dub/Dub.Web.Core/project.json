@@ -24,7 +24,7 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "EntityFramework.Core": "7.0.0-rc1-*"
+                "EntityFramework.Core": "7.0.0-*"
             }
         },
         "dnxcore50": {
@@ -32,7 +32,7 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "EntityFramework.Core": "7.0.0-rc1-*",
+                "EntityFramework.Core": "7.0.0-*",
                 "Microsoft.CSharp": "4.0.0",
                 "System.Security.Claims": "4.0.0"
             }
