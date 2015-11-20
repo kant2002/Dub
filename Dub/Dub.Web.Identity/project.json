@@ -1,5 +1,5 @@
 ﻿{
-    "version": "0.8.4",
+    "version": "0.8.5",
     "description": "The Core library for the Dub project",
     "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
     "tags": [ "" ],
@@ -27,8 +27,8 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-*",
-                "Microsoft.Framework.Logging.Abstractions": "1.0.0-*"
+                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
+                "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
             }
         },
         "dnxcore50": {
@@ -36,8 +36,17 @@
                 "define": [ "NETCORE" ]
             },
             "dependencies": {
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-*",
-                "Microsoft.Framework.Logging.Abstractions": "1.0.0-*"
+                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
+                "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
+            }
+        },
+        "dotnet5.4": {
+            "compilationOptions": {
+                "define": [ "NETCORE" ]
+            },
+            "dependencies": {
+                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
+                "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
             }
         }
     }
