@@ -1,0 +1,19 @@
+﻿{
+  "version": "1.0.0-*",
+  "description": "Dub.Web.Dto Class Library",
+  "authors": [ "kant" ],
+  "tags": [ "" ],
+  "projectUrl": "",
+  "licenseUrl": "",
+
+  "dependencies": {
+    "Dub.Web.Core": ""
+  },
+  
+  "frameworks": {
+      "net45": { },
+      "dnx451": { },
+      "dnxcore50": { },
+      "dotnet5.4": { }
+    }
+}

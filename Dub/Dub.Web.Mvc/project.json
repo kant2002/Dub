@@ -9,6 +9,7 @@
     "dependencies": {
         "Dub.Web.Core": "",
         "Dub.Web.Identity": "",
+        "Dub.Web.Dto": "",
         "AutoMapper": "4.1.1",
         "Newtonsoft.Json": "7.0.1"
     },
