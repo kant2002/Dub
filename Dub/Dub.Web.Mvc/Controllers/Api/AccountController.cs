@@ -169,7 +169,7 @@ namespace Dub.Web.Mvc.Controllers.Api
 
             if (result.IsNotAllowed)
             {
-                return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
+                return await this.OnAccountRequiresVerification(model.Email);
             }
 
             return this.StatusCode(ApiStatusCode.AuthorizationFailure);
