@@ -151,7 +151,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 case SignInStatus.LockedOut:
                     return this.StatusCode(ApiStatusCode.AccountLockedOut);
                 case SignInStatus.RequiresVerification:
-                    return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
+                    return await this.OnAccountRequiresVerification(model.Email);
                 case SignInStatus.Failure:
                 default:
                     return this.StatusCode(ApiStatusCode.AuthorizationFailure);
@@ -526,6 +526,17 @@ namespace Dub.Web.Mvc.Controllers.Api
         protected virtual Task<IActionResult> OnSuccessLogin(string userEmail)
         {
             var result = this.StatusCode(ApiStatusCode.Ok);
+            return Task.FromResult<IActionResult>(result);
+        }
+
+        /// <summary>
+        /// Gets result which should be returned on the success login.
+        /// </summary>
+        /// <param name="userEmail">Email of the user.</param>
+        /// <returns>Result to be returned on success login.</returns>
+        protected virtual Task<IActionResult> OnAccountRequiresVerification(string userEmail)
+        {
+            var result = this.StatusCode(ApiStatusCode.AccountRequiresVerification);
             return Task.FromResult<IActionResult>(result);
         }
 
