@@ -1,5 +1,5 @@
 ﻿{
-  "version": "1.0.0-*",
+  "version": "0.8.6",
   "description": "Dub.Web.Dto Class Library",
   "authors": [ "kant" ],
   "tags": [ "" ],
@@ -9,11 +9,11 @@
   "dependencies": {
     "Dub.Web.Core": ""
   },
-  
+
   "frameworks": {
-      "net45": { },
-      "dnx451": { },
-      "dnxcore50": { },
-      "dotnet5.4": { }
-    }
+    "net45": { },
+    "dnx451": { },
+    "dnxcore50": { },
+    "dotnet5.4": { }
+  }
 }
