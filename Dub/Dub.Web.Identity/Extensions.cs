@@ -6,10 +6,10 @@
 
 namespace Dub.Web.Identity
 {
+#if !NETCORE
     using System;
     using Microsoft.AspNet.Identity;
 
-#if !NETCORE
     /// <summary>
     /// Extension helpers.
     /// </summary>

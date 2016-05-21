@@ -20,7 +20,7 @@ namespace Dub.Web.Mvc.Controllers
     using Microsoft.AspNet.Identity.Owin;
 #endif
 #if NETCORE
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
 #endif
 
     /// <summary>

@@ -9,8 +9,13 @@ namespace Dub.Web.Identity
     using System;
     using System.Security.Claims;
     using System.Threading.Tasks;
+#if NETCORE
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+#else
     using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.EntityFramework;
+#endif
 
     /// <summary>
     /// Represents application user.

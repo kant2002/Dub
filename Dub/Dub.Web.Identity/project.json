@@ -1,53 +1,40 @@
 ﻿{
-    "version": "0.8.5",
+    "version": "0.9.0",
     "description": "The Core library for the Dub project",
-    "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
+  "authors": [ "Andrey Kurdyumov <kant2002@gmail.com>" ],
+  "packOptions": {
     "tags": [ "" ],
-    "projectUrl": "",
-    "licenseUrl": "",
+    "repository": "",
+    "licenseUrl": ""
+  },
 
     "dependencies": {
-        "Dub.Web.Core": ""
+        "Dub.Web.Core": "0.9.0"
     },
 
-    "frameworks": {
-        "net45": {
-            "frameworkAssemblies": {
-                "System.Configuration": "4.0.0.0"
-            },
-            "dependencies": {
-                "CommonMark.NET": "0.9.1",
-                "EntityFramework": "6.1.3",
-                "Microsoft.AspNet.Identity.Core": "2.2.1",
-                "Microsoft.AspNet.Identity.EntityFramework": "2.2.1"
-            }
-        },
-        "dnx451": {
-            "compilationOptions": {
-                "define": [ "NETCORE" ]
-            },
-            "dependencies": {
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
-                "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
-            }
-        },
-        "dnxcore50": {
-            "compilationOptions": {
-                "define": [ "NETCORE" ]
-            },
-            "dependencies": {
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
-                "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
-            }
-        },
-        "dotnet5.4": {
-            "compilationOptions": {
-                "define": [ "NETCORE" ]
-            },
-            "dependencies": {
-                "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
-                "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc1-final"
-            }
-        }
+  "frameworks": {
+    "net45": {
+      "frameworkAssemblies": {
+        "System.Configuration": "4.0.0.0"
+      },
+      "dependencies": {
+        "CommonMark.NET": "0.9.1",
+        "EntityFramework": "6.1.3",
+        "Microsoft.AspNet.Identity.Core": "2.2.1",
+        "Microsoft.AspNet.Identity.EntityFramework": "2.2.1"
+      }
+    },
+    "netstandard1.3": {
+      "buildOptions": {
+        "define": [ "NETCORE" ]
+      },
+      "imports": [
+        "portable-net45+win8+wp8"
+      ],
+      "dependencies": {
+        "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0-rc2-final",
+        "Microsoft.Extensions.Logging.Abstractions": "1.0.0-rc2-final"
+      }
     }
+  }
 }

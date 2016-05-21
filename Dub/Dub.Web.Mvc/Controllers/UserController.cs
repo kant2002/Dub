@@ -15,13 +15,13 @@ namespace Dub.Web.Mvc.Controllers
 #endif
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.User;
-    using Microsoft.AspNet.Identity;
 #if NETCORE
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Caching.Memory;
-#endif
-#if !NETCORE
+#else
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
 #endif
 

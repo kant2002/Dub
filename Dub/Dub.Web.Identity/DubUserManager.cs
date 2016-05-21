@@ -12,13 +12,18 @@ namespace Dub.Web.Identity
     using System.Security.Claims;
     using System.Threading.Tasks;
 #if NETCORE
-    using Microsoft.AspNet.Hosting;
+    using Microsoft.AspNetCore.Hosting;
 #endif
-    using Microsoft.AspNet.Identity;
 #if NETCORE
-    using Microsoft.Extensions.OptionsModel;
+    using Microsoft.AspNetCore.Identity;
+#else
+    using Microsoft.AspNet.Identity;
+#endif
+#if NETCORE
+    using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Logging;
-    using Microsoft.AspNet.Http;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Http;
 #endif
 
     /// <summary>
@@ -60,9 +65,8 @@ namespace Dub.Web.Identity
             ILookupNormalizer keyNormalizer, 
             IdentityErrorDescriber errors, 
             IServiceProvider services,
-            ILogger<UserManager<TUser>> logger, 
-            IHttpContextAccessor contextAccessor)
-            : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger, contextAccessor)
+            ILogger<UserManager<TUser>> logger)
+            : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, errors, services, logger)
         {
         }
 #endif

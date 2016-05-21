@@ -1,19 +1,27 @@
 ﻿{
-  "version": "0.8.6",
+  "version": "0.9.0",
   "description": "Dub.Web.Dto Class Library",
   "authors": [ "kant" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+  "packOptions": {
+    "licenseUrl": "",
+    "repository": "",
+    "tags": [ "" ]
+  },
 
   "dependencies": {
-    "Dub.Web.Core": ""
+    "Dub.Web.Core": "0.9.0"
   },
 
   "frameworks": {
     "net45": { },
-    "dnx451": { },
-    "dnxcore50": { },
-    "dotnet5.4": { }
+    "netstandard1.3": {
+      "imports": [
+        "portable-net45+win8+wp8"
+      ],
+      "dependencies": {
+        "System.Diagnostics.Contracts": "4.0.1-rc2-24027",
+        "System.Diagnostics.Tools": "4.0.1-rc2-24027"
+      }
+    }    
   }
 }

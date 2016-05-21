@@ -10,7 +10,7 @@ namespace Dub.Web.Core
 #if !NETCORE
     using System.Data.Entity;
 #else
-    using Microsoft.Data.Entity;
+    using Microsoft.EntityFrameworkCore;
 #endif
     using System.Linq;
     using System.Threading.Tasks;

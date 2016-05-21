@@ -17,15 +17,13 @@ namespace Dub.Web.Mvc.Controllers
     using Dub.Web.Mvc.Models.Manage;
     using Dub.Web.Mvc.Properties;
 #if NETCORE
-    using Microsoft.AspNet.Authorization;
-#endif
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+#else
     using Microsoft.AspNet.Identity;
-#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
-#endif
-#if NETCORE
-    using Microsoft.AspNet.Mvc;
 #endif
 
     /// <summary>
@@ -576,7 +574,7 @@ namespace Dub.Web.Mvc.Controllers
             return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Manage"), userId);
 #else
             var redirectUrl = this.Url.Action("LinkLoginCallback", "Manage");
-            var properties = this.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, this.User.GetUserId());
+            var properties = this.SignInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl, this.UserManager.GetUserId(this.User));
             return new ChallengeResult(provider, properties);
 #endif
         }
@@ -677,7 +675,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>True of user has password; false otherwise.</returns>
         private async Task<bool> HasPassword()
         {
-            var user = await this.UserManager.FindByIdAsync(this.User.GetUserId());
+            var user = await this.UserManager.FindByIdAsync(this.UserManager.GetUserId(this.User));
             if (user != null)
             {
                 return user.PasswordHash != null;
@@ -692,7 +690,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>True of user has phone associated with it; false otherwise.</returns>
         private async Task<bool> HasPhoneNumber()
         {
-            var user = await this.UserManager.FindByIdAsync(this.User.GetUserId());
+            var user = await this.UserManager.FindByIdAsync(this.UserManager.GetUserId(this.User));
             if (user != null)
             {
                 return user.PhoneNumber != null;
@@ -710,7 +708,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <returns>Current entity.</returns>
         private async Task<TUser> GetCurrentUserAsync()
         {
-            return await UserManager.FindByIdAsync(this.HttpContext.User.GetUserId());
+            return await UserManager.FindByIdAsync(this.UserManager.GetUserId(this.HttpContext.User));
         }
 #endif
     }

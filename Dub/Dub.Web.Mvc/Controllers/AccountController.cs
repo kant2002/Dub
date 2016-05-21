@@ -22,17 +22,18 @@ namespace Dub.Web.Mvc.Controllers
     using Dub.Web.Mvc.Models.Account;
     using Dub.Web.Mvc.Properties;
 #if NETCORE
-    using Microsoft.AspNet.Authentication;
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc.Rendering;
+    using Microsoft.AspNetCore.Authentication;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using Microsoft.AspNetCore.Identity;
 #endif
-    using Microsoft.AspNet.Identity;
 #if !NETCORE
+    using Microsoft.AspNet.Identity;
     using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
 #endif
 #if NETCORE
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNetCore.Mvc;
 #endif
 
     /// <summary>
@@ -673,7 +674,7 @@ namespace Dub.Web.Mvc.Controllers
                 this.ViewBag.ReturnUrl = returnUrl;
                 this.ViewBag.LoginProvider = info.LoginProvider;
                 // REVIEW: handle case where email not in claims?
-                var email = info.ExternalPrincipal.FindFirstValue(ClaimTypes.Email);
+                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
                 return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email });
             }
 #endif

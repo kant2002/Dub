@@ -11,7 +11,7 @@ namespace Dub.Web.Mvc.Models.Manage
 #if !NETCORE
     using System.Web.Mvc;
 #else
-    using Microsoft.AspNet.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 #endif
 
     /// <summary>

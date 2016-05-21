@@ -190,3 +190,4 @@ FakesAssemblies/
 /Dub/Dub.Web.Mvc/project.lock.json
 /Dub/.vs/config/applicationhost.config
 /Dub/Dub.Web.Core/project.lock.json
+/Dub/.vs/restore.dg

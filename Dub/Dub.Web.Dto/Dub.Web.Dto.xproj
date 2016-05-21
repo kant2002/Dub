@@ -9,8 +9,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>7cda59df-8fc9-481d-80d3-1d824dc43038</ProjectGuid>
     <RootNamespace>Dub.Web.Dto</RootNamespace>
-    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\artifacts\obj\$(MSBuildProjectName)</BaseIntermediateOutputPath>
-    <OutputPath Condition="'$(OutputPath)'=='' ">..\artifacts\bin\$(MSBuildProjectName)\</OutputPath>
+    <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">..\artifacts\obj</BaseIntermediateOutputPath>
+    <OutputPath Condition="'$(OutputPath)'=='' ">..\artifacts\bin\</OutputPath>
   </PropertyGroup>
 
   <PropertyGroup>

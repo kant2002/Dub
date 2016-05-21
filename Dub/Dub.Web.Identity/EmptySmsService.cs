@@ -6,10 +6,10 @@
 
 namespace Dub.Web.Identity
 {
+#if !NETCORE
     using System.Threading.Tasks;
     using Microsoft.AspNet.Identity;
 
-#if !NETCORE
     /// <summary>
     /// Service for sending SMS
     /// </summary>

@@ -17,11 +17,15 @@ namespace Dub.Web.Mvc.Controllers.Api
     using Dub.Web.Mvc.Models;
 #if !NETCORE
     using Microsoft.Owin;
-    using Controller = System.Web.Http.ApiController;
+#endif
+#if NETCORE
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Identity;
 #else
-    using Microsoft.AspNet.Mvc;
+    using Microsoft.AspNet.Identity;
 #endif
 #if !NETCORE
+    using Controller = System.Web.Http.ApiController;
     using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
 
@@ -85,7 +89,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <param name="code">API code to return.</param>
         /// <param name="errors">Sequence of errors.</param>
         /// <returns>Action result which represent specific API code.</returns>
-        protected IActionResult ErrorCode(ApiStatusCode code, IEnumerable<Microsoft.AspNet.Identity.IdentityError> errors)
+        protected IActionResult ErrorCode(ApiStatusCode code, IEnumerable<IdentityError> errors)
         {
             return this.Ok(new ApiErrorStatusResponse()
             {

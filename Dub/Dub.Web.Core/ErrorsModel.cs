@@ -9,8 +9,8 @@ namespace Dub.Web.Core
 #if !NETCORE
     using System.Data.Entity;
 #else
-    using Microsoft.Data.Entity;
-    using Microsoft.Data.Entity.Infrastructure;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
 #endif
 
     /// <summary>

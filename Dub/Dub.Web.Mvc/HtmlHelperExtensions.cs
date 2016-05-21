@@ -14,8 +14,8 @@ namespace Dub.Web.Mvc
 #endif
     using Dub.Web.Mvc.Properties;
 #if NETCORE
-    using Microsoft.AspNet.Mvc.ModelBinding;
-    using Microsoft.AspNet.Mvc.Rendering;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
+    using Microsoft.AspNetCore.Mvc.Rendering;
 #endif
 
     /// <summary>

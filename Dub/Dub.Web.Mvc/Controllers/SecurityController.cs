@@ -16,11 +16,10 @@ namespace Dub.Web.Mvc.Controllers
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Security;
 #if NETCORE
-    using Microsoft.AspNet.Authorization;
-    using Microsoft.AspNet.Mvc;
-    using Microsoft.Data.Entity;
-#endif
-#if !NETCORE
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.EntityFrameworkCore;
+#else
     using Microsoft.AspNet.Identity.Owin;
 #endif
 

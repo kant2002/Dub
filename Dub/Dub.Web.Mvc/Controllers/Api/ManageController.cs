@@ -21,16 +21,12 @@ namespace Dub.Web.Mvc.Controllers.Api
     using Dub.Web.Mvc.Models.Manage;
     using Dub.Web.Mvc.Properties;
 #if NETCORE
-    using Microsoft.AspNet.Authorization;
-#endif
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+#else
     using Microsoft.AspNet.Identity;
-#if !NETCORE
     using Microsoft.AspNet.Identity.Owin;
-#endif
-#if NETCORE
-    using Microsoft.AspNet.Mvc;
-#endif
-#if !NETCORE
     using Microsoft.Owin.Security;
     using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
@@ -508,7 +504,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>True of user has password; false otherwise.</returns>
         private async Task<bool> HasPassword()
         {
-            var user = await this.UserManager.FindByIdAsync(this.User.GetUserId());
+            var user = await this.UserManager.FindByIdAsync(this.UserManager.GetUserId(this.User));
             if (user != null)
             {
                 return user.PasswordHash != null;
@@ -525,7 +521,7 @@ namespace Dub.Web.Mvc.Controllers.Api
         /// <returns>Current entity.</returns>
         private async Task<TUser> GetCurrentUserAsync()
         {
-            return await UserManager.FindByIdAsync(this.HttpContext.User.GetUserId());
+            return await UserManager.FindByIdAsync(this.UserManager.GetUserId(this.HttpContext.User));
         }
 #endif
     }

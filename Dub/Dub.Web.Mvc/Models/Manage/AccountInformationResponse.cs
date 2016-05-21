@@ -8,11 +8,12 @@ namespace Dub.Web.Mvc.Models.Manage
 {
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.AspNet.Identity;
 #if !NETCORE
+    using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
 #else
-    using Microsoft.AspNet.Http.Authentication;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Http.Authentication;
 #endif
 
     /// <summary>

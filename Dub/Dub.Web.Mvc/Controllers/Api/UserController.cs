@@ -13,17 +13,15 @@ namespace Dub.Web.Mvc.Controllers.Api
 #endif
     using Dub.Web.Core;
     using Dub.Web.Identity;
-    using Microsoft.AspNet.Identity;
-#if !NETCORE
-    using Microsoft.AspNet.Identity.Owin;
-#endif
-    using Newtonsoft.Json;
 #if NETCORE
-    using Microsoft.AspNet.Mvc;
-#endif
-#if !NETCORE
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+#else
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
     using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
+    using Newtonsoft.Json;
 
     /// <summary>
     /// API User controller.

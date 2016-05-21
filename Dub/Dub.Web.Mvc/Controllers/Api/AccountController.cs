@@ -15,14 +15,12 @@ namespace Dub.Web.Mvc.Controllers.Api
     using Dub.Web.Core;
     using Dub.Web.Identity;
     using Dub.Web.Mvc.Models.Account;
-    using Microsoft.AspNet.Identity;
-#if !NETCORE
-    using Microsoft.AspNet.Identity.Owin;
-#endif
 #if NETCORE
-    using Microsoft.AspNet.Mvc;
-#endif
-#if !NETCORE
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Mvc;
+#else
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
     using Microsoft.Owin.Security;
     using IActionResult = System.Web.Http.IHttpActionResult;
 #endif
