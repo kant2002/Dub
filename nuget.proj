@@ -8,7 +8,7 @@
     <OutputPath>bin\</OutputPath>
     <NugetCurrentPath>Nuget\archive\4.1.0\</NugetCurrentPath>
     <NugetOutputPath>Nuget\dist\</NugetOutputPath>
-    <NugetTempPath>Dub\artifacts</NugetTempPath>
+    <NugetTempPath>artifacts</NugetTempPath>
     <NugetSource>https://www.myget.org/F/dub-nightly/api/v2/package</NugetSource>
     <SymbolSource>https://nuget.symbolsource.org/MyGet/dub-nightly</SymbolSource>
     <NugetAspnet5Source>https://www.myget.org/F/dub-aspnet5-nightly/api/v2/package</NugetAspnet5Source>
@@ -67,8 +67,8 @@
     <!--<Message Text="$(NugetPath)Nuget.exe push %(NugetAspNet5Package.Identity) $(NugetApiKey) -Source $(NugetSource)" Condition="$(NugetApiKey) != ''" />-->
   </Target>
 
-  <Target Name="PublishNightly" DependsOnTargets="PackageNuget">
-    <CreateItem Include="$(NugetTempPath)\**\*.*">
+  <Target Name="PublishNightly">
+    <CreateItem Include="$(NugetTempPath)\*.*">
       <Output TaskParameter="Include" ItemName="NugetPackage" />
     </CreateItem>
 
