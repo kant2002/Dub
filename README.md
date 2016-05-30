@@ -21,8 +21,8 @@ To build this project run
 To package and publish .NET Core RC2 NuGet packages to MyGet
 
     rm -recurse Dub\artifacts
-    dotnet pack --no-build --output artifacts Dub\Dub.Web.Core\
-	dotnet pack --no-build --output artifacts Dub\Dub.Web.Dto\
-	dotnet pack --no-build --output artifacts Dub\Dub.Web.Identity\
-	dotnet pack --no-build --output artifacts Dub\Dub.Web.Mvc\
+    dotnet pack --output artifacts Dub\Dub.Web.Core\
+	dotnet pack --output artifacts Dub\Dub.Web.Dto\
+	dotnet pack --output artifacts Dub\Dub.Web.Identity\
+	dotnet pack --output artifacts Dub\Dub.Web.Mvc\
     &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:PublishNightly /verbosity:d
