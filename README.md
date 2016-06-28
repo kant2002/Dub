@@ -20,7 +20,7 @@ To build this project run
 
 To package and publish .NET Core RC2 NuGet packages to MyGet
 
-    rm -recurse Dub\artifacts
+    rm -recurse artifacts
     dotnet pack --output artifacts Dub\Dub.Web.Core\
 	dotnet pack --output artifacts Dub\Dub.Web.Dto\
 	dotnet pack --output artifacts Dub\Dub.Web.Identity\
