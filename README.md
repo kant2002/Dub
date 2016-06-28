@@ -6,6 +6,9 @@ Application framework for speedier development of the SaaS application
 What's changed
 ===
 
+### 1.0.0
+- Moved all projects to the .NET Core RTM.
+
 ### 0.9.0
 - Moved all project to the new ASP.NET Core RC2 projects.
 
