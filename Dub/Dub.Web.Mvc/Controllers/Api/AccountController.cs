@@ -237,9 +237,14 @@ namespace Dub.Web.Mvc.Controllers.Api
                 return this.StatusCode(ApiStatusCode.AccountLockedOut);
             }
 
-            if (result.IsLockedOut)
+            if (result.RequiresTwoFactor)
             {
                 return this.StatusCode(ApiStatusCode.AccountRequiresVerification);
+            }
+
+            if (result.IsNotAllowed)
+            {
+                return this.StatusCode(ApiStatusCode.LoginNotAllowedError);
             }
 
             return this.StatusCode(ApiStatusCode.AuthorizationFailure);

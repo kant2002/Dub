@@ -65,5 +65,10 @@ namespace Dub.Web.Core
         /// Removing associated login from account failed.
         /// </summary>
         RemoveLoginError = RangeAccount + 6,
+
+        /// <summary>
+        /// Login for this account is disallowed.
+        /// </summary>
+        LoginNotAllowedError = RangeAccount + 7,
     }
 }
