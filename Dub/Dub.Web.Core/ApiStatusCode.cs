@@ -74,7 +74,7 @@ namespace Dub.Web.Core
         /// <summary>
         /// Indicating a user already has a password.
         /// </summary>
-        UserAlreadyHasPassword = RangeAccount + 9,
+        UserAlreadyHasPassword = RangeAccount + 8,
 
         /// <summary>
         /// Idicating an invalid token.
@@ -119,5 +119,10 @@ namespace Dub.Web.Core
         /// Idicating an email is already used from another user.
         /// </summary>
         EmailAlreadyUsed = RangeAccount + 16,
+        
+        /// <summary>
+        /// Idicating a password  is too short.
+        /// </summary>
+        PasswordTooShort = RangeAccount + 17,
     }
 }
