@@ -74,7 +74,7 @@ namespace Dub.Web.Core
         /// <summary>
         /// Indicating a user already has a password.
         /// </summary>
-        UserAlreadyHasPassword = RangeAccount + 9,
+        UserAlreadyHasPassword = RangeAccount + 8,
 
         /// <summary>
         /// Idicating an invalid token.
