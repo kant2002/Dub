@@ -119,5 +119,10 @@ namespace Dub.Web.Core
         /// Idicating an email is already used from another user.
         /// </summary>
         EmailAlreadyUsed = RangeAccount + 16,
+        
+        /// <summary>
+        /// Idicating a password  is too short.
+        /// </summary>
+        PasswordTooShort = RangeAccount + 17,
     }
 }
