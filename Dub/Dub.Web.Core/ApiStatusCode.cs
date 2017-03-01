@@ -70,5 +70,54 @@ namespace Dub.Web.Core
         /// Login for this account is disallowed.
         /// </summary>
         LoginNotAllowedError = RangeAccount + 7,
+
+        /// <summary>
+        /// Indicating a user already has a password.
+        /// </summary>
+        UserAlreadyHasPassword = RangeAccount + 9,
+
+        /// <summary>
+        /// Idicating an invalid token.
+        /// </summary>
+        InvalidToken = RangeAccount + 9,
+
+        /// <summary>
+        /// Idicating a password mismatch.
+        /// </summary>
+        IncorrectPassword = RangeAccount + 10,
+
+        /// <summary>
+        /// Idicating a password entered does not contain a numeric character, 
+        /// which is required by the password policy..
+        /// </summary>
+        PasswordRequiresDigit = RangeAccount + 11,
+
+        /// <summary>
+        /// Indicating a password entered does not contain a lower case letter, 
+        /// which is required by the password policy.
+        /// </summary>
+        PasswordRequiresLowerCharacters = RangeAccount + 12,
+
+        /// <summary>
+        /// Indicating a password entered does not contain a non-alphanumeric character, 
+        /// which is required by the password policy.
+        /// </summary>
+        PasswordRequiresNonAlphanumericCharacters = RangeAccount + 13,
+
+        /// <summary>
+        /// Indicating a password entered does not contain an upper case letter, 
+        /// which is required by the password policy.
+        /// </summary>
+        PasswordRequiresUpperCharacters = RangeAccount + 14,
+
+        /// <summary>
+        /// Idicating an external login is already associated with an account.
+        /// </summary>
+        LoginAlreadyAssociated = RangeAccount + 15,
+        
+        /// <summary>
+        /// Idicating an email is already used from another user.
+        /// </summary>
+        EmailAlreadyUsed = RangeAccount + 16,
     }
 }
