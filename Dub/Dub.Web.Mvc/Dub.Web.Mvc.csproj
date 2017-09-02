@@ -1,0 +1,46 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>The Core library for the Dub project</Description>
+    <VersionPrefix>1.0.1</VersionPrefix>
+    <Authors>Andrey Kurdyumov &lt;kant2002@gmail.com&gt;</Authors>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>Dub.Web.Mvc</AssemblyName>
+    <PackageId>Dub.Web.Mvc</PackageId>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/kant2002/Dub</RepositoryUrl>
+    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8</PackageTargetFallback>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dub.Web.Core\Dub.Web.Core.csproj" />
+    <ProjectReference Include="..\Dub.Web.Identity\Dub.Web.Identity.csproj" />
+    <ProjectReference Include="..\Dub.Web.Dto\Dub.Web.Dto.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="4.1.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+  </ItemGroup>
+
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <DefineConstants>$(DefineConstants);NETCORE;NOMAIL</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="1.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="1.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="1.0.2" />
+  </ItemGroup>
+
+</Project>

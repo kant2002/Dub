@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EDF5A8FB-2EB4-4B8F-858F-C951D1489A1B}"
 	ProjectSection(SolutionItems) = preProject
@@ -16,13 +16,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Settings.StyleCop = Settings.StyleCop
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Core", "Dub.Web.Core\Dub.Web.Core.xproj", "{9FD50775-5277-4768-9C63-E94E245D990E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dub.Web.Core", "Dub.Web.Core\Dub.Web.Core.csproj", "{9FD50775-5277-4768-9C63-E94E245D990E}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Identity", "Dub.Web.Identity\Dub.Web.Identity.xproj", "{564D7500-801D-4984-87E0-4F767EA1224F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dub.Web.Identity", "Dub.Web.Identity\Dub.Web.Identity.csproj", "{564D7500-801D-4984-87E0-4F767EA1224F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Mvc", "Dub.Web.Mvc\Dub.Web.Mvc.xproj", "{077B0748-9F20-4401-B8B6-AEF5FE457AD4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dub.Web.Mvc", "Dub.Web.Mvc\Dub.Web.Mvc.csproj", "{077B0748-9F20-4401-B8B6-AEF5FE457AD4}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Dub.Web.Dto", "Dub.Web.Dto\Dub.Web.Dto.xproj", "{7CDA59DF-8FC9-481D-80D3-1D824DC43038}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dub.Web.Dto", "Dub.Web.Dto\Dub.Web.Dto.csproj", "{7CDA59DF-8FC9-481D-80D3-1D824DC43038}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,5 +49,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9AFA557E-2582-477A-9160-C295B59CB63A}
 	EndGlobalSection
 EndGlobal
