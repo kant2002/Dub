@@ -21,11 +21,11 @@ To build this project run
 
    &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:BuildSolution /verbosity:d
 
-To package and publish .NET Core RC2 NuGet packages to MyGet
+To package and publish .NET Core NuGet packages to MyGet
 
     rm -recurse artifacts
-    dotnet pack --output artifacts Dub\Dub.Web.Core\
-	dotnet pack --output artifacts Dub\Dub.Web.Dto\
-	dotnet pack --output artifacts Dub\Dub.Web.Identity\
-	dotnet pack --output artifacts Dub\Dub.Web.Mvc\
-    &"${env:ProgramFiles(x86)}\MSBuild\14.0\Bin\msbuild" nuget.proj /t:PublishNightly /verbosity:d
+    $time = (Get-Date).ToString("yyyyMMdd")
+    $suffix="dev-$time-3"
+    dotnet msbuild Dub\Dub.sln "/t:Restore" /p:VersionSuffix=$suffix /p:Configuration=Release
+    dotnet pack Dub\Dub.sln --version-suffix $suffix --output ..\..\artifacts
+    dotnet msbuild nuget.proj /t:PublishNightly /verbosity:d
