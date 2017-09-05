@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <VersionPrefix>1.1.0</VersionPrefix>
+    <Authors>Andrey Kurdyumov &lt;kant2002@gmail.com&gt;</Authors>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/kant2002/Dub</RepositoryUrl>
+    <Copyright>Andrey Kurdyumov (c) 2015-2017</Copyright>
+  </PropertyGroup>
+</Project>
