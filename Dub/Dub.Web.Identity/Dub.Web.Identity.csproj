@@ -1,21 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Dub.props" />
 
   <PropertyGroup>
     <Description>The Core library for the Dub project</Description>
-    <Authors>Andrey Kurdyumov &lt;kant2002@gmail.com&gt;</Authors>
-    <TargetFramework>netstandard1.3</TargetFramework>
-    <AssemblyName>Dub.Web.Identity</AssemblyName>
-    <PackageId>Dub.Web.Identity</PackageId>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/kant2002/Dub</RepositoryUrl>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <TargetFrameworks>net45;netstandard1.3</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="App.config" />
+    <PackageReference Include="CommonMark.NET" Version="0.15.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -29,6 +21,11 @@
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="1.0.2" />
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net45' ">
+    <Reference Include="System.Configuration" />
+    <PackageReference Include="Microsoft.AspNet.Identity.EntityFramework" Version="2.2.1" />
   </ItemGroup>
 
 </Project>

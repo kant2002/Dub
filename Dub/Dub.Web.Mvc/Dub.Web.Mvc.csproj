@@ -1,24 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="../Dub.props" />
 
   <PropertyGroup>
     <Description>The Core library for the Dub project</Description>
-    <VersionPrefix>1.0.1</VersionPrefix>
-    <Authors>Andrey Kurdyumov &lt;kant2002@gmail.com&gt;</Authors>
-    <TargetFramework>netstandard1.6</TargetFramework>
-    <AssemblyName>Dub.Web.Mvc</AssemblyName>
-    <PackageId>Dub.Web.Mvc</PackageId>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/kant2002/Dub</RepositoryUrl>
-    <PackageTargetFallback>$(PackageTargetFallback);portable-net45+win8+wp8</PackageTargetFallback>
-    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
-    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
   </PropertyGroup>
-
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Dub.Web.Core\Dub.Web.Core.csproj" />
@@ -27,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="4.1.1" />
+    <PackageReference Include="AutoMapper" Version="5.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
   </ItemGroup>
 
@@ -42,5 +28,16 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="1.0.2" />
   </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="System.Web" />
+    <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="Microsoft.AspNet.Mvc" Version="5.2.3" />
+    <PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.3" />
+    <PackageReference Include="Microsoft.Owin" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNet.Identity.Owin" Version="2.2.1" />
+    <PackageReference Include="Microsoft.Owin.Host.SystemWeb" Version="3.1.0" />
+  </ItemGroup>
+
 
 </Project>

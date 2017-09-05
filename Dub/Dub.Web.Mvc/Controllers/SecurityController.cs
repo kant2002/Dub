@@ -29,21 +29,17 @@ namespace Dub.Web.Mvc.Controllers
     [Authorize(Roles = RoleNames.Administrator)]
     public class SecurityController : Controller
     {
-        /// <summary>
-        /// Initializes static members of the <see cref="SecurityController"/> class.
-        /// </summary>
-        static SecurityController()
-        {
-            Mapper.CreateMap<ErrorLog, ErrorLogViewModel>();
-        }
+        private IMapper mapper;
 
 #if NETCORE
         /// <summary>
         /// Initialize a new instance of the <see cref="SecurityController"/> class.
         /// </summary>
+        /// <param name="mapper">Mapper to use.</param>
         /// <param name="model">Database context to use.</param>
-        public SecurityController(ErrorsModel model)
+        public SecurityController(IMapper mapper, ErrorsModel model)
         {
+            this.mapper = mapper;
             this.Model = model;
         }
 
@@ -51,6 +47,15 @@ namespace Dub.Web.Mvc.Controllers
         /// Gets or sets database model to use.
         /// </summary>
         public ErrorsModel Model { get; set; }
+#else
+        /// <summary>
+        /// Initialize a new instance of the <see cref="SecurityController"/> class.
+        /// </summary>
+        /// <param name="mapper">Mapper to use.</param>
+        public SecurityController(IMapper mapper)
+        {
+            this.mapper = mapper;
+        }
 #endif
 
         /// <summary>
@@ -79,7 +84,7 @@ namespace Dub.Web.Mvc.Controllers
             var logEntry = await dbContext.ErrorLogs.FirstOrDefaultAsync(_ => _.Id == id);
 #endif
             var model = new ErrorLogViewModel();
-            Mapper.Map(logEntry, model);
+            this.mapper.Map(logEntry, model);
             return this.View(model);
         }
 
