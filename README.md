@@ -25,5 +25,7 @@ To package and publish .NET Core NuGet packages to MyGet
 
     rm -recurse artifacts
     $time = (Get-Date).ToString("yyyyMMdd")
-    dotnet pack Dub\Dub.sln --version-suffix dev-$time-1 --output ..\..\artifacts
+    $suffix="dev-$time-3"
+    dotnet msbuild Dub\Dub.sln "/t:Restore" /p:VersionSuffix=$suffix /p:Configuration=Release
+    dotnet pack Dub\Dub.sln --version-suffix $suffix --output ..\..\artifacts
     dotnet msbuild nuget.proj /t:PublishNightly /verbosity:d
