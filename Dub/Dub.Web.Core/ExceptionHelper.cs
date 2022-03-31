@@ -17,6 +17,7 @@ namespace Dub.Web.Core
     /// <summary>
     /// Class for handling exceptions.
     /// </summary>
+    [Obsolete("This class is obsolete, and other logging and instrumentation frameworks recommended to use.")]
     public static class ExceptionHelper
     {
         /// <summary>

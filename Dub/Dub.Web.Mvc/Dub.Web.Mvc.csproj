@@ -3,7 +3,7 @@
 
   <PropertyGroup>
     <Description>The Core library for the Dub project</Description>
-    <TargetFrameworks>net45;netstandard1.6</TargetFrameworks>
+    <TargetFrameworks>net45;netstandard1.6;netstandard2.0</TargetFrameworks>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,10 +14,10 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="5.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1" />
   </ItemGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net45' ">
     <DefineConstants>$(DefineConstants);NETCORE;NOMAIL</DefineConstants>
   </PropertyGroup>
 
@@ -27,6 +27,14 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="1.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="1.0.2" />
+  </ItemGroup>
+
+  <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="2.0.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">

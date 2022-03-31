@@ -32,25 +32,11 @@ namespace Dub.Web.Mvc.Controllers
         where TEntity : class, IHasKey<TEntityKey>, new()
         where TEntityKey : IEquatable<TEntityKey>
     {
-#if !NETCORE
         /// <summary>
-        /// Gets persistence store.
-        /// </summary>
-        protected GenericStore<TEntityKey, TEntity> Store
-        {
-            get
-            {
-                var context = HttpContext.GetOwinContext();
-                var store = context.Get<GenericStore<TEntityKey, TEntity>>();
-                return store;
-            }
-        }
-#else
-        /// <summary>
-        /// Create new instance of the <see cref="GenericStore{TEntityKey, TEntity}"/> class.
+        /// Create new instance of the <see cref="IGenericStore{TEntityKey, TEntity}"/> class.
         /// </summary>
         /// <param name="store"></param>
-        public GenericEditController(GenericStore<TEntityKey, TEntity> store)
+        public GenericEditController(IGenericStore<TEntityKey, TEntity> store)
         {
             this.Store = store;
         }
@@ -58,8 +44,7 @@ namespace Dub.Web.Mvc.Controllers
         /// <summary>
         /// Gets persistence store.
         /// </summary>
-        protected GenericStore<TEntityKey, TEntity> Store { get; set; }
-#endif
+        protected IGenericStore<TEntityKey, TEntity> Store { get; private set; }
 
         /// <summary>
         /// Displays list of all entities.

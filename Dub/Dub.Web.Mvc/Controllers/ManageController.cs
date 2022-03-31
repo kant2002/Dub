@@ -540,7 +540,7 @@ namespace Dub.Web.Mvc.Controllers
             }
 
             var userLogins = await this.UserManager.GetLoginsAsync(User.Identity.GetUserId());
-            var otherLogins = this.AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider)).ToList();
+            var otherLogins = this.AuthenticationManager.GetExternalAuthenticationTypes().Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider));
 #else
             var user = await this.GetCurrentUserAsync();
             if (user == null)
@@ -549,13 +549,18 @@ namespace Dub.Web.Mvc.Controllers
             }
 
             var userLogins = await this.UserManager.GetLoginsAsync(user);
-            var otherLogins = this.SignInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider)).ToList();
+#if NETSTANDARD1_6
+            var otherLogins = this.SignInManager.GetExternalAuthenticationSchemes().Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider));
+#else
+            var otherLogins = await this.SignInManager.GetExternalAuthenticationSchemesAsync();
+            otherLogins = otherLogins.Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider));
+#endif
 #endif
             this.ViewBag.ShowRemoveButton = user.PasswordHash != null || userLogins.Count > 1;
             return this.View(new ManageLoginsViewModel
             {
                 CurrentLogins = userLogins,
-                OtherLogins = otherLogins
+                OtherLogins = otherLogins.ToList()
             });
         }
 

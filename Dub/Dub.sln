@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.12
+VisualStudioVersion = 15.0.27130.2010
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EDF5A8FB-2EB4-4B8F-858F-C951D1489A1B}"
 	ProjectSection(SolutionItems) = preProject
@@ -25,7 +25,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dub.Web.Mvc", "Dub.Web.Mvc\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dub.Web.Dto", "Dub.Web.Dto\Dub.Web.Dto.csproj", "{7CDA59DF-8FC9-481D-80D3-1D824DC43038}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dub.EntityFramework", "Dub.EntityFramework\Dub.EntityFramework.csproj", "{B3D17CFF-B8B0-4CF1-A9A3-EEC4FE7B68C6}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Dub.Entity.Shared", "Dub.Entity.Shared\Dub.Entity.Shared.shproj", "{CBD95410-4EB7-410C-8BB0-99C5673A45A7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dub.EntityFrameworkCore", "Dub.EntityFrameworkCore\Dub.EntityFrameworkCore.csproj", "{7F4DFF67-9B64-4061-8E5B-E30AF759E2FA}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Dub.Entity.Shared\Dub.Entity.Shared.projitems*{cbd95410-4eb7-410c-8bb0-99c5673a45a7}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -47,6 +56,14 @@ Global
 		{7CDA59DF-8FC9-481D-80D3-1D824DC43038}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CDA59DF-8FC9-481D-80D3-1D824DC43038}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CDA59DF-8FC9-481D-80D3-1D824DC43038}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3D17CFF-B8B0-4CF1-A9A3-EEC4FE7B68C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3D17CFF-B8B0-4CF1-A9A3-EEC4FE7B68C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3D17CFF-B8B0-4CF1-A9A3-EEC4FE7B68C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3D17CFF-B8B0-4CF1-A9A3-EEC4FE7B68C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F4DFF67-9B64-4061-8E5B-E30AF759E2FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F4DFF67-9B64-4061-8E5B-E30AF759E2FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F4DFF67-9B64-4061-8E5B-E30AF759E2FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F4DFF67-9B64-4061-8E5B-E30AF759E2FA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

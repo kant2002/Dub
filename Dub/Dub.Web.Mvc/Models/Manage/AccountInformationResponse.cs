@@ -11,9 +11,13 @@ namespace Dub.Web.Mvc.Models.Manage
 #if !NETCORE
     using Microsoft.AspNet.Identity;
     using Microsoft.Owin.Security;
+    using AuthenticationScheme = Microsoft.Owin.Security.AuthenticationDescription;
 #else
     using Microsoft.AspNetCore.Identity;
-    using Microsoft.AspNetCore.Http.Authentication;
+    using Microsoft.AspNetCore.Authentication;
+#if NETSTANDARD1_6
+    using AuthenticationScheme = Microsoft.AspNetCore.Http.Authentication.AuthenticationDescription;
+#endif
 #endif
 
     /// <summary>
@@ -36,7 +40,7 @@ namespace Dub.Web.Mvc.Models.Manage
         /// Gets or sets list of available providers.
         /// </summary>
         [SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly", Justification = "The property is binded by MVC")]
-        public IList<AuthenticationDescription> OtherLogins { get; set; }
+        public IList<AuthenticationScheme> OtherLogins { get; set; }
 
         /// <summary>
         /// Gets or sets phone number for the current user.

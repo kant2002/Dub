@@ -148,14 +148,17 @@ namespace Dub.Web.Mvc.Controllers.Api
             var userId = User.Identity.GetUserId();
             var userLogins = await this.UserManager.GetLoginsAsync(userId);
             var otherLogins = this.AuthenticationManager.GetExternalAuthenticationTypes()
-                .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider))
-                .ToList();
+                .Where(auth => userLogins.All(ul => auth.AuthenticationType != ul.LoginProvider));
 #else
             var userId = await this.GetCurrentUserAsync();
             var userLogins = await this.UserManager.GetLoginsAsync(userId);
+#if NETSTANDARD1_6
             var otherLogins = this.SignInManager.GetExternalAuthenticationSchemes()
-                .Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider))
-                .ToList();
+                .Where(auth => userLogins.All(ul => auth.AuthenticationScheme != ul.LoginProvider));
+#else
+            var otherLogins = await this.SignInManager.GetExternalAuthenticationSchemesAsync();
+            otherLogins = otherLogins.Where(auth => userLogins.All(ul => auth.Name != ul.LoginProvider));
+#endif
 #endif
             var model = new AccountInformationResponse
             {
@@ -173,7 +176,7 @@ namespace Dub.Web.Mvc.Controllers.Api
                 BrowserRemembered = await this.SignInManager.IsTwoFactorClientRememberedAsync(userId),
 #endif
                 Logins = userLogins,
-                OtherLogins = otherLogins,
+                OtherLogins = otherLogins.ToList(),
             };
             return this.Ok(model);
         }
