@@ -189,4 +189,5 @@ FakesAssemblies/
 /Dub/Dub.Web.Identity/project.lock.json
 /Dub/Dub.Web.Mvc/project.lock.json
 /Dub/Dub.Web.Core/project.lock.json
-/Dub/.vs/
+
+.vs/

@@ -2,10 +2,10 @@
   <Import Project="../Dub.props" />
 
   <PropertyGroup>
-    <TargetFramework>net45</TargetFramework>
+    <TargetFramework>net472</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(TargetFramework)' != 'net45' ">
+  <PropertyGroup Condition=" '$(TargetFramework)' != 'net472' ">
     <DefineConstants>$(DefineConstants);NETCORE</DefineConstants>
   </PropertyGroup>
 

@@ -12,9 +12,7 @@ namespace Dub.Web.Identity
     using System.Security.Claims;
     using System.Threading.Tasks;
 #if NETCORE
-    using Microsoft.AspNetCore.Hosting;
-#endif
-#if NETCORE
+    //using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
 #else
     using Microsoft.AspNet.Identity;
@@ -22,8 +20,8 @@ namespace Dub.Web.Identity
 #if NETCORE
     using Microsoft.Extensions.Options;
     using Microsoft.Extensions.Logging;
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.AspNetCore.Http;
+    //using Microsoft.AspNetCore.Builder;
+    //using Microsoft.AspNetCore.Http;
 #endif
 
     /// <summary>

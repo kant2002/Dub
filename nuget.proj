@@ -9,7 +9,7 @@
     <NugetCurrentPath>Nuget\archive\4.1.0\</NugetCurrentPath>
     <NugetOutputPath>Nuget\dist\</NugetOutputPath>
     <NugetTempPath>artifacts</NugetTempPath>
-    <NugetSource>https://www.myget.org/F/dub-nightly/api/v2/package</NugetSource>
+    <NugetSource>https://www.myget.org/F/dub-nightly/api/v3/index.json</NugetSource>
     <SymbolSource>https://nuget.symbolsource.org/MyGet/dub-nightly</SymbolSource>
     <NugetAspnet5Source>https://www.myget.org/F/dub-aspnet5-nightly/api/v2/package</NugetAspnet5Source>
   </PropertyGroup>
